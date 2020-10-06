@@ -35,3 +35,9 @@ comment:
 
 ignore:
   - "**/MobiusApiApplication.kt"
+  - "**/error"
+  - "**/config*/**"
+  - "**/enum*/**"
+  - "**/filter*/**"
+  - "**/model*/**"
+  - "**/request*/**"
