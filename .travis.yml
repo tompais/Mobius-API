@@ -2,4 +2,4 @@ language: java
 jdk:
   - oraclejdk14
 after_success:
-  - codecov
+  - bash <(curl -s https://codecov.io/bash) -v
