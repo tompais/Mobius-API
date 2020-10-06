@@ -122,9 +122,9 @@ tasks.withType<KotlinCompile> {
 tasks.test {
     outputs.dir(snippetsDir)
     finalizedBy(
-		tasks.jacocoTestReport,
-		tasks.jacocoTestCoverageVerification
-	) // report is always generated after tests run
+        tasks.jacocoTestReport,
+        tasks.jacocoTestCoverageVerification
+    ) // report is always generated after tests run
 }
 
 tasks.jacocoTestReport {
@@ -141,9 +141,9 @@ tasks.jacocoTestCoverageVerification {
         rule {
             element = "CLASS"
             excludes = listOf(
-				"com.coder_rangers.mobius_api.MobiusApiApplicationKt",
-				"com.coder_rangers.mobius_api.error.*"
-			)
+                "com.coder_rangers.mobius_api.MobiusApiApplicationKt",
+                "com.coder_rangers.mobius_api.error.*"
+            )
             limit {
                 minimum = "0.8".toBigDecimal()
             }
