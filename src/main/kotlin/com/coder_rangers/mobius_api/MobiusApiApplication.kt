@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class MobiusApiApplication
 
 fun main(args: Array<String>) {
-	runApplication<MobiusApiApplication>(*args)
+    runApplication<MobiusApiApplication>(*args)
 }

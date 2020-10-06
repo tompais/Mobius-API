@@ -4,9 +4,10 @@ plugins {
 	id("org.springframework.boot") version "2.3.4.RELEASE"
 	id("io.spring.dependency-management") version "1.0.10.RELEASE"
 	id("org.asciidoctor.convert") version "1.5.8"
-	kotlin("jvm") version "1.3.72"
-	kotlin("plugin.spring") version "1.3.72"
-	kotlin("plugin.jpa") version "1.3.72"
+	kotlin("jvm") version "1.4.10"
+	kotlin("plugin.spring") version "1.4.10"
+	kotlin("plugin.jpa") version "1.4.10"
+	jacoco
 }
 
 group = "com.coder_rangers"
@@ -23,10 +24,17 @@ repositories {
 	mavenCentral()
 }
 
+jacoco {
+	toolVersion = "0.8.5"
+	reportsDir = file("$buildDir/customJacocoReportDir")
+}
+
 val snippetsDir by extra { file("build/generated-snippets") }
+val ktlint: Configuration by configurations.creating
 extra["springCloudVersion"] = "Hoxton.SR8"
 
 dependencies {
+	ktlint("com.pinterest:ktlint:0.39.0")
 	implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-data-rest")
@@ -54,6 +62,39 @@ dependencies {
 	testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
 }
 
+val outputDir = "${project.buildDir}/reports/ktlint/"
+val inputFiles = project.fileTree(mapOf("dir" to "src", "include" to "**/*.kt"))
+
+val ktlintCheck by tasks.creating(JavaExec::class) {
+	inputs.files(inputFiles)
+	outputs.dir(outputDir)
+
+	description = "Check Kotlin code style."
+	classpath = ktlint
+	main = "com.pinterest.ktlint.Main"
+	args = listOf("src/**/*.kt")
+}
+
+val ktlintFormat by tasks.creating(JavaExec::class) {
+	inputs.files(inputFiles)
+	outputs.dir(outputDir)
+
+	description = "Fix Kotlin code style deviations."
+	classpath = ktlint
+	main = "com.pinterest.ktlint.Main"
+	args = listOf("-F", "src/**/*.kt")
+}
+
+val testCoverage by tasks.registering {
+	group = "verification"
+	description = "Runs the unit tests with coverage."
+
+	dependsOn(":test", ":jacocoTestReport", ":jacocoTestCoverageVerification")
+	val jacocoTestReport = tasks.findByName("jacocoTestReport")
+	jacocoTestReport?.mustRunAfter(tasks.findByName("test"))
+	tasks.findByName("jacocoTestCoverageVerification")?.mustRunAfter(jacocoTestReport)
+}
+
 dependencyManagement {
 	imports {
 		mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
@@ -67,15 +108,41 @@ tasks.withType<Test> {
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
-		jvmTarget = "11"
+		jvmTarget = "14"
+		allWarningsAsErrors = true
 	}
+	dependsOn(ktlintCheck)
 }
 
 tasks.test {
 	outputs.dir(snippetsDir)
+	finalizedBy(tasks.jacocoTestReport, tasks.jacocoTestCoverageVerification) // report is always generated after tests run
+}
+
+tasks.jacocoTestReport {
+	dependsOn(tasks.test) // tests are required to run before generating the report
+	reports {
+		xml.isEnabled = true
+		csv.isEnabled = false
+		html.isEnabled = true
+	}
+}
+
+tasks.jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			limit {
+				minimum = "0.8".toBigDecimal()
+			}
+		}
+	}
 }
 
 tasks.asciidoctor {
 	inputs.dir(snippetsDir)
 	dependsOn(tasks.test)
+}
+
+tasks.check {
+	dependsOn(ktlintCheck)
 }
