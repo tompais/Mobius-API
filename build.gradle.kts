@@ -51,6 +51,7 @@ dependencies {
 	implementation("org.liquibase:liquibase-core")
 	implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
 	implementation("org.springframework.session:spring-session-jdbc")
+	implementation("org.apache.commons:commons-lang3:3.11")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("org.postgresql:postgresql")
@@ -137,7 +138,8 @@ tasks.jacocoTestCoverageVerification {
 		rule {
 			element = "CLASS"
 			excludes = listOf(
-				"com.coder_rangers.mobius_api.MobiusApiApplicationKt"
+				"com.coder_rangers.mobius_api.MobiusApiApplicationKt",
+				"com.coder_rangers.mobius_api.error.*"
 			)
 			limit {
 				minimum = "0.8".toBigDecimal()
