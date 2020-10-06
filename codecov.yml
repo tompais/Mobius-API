@@ -34,4 +34,4 @@ comment:
   require_head: false       # [yes :: must have a head report to post]
 
 ignore:
-  - "**/MobiusApiApplicationKt"
+  - "**/MobiusApiApplication.kt"
