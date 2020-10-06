@@ -57,9 +57,13 @@ dependencies {
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+		exclude(module = "mockito-core")
 	}
+	testImplementation("io.mockk:mockk:1.10.2")
+	testImplementation("com.ninja-squad:springmockk:2.0.3")
 	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+	testImplementation("com.willowtreeapps.assertk:assertk-jvm:0.23")
 }
 
 val outputDir = "${project.buildDir}/reports/ktlint/"
@@ -131,6 +135,10 @@ tasks.jacocoTestReport {
 tasks.jacocoTestCoverageVerification {
 	violationRules {
 		rule {
+			element = "CLASS"
+			excludes = listOf(
+				"com.coder_rangers.mobius_api.MobiusApiApplicationKt"
+			)
 			limit {
 				minimum = "0.8".toBigDecimal()
 			}
