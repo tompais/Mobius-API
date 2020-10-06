@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.databind.exc.MismatchedInputException
 import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
+import org.apache.commons.lang3.exception.ExceptionUtils
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
+import java.time.Clock
+import java.time.LocalDateTime
 import javax.validation.ConstraintViolationException
 
 @RestControllerAdvice
@@ -39,7 +42,15 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
         return ResponseEntity.status(
             exception.httpStatus
         ).body(
-            exception.buildResponse()
+            mapOf(
+                "message" to exception.message,
+                "statusCode" to exception.httpStatus.value(),
+                "errorCode" to exception.httpStatus.reasonPhrase,
+                "originalException" to ExceptionUtils.getRootCauseMessage(exception),
+                "stackTrace" to ExceptionUtils.getStackFrames(exception).map { it.replace("\t", "") },
+                "requestId" to exception.requestId,
+                "timestamp" to LocalDateTime.now(Clock.systemUTC())
+            )
         )
     }
 
