@@ -2,6 +2,7 @@ package com.coder_rangers.mobius_api.error.handler
 
 import com.coder_rangers.mobius_api.error.exceptions.APIException
 import com.coder_rangers.mobius_api.error.exceptions.BadRequestException
+import com.coder_rangers.mobius_api.error.exceptions.InternalServerErrorException
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.databind.exc.MismatchedInputException
@@ -96,4 +97,14 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
             constraintViolationException.message ?: "Unrecognized constraint violation",
             constraintViolationException
         )
+
+    @ExceptionHandler(Exception::class)
+    fun handleGlobalException(exception: Exception): ResponseEntity<Any> = handleInternalServerErrorException(exception)
+
+    private fun handleInternalServerErrorException(exception: Exception): ResponseEntity<Any> = handleAPIException(
+        InternalServerErrorException(
+            exception.message ?: "Something went wrong while processing your request",
+            exception
+        )
+    )
 }
