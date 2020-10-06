@@ -4,6 +4,8 @@ plugins {
     id("org.springframework.boot") version "2.3.4.RELEASE"
     id("io.spring.dependency-management") version "1.0.10.RELEASE"
     id("org.asciidoctor.convert") version "1.5.8"
+    id("com.github.johnrengelman.processes") version "0.5.0"
+    id("org.springdoc.openapi-gradle-plugin") version "1.3.0"
     kotlin("jvm") version "1.4.10"
     kotlin("plugin.spring") version "1.4.10"
     kotlin("plugin.jpa") version "1.4.10"
@@ -53,6 +55,8 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
     implementation("org.springframework.session:spring-session-jdbc")
     implementation("org.apache.commons:commons-lang3:3.11")
+    implementation("org.springdoc:springdoc-openapi-ui:1.4.8")
+    implementation("org.springdoc:springdoc-openapi-data-rest:1.4.8")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.postgresql:postgresql")
