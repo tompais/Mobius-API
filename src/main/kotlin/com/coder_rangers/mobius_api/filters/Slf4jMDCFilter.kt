@@ -15,19 +15,17 @@ class Slf4jMDCFilter(
         request: HttpServletRequest,
         response: HttpServletResponse,
         filterChain: FilterChain
-    ) {
-        try {
-            val token = UUID.randomUUID().toString().toUpperCase().replace("-", "")
+    ) = try {
+        val token = UUID.randomUUID().toString().toUpperCase().replace("-", "")
 
-            MDC.put(mdcTokenKey, token)
+        MDC.put(mdcTokenKey, token)
 
-            if (responseHeader.isNotEmpty()) {
-                response.addHeader(responseHeader, token)
-            }
-
-            filterChain.doFilter(request, response)
-        } finally {
-            MDC.remove(mdcTokenKey)
+        if (responseHeader.isNotEmpty()) {
+            response.addHeader(responseHeader, token)
         }
+
+        filterChain.doFilter(request, response)
+    } finally {
+        MDC.remove(mdcTokenKey)
     }
 }

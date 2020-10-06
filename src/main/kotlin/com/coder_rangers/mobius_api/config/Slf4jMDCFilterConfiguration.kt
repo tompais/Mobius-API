@@ -15,11 +15,9 @@ class Slf4jMDCFilterConfiguration {
     }
 
     @Bean
-    fun servletRegistrationBean(): FilterRegistrationBean<*>? {
-        return FilterRegistrationBean(
-            Slf4jMDCFilter(DEFAULT_RESPONSE_TOKEN_HEADER, DEFAULT_MDC_UUID_TOKEN_KEY)
-        ).apply {
-            order = 2
-        }
+    fun servletRegistrationBean(): FilterRegistrationBean<*> = FilterRegistrationBean(
+        Slf4jMDCFilter(DEFAULT_RESPONSE_TOKEN_HEADER, DEFAULT_MDC_UUID_TOKEN_KEY)
+    ).apply {
+        order = 2
     }
 }
