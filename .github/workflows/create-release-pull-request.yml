@@ -1,5 +1,5 @@
 name: Create Release Pull Request
-on: [workflow_dispatch]
+on: [ workflow_dispatch ]
 jobs:
   createReleasePullRequest:
     runs-on: ubuntu-latest
@@ -40,3 +40,10 @@ jobs:
       - name: Check output
         run: |
           echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+
+      - uses: actions/checkout@v2
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@master
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: 'Post Content :rocket:'
