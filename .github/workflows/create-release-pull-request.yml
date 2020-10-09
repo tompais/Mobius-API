@@ -40,3 +40,14 @@ jobs:
       - name: Check output
         run: |
           echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+
+      - uses: actions/checkout@v2
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@master
+        env:
+          SLACK_USERNAME: release-slayer
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_TITLE: 'Aviso de Release :rocket:'
+          SLACK_MESSAGE: '${{ steps.cpr.outputs.pull-request-url }} :dabparrot:'
+          SLACK_ICON: https://avatars1.githubusercontent.com/in/76067?s=120&u=0a2e2dff2413aa36a38aa19c3321d7b0f0c0a15b&v=4
+          MSG_MINIMAL: true
