@@ -53,7 +53,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("org.liquibase:liquibase-core")
     implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
-    implementation("org.springframework.session:spring-session-jdbc")
     implementation("org.apache.commons:commons-lang3:3.11")
     implementation("org.springdoc:springdoc-openapi-ui:1.4.8")
     implementation("org.springdoc:springdoc-openapi-data-rest:1.4.8")
@@ -165,4 +164,20 @@ tasks.asciidoctor {
 
 tasks.check {
     dependsOn(ktlintCheck)
+}
+
+tasks.register("stage") {
+    dependsOn(tasks.build, tasks.clean)
+}
+
+tasks.build {
+    mustRunAfter(tasks.clean)
+}
+
+gradle.taskGraph.whenReady {
+    if (hasTask(tasks["stage"])) {
+        tasks.test.configure {
+            enabled = true
+        }
+    }
 }
