@@ -49,13 +49,15 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("org.liquibase:liquibase-core")
     implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
     implementation("org.apache.commons:commons-lang3:3.11")
     implementation("org.springdoc:springdoc-openapi-ui:1.4.8")
     implementation("org.springdoc:springdoc-openapi-data-rest:1.4.8")
+    implementation("org.springdoc:springdoc-openapi-kotlin:1.4.8")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.postgresql:postgresql")
@@ -69,6 +71,11 @@ dependencies {
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
     testImplementation("com.willowtreeapps.assertk:assertk-jvm:0.23")
+    testImplementation("io.rest-assured:spring-mock-mvc:4.3.1") {
+        exclude(group = "com.sun.xml.bind", module = "jaxb-osgi")
+    }
+    testImplementation("io.rest-assured:rest-assured-common:4.3.1")
+    testImplementation("org.hamcrest:hamcrest-all:1.3")
 }
 
 val outputDir = "${project.buildDir}/reports/ktlint/"
@@ -148,7 +155,8 @@ tasks.jacocoTestCoverageVerification {
                 "com.coder_rangers.mobius_api.MobiusApiApplicationKt",
                 "com.coder_rangers.mobius_api.error.*",
                 "com.coder_rangers.mobius_api.config.*",
-                "com.coder_rangers.mobius_api.filters.*"
+                "com.coder_rangers.mobius_api.filters.*",
+                "com.coder_rangers.mobius_api.requests.*"
             )
             limit {
                 minimum = "0.8".toBigDecimal()
