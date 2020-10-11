@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.http.HttpStatus.BAD_REQUEST
-import org.springframework.http.HttpStatus.OK
+import org.springframework.http.HttpStatus.CREATED
 import java.time.LocalDate
 
 class SecurityIntegrationTest : BaseIntegrationTest("/security") {
@@ -57,6 +57,6 @@ class SecurityIntegrationTest : BaseIntegrationTest("/security") {
             .post("$baseUrl/signup")
             .then()
             .assertThat()
-            .statusCode(equalTo(OK.value()))
+            .statusCode(equalTo(CREATED.value()))
     }
 }

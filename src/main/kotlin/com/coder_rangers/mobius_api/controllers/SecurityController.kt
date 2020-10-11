@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus.OK
+import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
@@ -25,11 +25,11 @@ class SecurityController @Autowired constructor(
     @Operation(summary = "Endpoint to sign up a user")
     @ApiResponses(
         value = [
-            ApiResponse(responseCode = "200", description = "User registered successfully"),
+            ApiResponse(responseCode = "202", description = "User registered successfully"),
             ApiResponse(responseCode = "400", description = "The sign up information that was provided is wrong")
         ]
     )
     @PostMapping("/signup")
-    @ResponseStatus(OK)
+    @ResponseStatus(CREATED)
     fun signUp(@RequestBody @Valid signUpRequest: SignUpRequest) = securityService.signUp(signUpRequest)
 }
