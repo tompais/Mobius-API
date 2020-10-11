@@ -7,6 +7,7 @@ import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -22,6 +23,7 @@ class BaseIntegrationTest(
     @Autowired
     private lateinit var webApplicationContext: WebApplicationContext
 
+    @Qualifier("camelCase")
     @Autowired
     lateinit var mapper: ObjectMapper
 
