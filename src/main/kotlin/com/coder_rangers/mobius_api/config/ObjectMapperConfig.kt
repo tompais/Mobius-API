@@ -18,7 +18,7 @@ import java.util.TimeZone
 class ObjectMapperConfig {
     @Bean
     @Primary
-    fun snakeCase(): ObjectMapper = jacksonObjectMapper()
+    fun camelCase(): ObjectMapper = jacksonObjectMapper()
         .registerModule(JavaTimeModule())
         .enable(WRITE_ENUMS_USING_TO_STRING)
         .enable(READ_ENUMS_USING_TO_STRING)
