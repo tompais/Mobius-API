@@ -38,6 +38,7 @@ class SecurityIntegrationTest : BaseIntegrationTest("/security") {
             .post("$baseUrl/signup")
             .then()
             .log().ifValidationFails()
+            .and()
             .assertThat()
             .statusCode(equalTo(BAD_REQUEST.value()))
     }
@@ -55,7 +56,6 @@ class SecurityIntegrationTest : BaseIntegrationTest("/security") {
             .`when`()
             .post("$baseUrl/signup")
             .then()
-            .log().ifValidationFails()
             .assertThat()
             .statusCode(equalTo(OK.value()))
     }
