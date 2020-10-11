@@ -25,7 +25,7 @@ class SecurityController @Autowired constructor(
     @Operation(summary = "Endpoint to sign up a user")
     @ApiResponses(
         value = [
-            ApiResponse(responseCode = "202", description = "User registered successfully"),
+            ApiResponse(responseCode = "201", description = "User registered successfully"),
             ApiResponse(responseCode = "400", description = "The sign up information that was provided is wrong")
         ]
     )
