@@ -17,7 +17,7 @@ data class SignUpRequest(
 
     @field:NotBlank
     @field:Email
-    val personalEmail: String,
+    val patientEmail: String,
 
     @field:NotBlank
     @field:Email
