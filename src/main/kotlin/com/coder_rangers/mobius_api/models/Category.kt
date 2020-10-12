@@ -1,9 +1,8 @@
 package com.coder_rangers.mobius_api.models
 
-import javax.persistence.CascadeType
+import javax.persistence.CascadeType.ALL
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.FetchType
 import javax.persistence.Id
 import javax.persistence.OneToMany
 import javax.persistence.Table
@@ -26,6 +25,6 @@ class Category(
     @Column(nullable = false, length = 255)
     val description: String,
 
-    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    @OneToMany(cascade = [ALL])
     val games: List<Game>
 )

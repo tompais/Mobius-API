@@ -1,9 +1,8 @@
 package com.coder_rangers.mobius_api.models
 
-import javax.persistence.CascadeType
+import javax.persistence.CascadeType.ALL
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.FetchType
 import javax.persistence.Id
 import javax.persistence.ManyToOne
 import javax.persistence.Table
@@ -18,7 +17,7 @@ class Resource(
     @Column(unique = true, nullable = false, updatable = false)
     val id: Long,
 
-    @ManyToOne(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    @ManyToOne(cascade = [ALL])
     val game: Game,
 
     @field:NotBlank
