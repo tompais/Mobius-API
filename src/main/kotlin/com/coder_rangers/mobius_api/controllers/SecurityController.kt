@@ -20,7 +20,7 @@ import javax.validation.Valid
 
 @RestController
 @Validated
-@RequestMapping("/security", produces = [APPLICATION_JSON_VALUE])
+@RequestMapping("/security", consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
 class SecurityController @Autowired constructor(
     private val securityService: ISecurityService
 ) {
