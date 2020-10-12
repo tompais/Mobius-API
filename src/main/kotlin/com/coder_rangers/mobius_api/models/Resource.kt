@@ -1,8 +1,11 @@
 package com.coder_rangers.mobius_api.models
 
+import com.coder_rangers.mobius_api.enums.ResourceType
 import javax.persistence.CascadeType.ALL
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.EnumType.STRING
+import javax.persistence.Enumerated
 import javax.persistence.Id
 import javax.persistence.ManyToOne
 import javax.persistence.Table
@@ -20,9 +23,10 @@ class Resource(
     @ManyToOne(cascade = [ALL])
     val game: Game,
 
+    @Enumerated(STRING)
     @field:NotBlank
-    @Column(nullable = false, length = 10)
-    val type: String,
+    @Column(nullable = false)
+    val type: ResourceType,
 
     @field:NotBlank
     @Column(nullable = false, length = 255)

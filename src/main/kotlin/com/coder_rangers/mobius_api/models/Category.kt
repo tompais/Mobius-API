@@ -1,8 +1,11 @@
 package com.coder_rangers.mobius_api.models
 
+import com.coder_rangers.mobius_api.enums.CategoryType
 import javax.persistence.CascadeType.ALL
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.EnumType.STRING
+import javax.persistence.Enumerated
 import javax.persistence.Id
 import javax.persistence.OneToMany
 import javax.persistence.Table
@@ -17,9 +20,10 @@ class Category(
     @Column(unique = true, nullable = false, updatable = false)
     val id: Long,
 
+    @Enumerated(STRING)
     @field:NotBlank
-    @Column(nullable = false, length = 15)
-    val type: String,
+    @Column(nullable = false)
+    val type: CategoryType,
 
     @field:NotBlank
     @Column(nullable = false, length = 255)
