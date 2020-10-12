@@ -1,33 +1,61 @@
 package com.coder_rangers.mobius_api.integrations
 
+import com.coder_rangers.mobius_api.database.repositories.IPatientRepository
 import com.coder_rangers.mobius_api.requests.SignUpRequest
+import com.coder_rangers.mobius_api.utils.MockUtils.mockPatient
+import com.coder_rangers.mobius_api.utils.MockUtils.mockSignInRequest
 import com.coder_rangers.mobius_api.utils.MockUtils.mockSignUpRequest
 import io.restassured.http.ContentType.JSON
 import io.restassured.module.mockmvc.RestAssuredMockMvc.given
-import org.hamcrest.CoreMatchers.equalTo
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.CREATED
+import org.springframework.http.HttpStatus.OK
 import java.time.LocalDate
 
-class SecurityIntegrationTest : BaseIntegrationTest("/security") {
+class SecurityIntegrationTest @Autowired constructor(
+    private val patientRepository: IPatientRepository
+) : BaseIntegrationTest("/security") {
 
     companion object {
         @JvmStatic
         @Suppress("UNUSED")
-        fun invalidSignUpCases() = listOf(
-            mockSignUpRequest(firstName = ""),
-            mockSignUpRequest(personalEmail = "not an email"),
-            mockSignUpRequest(personalEmail = "fulanito@gmail.com", guardianEmail = "fulanito@gmail.com"),
-            mockSignUpRequest(birthday = LocalDate.now())
+        fun signUpCases() = listOf(
+            Arguments.of(
+                mockSignUpRequest(firstName = ""),
+                BAD_REQUEST
+            ),
+            Arguments.of(
+                mockSignUpRequest(patientEmail = "not an email"),
+                BAD_REQUEST
+            ),
+            Arguments.of(
+                mockSignUpRequest(patientEmail = "fulanito@gmail.com", guardianEmail = "fulanito@gmail.com"),
+                BAD_REQUEST
+            ),
+            Arguments.of(
+                mockSignUpRequest(birthday = LocalDate.now()),
+                BAD_REQUEST
+            ),
+            Arguments.of(
+                mockSignUpRequest(),
+                CREATED
+            )
         )
     }
 
+    @BeforeEach
+    fun truncatePatientTable() = patientRepository.deleteAll()
+
     @ParameterizedTest
-    @MethodSource("invalidSignUpCases")
-    fun signUpFailsTest(signUpRequest: SignUpRequest) {
+    @MethodSource("signUpCases")
+    fun signUpTests(signUpRequest: SignUpRequest, expectedStatus: HttpStatus) {
         given()
             .accept(JSON)
             .contentType(JSON)
@@ -40,23 +68,23 @@ class SecurityIntegrationTest : BaseIntegrationTest("/security") {
             .log().ifValidationFails()
             .and()
             .assertThat()
-            .statusCode(equalTo(BAD_REQUEST.value()))
+            .status(expectedStatus)
     }
 
     @Test
-    fun signUpSuccessfullyTest() {
-        val signUpRequest = mockSignUpRequest()
+    fun signInSuccessfullyTest() {
+        patientRepository.saveAndFlush(mockPatient())
 
         given()
             .accept(JSON)
             .contentType(JSON)
             .body(
-                mapper.writeValueAsBytes(signUpRequest)
+                mapper.writeValueAsBytes(mockSignInRequest())
             )
             .`when`()
-            .post("$baseUrl/signup")
+            .post("$baseUrl/signin")
             .then()
             .assertThat()
-            .statusCode(equalTo(CREATED.value()))
+            .status(OK)
     }
 }
