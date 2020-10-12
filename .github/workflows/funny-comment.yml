@@ -21,4 +21,4 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
           GIPHY_TOKEN: ${{ secrets.GIPHY_TOKEN }}
-          comment_type: 'gif'
+          comment_type: 'all'
