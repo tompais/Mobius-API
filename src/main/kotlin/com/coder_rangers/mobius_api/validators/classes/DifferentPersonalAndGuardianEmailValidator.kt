@@ -8,5 +8,5 @@ import javax.validation.ConstraintValidatorContext
 class DifferentPersonalAndGuardianEmailValidator :
     ConstraintValidator<DifferentPersonalAndGuardianEmail, SignUpRequest> {
     override fun isValid(value: SignUpRequest, context: ConstraintValidatorContext): Boolean =
-        value.personalEmail != value.guardianEmail
+        value.patientEmail != value.guardianEmail
 }

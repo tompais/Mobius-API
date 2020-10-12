@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
-import java.time.Clock
 import java.time.LocalDateTime
 import javax.validation.ConstraintViolationException
 
@@ -49,7 +48,7 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
                 "originalException" to ExceptionUtils.getRootCauseMessage(exception),
                 "stackTrace" to ExceptionUtils.getStackFrames(exception).map { it.replace("\t", "") },
                 "requestId" to exception.requestId,
-                "timestamp" to LocalDateTime.now(Clock.systemUTC())
+                "timestamp" to LocalDateTime.now()
             )
         )
     }
