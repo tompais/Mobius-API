@@ -24,7 +24,7 @@ import javax.validation.Valid
 class SecurityController @Autowired constructor(
     private val securityService: ISecurityService
 ) {
-    @Operation(summary = "Endpoint to sign up a user")
+    @Operation(summary = "Endpoint to sign up an user")
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "201", description = "Patient registered successfully."),
@@ -35,7 +35,7 @@ class SecurityController @Autowired constructor(
     @ResponseStatus(CREATED)
     fun signUp(@RequestBody @Valid signUpRequest: SignUpRequest) = securityService.signUp(signUpRequest)
 
-    @Operation(summary = "Endpoint to sign in a user")
+    @Operation(summary = "Endpoint to sign in an user")
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "Patient logged successfully."),
