@@ -1,0 +1,24 @@
+name: funny comment
+on:
+  pull_request:
+  issues:
+    types: [ opened ]
+
+jobs:
+  comment:
+    if: github.event_name == 'pull_request' || github.event_name == 'issues'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: ${{ secrets.RELEASE_SLAYER_APP_ID }}
+          private_key: ${{ secrets.RELEASE_SLAYER_APP_SECRET }}
+
+      - name: Add funny comment
+        uses: Marta83/funny-comment-action@v2.1
+        id: FunnyCommment
+        with:
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+          GIPHY_TOKEN: ${{ secrets.GIPHY_TOKEN }}
+          comment_type: 'all'
