@@ -62,5 +62,5 @@ class SecurityController @Autowired constructor(
     )
     @PostMapping("/signin")
     @ResponseStatus(OK)
-    fun singIn(@RequestBody @Valid signInRequest: SignInRequest) = securityService.signIn(signInRequest)
+    fun singIn(@RequestBody @Valid signInRequest: SignInRequest): SignInResponse = securityService.signIn(signInRequest)
 }
