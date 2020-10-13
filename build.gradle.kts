@@ -158,7 +158,8 @@ tasks.jacocoTestCoverageVerification {
                 "com.coder_rangers.mobius_api.filters.*",
                 "com.coder_rangers.mobius_api.requests.*",
                 "com.coder_rangers.mobius_api.models.*",
-                "com.coder_rangers.mobius_api.enums.*"
+                "com.coder_rangers.mobius_api.enums.*",
+                "com.coder_rangers.mobius_api.responses.*"
             )
             limit {
                 minimum = "0.8".toBigDecimal()
