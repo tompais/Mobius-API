@@ -2,8 +2,12 @@ package com.coder_rangers.mobius_api.controllers
 
 import com.coder_rangers.mobius_api.requests.SignInRequest
 import com.coder_rangers.mobius_api.requests.SignUpRequest
+import com.coder_rangers.mobius_api.responses.SignInResponse
 import com.coder_rangers.mobius_api.services.interfaces.ISecurityService
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.ArraySchema
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.springframework.beans.factory.annotation.Autowired
@@ -38,12 +42,25 @@ class SecurityController @Autowired constructor(
     @Operation(summary = "Endpoint to sign in an user")
     @ApiResponses(
         value = [
-            ApiResponse(responseCode = "200", description = "Patient logged successfully."),
+            ApiResponse(
+                responseCode = "200",
+                description = "Patient logged successfully.",
+                content = [
+                    Content(
+                        mediaType = APPLICATION_JSON_VALUE,
+                        array = ArraySchema(
+                            schema = Schema(
+                                implementation = SignInResponse::class
+                            )
+                        )
+                    )
+                ]
+            ),
             ApiResponse(responseCode = "400", description = "The sign in information that was provided is wrong."),
             ApiResponse(responseCode = "404", description = "The patient was not found. Check your email and password.")
         ]
     )
     @PostMapping("/signin")
     @ResponseStatus(OK)
-    fun singIn(@RequestBody @Valid signInRequest: SignInRequest) = securityService.signIn(signInRequest)
+    fun singIn(@RequestBody @Valid signInRequest: SignInRequest): SignInResponse = securityService.signIn(signInRequest)
 }
