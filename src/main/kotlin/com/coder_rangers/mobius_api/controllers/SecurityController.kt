@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod.POST
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
 
 @RestController
 @Validated
+@CrossOrigin
 @RequestMapping("/security", consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
 class SecurityController @Autowired constructor(
     private val securityService: ISecurityService
@@ -37,7 +37,6 @@ class SecurityController @Autowired constructor(
             ApiResponse(responseCode = "400", description = "The sign up information that was provided is wrong.")
         ]
     )
-    @CrossOrigin(methods = [POST])
     @PostMapping("/signup")
     @ResponseStatus(CREATED)
     fun signUp(@RequestBody @Valid signUpRequest: SignUpRequest) = securityService.signUp(signUpRequest)
@@ -63,7 +62,6 @@ class SecurityController @Autowired constructor(
             ApiResponse(responseCode = "404", description = "The patient was not found. Check your email and password.")
         ]
     )
-    @CrossOrigin(methods = [POST])
     @PostMapping("/signin")
     @ResponseStatus(OK)
     fun singIn(@RequestBody @Valid signInRequest: SignInRequest): SignInResponse = securityService.signIn(signInRequest)
