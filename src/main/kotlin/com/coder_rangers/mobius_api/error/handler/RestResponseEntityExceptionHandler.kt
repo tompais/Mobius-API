@@ -46,9 +46,9 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
                 "statusCode" to exception.httpStatus.value(),
                 "errorCode" to exception.httpStatus.reasonPhrase,
                 "originalException" to ExceptionUtils.getRootCauseMessage(exception),
-                "stackTrace" to ExceptionUtils.getStackFrames(exception).map { it.replace("\t", "") },
+                "timestamp" to LocalDateTime.now().toString(),
                 "requestId" to exception.requestId,
-                "timestamp" to LocalDateTime.now().toString()
+                "stackTrace" to ExceptionUtils.getStackFrames(exception).map { it.replace("\t", "") }
             )
         )
     }
