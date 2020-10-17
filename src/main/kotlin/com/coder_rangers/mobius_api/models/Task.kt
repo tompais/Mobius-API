@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType.IDENTITY
 import javax.persistence.Id
 import javax.persistence.JoinColumn
+import javax.persistence.JoinTable
+import javax.persistence.ManyToMany
 import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 import javax.persistence.Table
@@ -33,6 +35,24 @@ class Task(
     @field:NotBlank
     @Column(nullable = false, length = 255)
     val description: String,
+
+    @ManyToMany(cascade = [ALL])
+    @JoinTable(
+        name = "input_task",
+        joinColumns = [
+            JoinColumn(
+                name = "input_id",
+                referencedColumnName = "id"
+            )
+        ],
+        inverseJoinColumns = [
+            JoinColumn(
+                name = "task_id",
+                referencedColumnName = "id"
+            )
+        ]
+    )
+    val inputs: List<Input>,
 
     @OneToMany(mappedBy = "task", cascade = [ALL])
     val answers: Set<Answer>? = null,

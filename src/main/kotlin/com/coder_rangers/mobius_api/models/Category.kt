@@ -25,7 +25,7 @@ class Category(
     val id: Long,
 
     @Enumerated(STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     val type: Type,
 
     @field:NotBlank
