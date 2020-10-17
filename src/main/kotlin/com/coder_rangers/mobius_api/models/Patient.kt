@@ -8,6 +8,8 @@ import java.time.LocalDateTime
 import javax.persistence.CascadeType.ALL
 import javax.persistence.Entity
 import javax.persistence.ManyToMany
+import javax.persistence.OneToMany
+import javax.persistence.OneToOne
 import javax.persistence.Table
 import javax.validation.constraints.NotEmpty
 
@@ -20,13 +22,20 @@ class Patient(
     email: String,
     password: String,
     birthday: LocalDate,
+
+    @ManyToMany(mappedBy = "patients", cascade = [ALL])
+    @field:NotEmpty
+    val guardians: Set<Guardian>,
+
     genre: Genre = OTHER,
     status: Status = ACTIVE,
     lastUpdate: LocalDateTime = LocalDateTime.now(),
 
-    @ManyToMany(mappedBy = "patients", cascade = [ALL])
-    @field:NotEmpty
-    val guardians: Set<Guardian>
+    @OneToOne(mappedBy = "patient", cascade = [ALL])
+    val testProgress: TestProgress? = null,
+
+    @OneToMany(mappedBy = "patient", cascade = [ALL])
+    val taskResults: Set<Task.Result>? = null
 ) : User(
     id,
     firstName,

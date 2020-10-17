@@ -54,7 +54,7 @@ open class User(
     val birthday: LocalDate,
 
     @Enumerated(STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     val genre: Genre = OTHER,
 
     @Enumerated(STRING)

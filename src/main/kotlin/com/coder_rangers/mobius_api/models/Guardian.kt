@@ -37,7 +37,8 @@ class Guardian(
         inverseJoinColumns = [
             JoinColumn(
                 name = "guardian_id",
-                referencedColumnName = "id"
+                referencedColumnName = "id",
+                nullable = false
             )
         ]
     )
