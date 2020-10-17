@@ -10,9 +10,11 @@ import javax.persistence.Inheritance
 import javax.persistence.InheritanceType.JOINED
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
+import javax.persistence.Table
 import javax.validation.constraints.PositiveOrZero
 
 @Entity
+@Table(name = "answers")
 @Inheritance(strategy = JOINED)
 open class Answer(
     @Id
