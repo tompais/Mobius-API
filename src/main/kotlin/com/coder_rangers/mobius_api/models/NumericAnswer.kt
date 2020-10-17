@@ -11,5 +11,5 @@ class NumericAnswer(
     task: Task,
 
     @Column(nullable = false, updatable = false)
-    val number: Double
+    val number: Int
 ) : Answer(id, task)
