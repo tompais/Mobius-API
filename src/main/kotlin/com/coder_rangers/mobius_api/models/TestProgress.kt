@@ -1,5 +1,6 @@
 package com.coder_rangers.mobius_api.models
 
+import com.coder_rangers.mobius_api.models.TestProgress.Status.IN_PROGRESS
 import com.fasterxml.jackson.annotation.JsonValue
 import javax.persistence.CascadeType.ALL
 import javax.persistence.Column
@@ -11,36 +12,34 @@ import javax.persistence.GenerationType.IDENTITY
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
+import javax.persistence.OneToOne
 import javax.persistence.Table
-import javax.validation.constraints.NotBlank
 import javax.validation.constraints.PositiveOrZero
 
 @Entity
-@Table(name = "answers")
-class Answer(
+@Table(name = "test_progresses")
+class TestProgress(
     @Id
-    @field:PositiveOrZero
     @GeneratedValue(strategy = IDENTITY)
-    @Column(unique = true, nullable = false, updatable = false)
+    @field:PositiveOrZero
+    @Column(nullable = false, unique = true, updatable = false)
     val id: Long,
 
+    @OneToOne(cascade = [ALL])
+    @JoinColumn(name = "patient_id", unique = true, updatable = false, nullable = false)
+    val patient: Patient,
+
     @ManyToOne(cascade = [ALL])
-    @JoinColumn(name = "task_id", nullable = false)
-    val task: Task,
+    @JoinColumn(name = "last_category_played_id", nullable = false)
+    val lastCategoryPlayed: Category,
 
     @Enumerated(STRING)
     @Column(nullable = false)
-    val type: Type,
-
-    @field:NotBlank
-    @Column(nullable = false, length = 255)
-    val text: String
+    val status: Status = IN_PROGRESS
 ) {
-    enum class Type {
-        TEXT,
-        IMAGE,
-        AUDIO,
-        NUMBER;
+    enum class Status {
+        IN_PROGRESS,
+        FINISHED;
 
         @JsonValue
         override fun toString() = name.toLowerCase()

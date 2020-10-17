@@ -7,7 +7,7 @@ import javax.persistence.Entity
 import javax.persistence.EnumType.STRING
 import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
+import javax.persistence.GenerationType.IDENTITY
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
@@ -20,12 +20,12 @@ import javax.validation.constraints.PositiveOrZero
 class Resource(
     @Id
     @field:PositiveOrZero
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     @Column(unique = true, nullable = false, updatable = false)
     val id: Long,
 
     @ManyToOne(cascade = [ALL])
-    @JoinColumn(name = "game_id")
+    @JoinColumn(name = "game_id", updatable = false, nullable = false)
     val game: Game,
 
     @Enumerated(STRING)
