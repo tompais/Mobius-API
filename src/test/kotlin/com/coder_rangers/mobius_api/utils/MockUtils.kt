@@ -50,7 +50,7 @@ object MockUtils {
         patients = patients
     )
 
-    fun mockSetOfGuardians(numberOfGuardians: Int = 2): Set<Guardian> {
+    private fun mockSetOfGuardians(numberOfGuardians: Int = 2): Set<Guardian> {
         val guardians = mutableSetOf<Guardian>()
 
         for (i in 1..numberOfGuardians) {
@@ -82,9 +82,9 @@ object MockUtils {
         email,
         password,
         birthday,
+        guardians,
         genre,
-        status,
-        guardians = guardians
+        status
     )
 
     fun mockSignInRequest(
