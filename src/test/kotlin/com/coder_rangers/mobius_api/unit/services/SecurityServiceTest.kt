@@ -5,12 +5,16 @@ import assertk.assertions.isFailure
 import assertk.assertions.isInstanceOf
 import com.coder_rangers.mobius_api.dao.interfaces.IPatientDAO
 import com.coder_rangers.mobius_api.error.exceptions.PatientNotFoundException
+import com.coder_rangers.mobius_api.mail.services.interfaces.IEmailService
 import com.coder_rangers.mobius_api.services.implementations.SecurityService
 import com.coder_rangers.mobius_api.utils.MockUtils.mockSignInRequest
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
+import io.mockk.just
+import io.mockk.runs
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -19,8 +23,16 @@ class SecurityServiceTest {
     @MockK
     private lateinit var patientDAO: IPatientDAO
 
+    @MockK
+    private lateinit var emailService: IEmailService
+
     @InjectMockKs
     private lateinit var securityService: SecurityService
+
+    @BeforeEach
+    fun setUp() {
+        every { emailService.sendRegistrationConfirmationEmail(any()) } just runs
+    }
 
     @Test
     fun patientNotFoundTest() {
