@@ -22,7 +22,7 @@ class SecurityService @Autowired constructor(
 
     override fun signUp(signUpRequest: SignUpRequest) {
         logger.info(signUpRequest.toString())
-        emailService.sendRegistrationConfirmationEmail("tomas.j.pais@gmail.com")
+        emailService.sendRegistrationConfirmationEmail(signUpRequest.patientEmail)
     }
 
     override fun signIn(signInRequest: SignInRequest): SignInResponse {
