@@ -25,7 +25,7 @@ class SecurityService @Autowired constructor(
 
     override fun signUp(signUpRequest: SignUpRequest) {
         logger.info(signUpRequest.toString())
-        userRegisteredPublisher.publish("tomas.j.pais@gmail.com")
+        userRegisteredPublisher.publish(signUpRequest.patientEmail)
     }
 
     override fun signIn(signInRequest: SignInRequest): SignInResponse {
