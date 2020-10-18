@@ -5,7 +5,7 @@ import assertk.assertions.isFailure
 import assertk.assertions.isInstanceOf
 import com.coder_rangers.mobius_api.dao.interfaces.IPatientDAO
 import com.coder_rangers.mobius_api.error.exceptions.PatientNotFoundException
-import com.coder_rangers.mobius_api.mail.services.interfaces.IEmailService
+import com.coder_rangers.mobius_api.notifications.redis.publishers.MessagePublisher
 import com.coder_rangers.mobius_api.services.implementations.SecurityService
 import com.coder_rangers.mobius_api.utils.MockUtils.mockSignInRequest
 import io.mockk.every
@@ -23,15 +23,15 @@ class SecurityServiceTest {
     @MockK
     private lateinit var patientDAO: IPatientDAO
 
-    @MockK
-    private lateinit var emailService: IEmailService
+    @MockK(relaxed = true)
+    private lateinit var userRegisteredPublisher: MessagePublisher
 
     @InjectMockKs
     private lateinit var securityService: SecurityService
 
     @BeforeEach
     fun setUp() {
-        every { emailService.sendRegistrationConfirmationEmail(any()) } just runs
+        every { userRegisteredPublisher.publish(any()) } just runs
     }
 
     @Test
