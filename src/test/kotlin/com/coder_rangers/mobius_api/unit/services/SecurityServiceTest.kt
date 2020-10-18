@@ -12,8 +12,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
-import io.mockk.just
-import io.mockk.runs
+import io.mockk.justRun
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -31,7 +30,7 @@ class SecurityServiceTest {
 
     @BeforeEach
     fun setUp() {
-        every { userRegisteredPublisher.publish(any()) } just runs
+        justRun { userRegisteredPublisher.publish(any()) }
     }
 
     @Test
