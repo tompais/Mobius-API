@@ -41,13 +41,13 @@ class Task(
         name = "input_task",
         joinColumns = [
             JoinColumn(
-                name = "input_id",
+                name = "task_id",
                 referencedColumnName = "id"
             )
         ],
         inverseJoinColumns = [
             JoinColumn(
-                name = "task_id",
+                name = "input_id",
                 referencedColumnName = "id"
             )
         ]
