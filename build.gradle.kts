@@ -45,6 +45,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    implementation("redis.clients:jedis:3.3.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
@@ -152,14 +154,15 @@ tasks.jacocoTestCoverageVerification {
         rule {
             element = "CLASS"
             excludes = listOf(
-                "com.coder_rangers.mobius_api.MobiusApiApplicationKt",
-                "com.coder_rangers.mobius_api.error.*",
-                "com.coder_rangers.mobius_api.config.*",
-                "com.coder_rangers.mobius_api.filters.*",
-                "com.coder_rangers.mobius_api.requests.*",
-                "com.coder_rangers.mobius_api.models.*",
-                "com.coder_rangers.mobius_api.enums.*",
-                "com.coder_rangers.mobius_api.responses.*"
+                "*.MobiusApiApplicationKt",
+                "*.error.*",
+                "*.config.*",
+                "*.filters.*",
+                "*.requests.*",
+                "*.models.*",
+                "*.enums.*",
+                "*.responses.*",
+                "*.publishers.*"
             )
             limit {
                 minimum = "0.8".toBigDecimal()
