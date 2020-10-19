@@ -41,3 +41,4 @@ ignore:
   - "**/filter*/**"
   - "**/model*/**"
   - "**/request*/**"
+  - "**/publisher*/**"

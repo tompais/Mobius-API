@@ -21,9 +21,9 @@ open class Answer(
     @field:PositiveOrZero
     @GeneratedValue(strategy = IDENTITY)
     @Column(unique = true, nullable = false, updatable = false)
-    val id: Long,
+    open val id: Long,
 
     @ManyToOne(cascade = [ALL])
     @JoinColumn(name = "task_id", nullable = false)
-    val task: Task,
+    open val task: Task,
 )
