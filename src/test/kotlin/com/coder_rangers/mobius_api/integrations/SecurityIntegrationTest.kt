@@ -5,6 +5,10 @@ import com.coder_rangers.mobius_api.requests.SignUpRequest
 import com.coder_rangers.mobius_api.utils.MockUtils.mockPatient
 import com.coder_rangers.mobius_api.utils.MockUtils.mockSignInRequest
 import com.coder_rangers.mobius_api.utils.MockUtils.mockSignUpRequest
+import com.ninjasquad.springmockk.MockkBean
+import io.mockk.every
+import io.mockk.just
+import io.mockk.runs
 import io.restassured.http.ContentType.JSON
 import io.restassured.module.mockmvc.RestAssuredMockMvc.given
 import org.junit.jupiter.api.BeforeEach
@@ -17,11 +21,16 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.OK
+import org.springframework.mail.SimpleMailMessage
+import org.springframework.mail.javamail.JavaMailSender
 import java.time.LocalDate
 
 class SecurityIntegrationTest @Autowired constructor(
     private val patientRepository: IPatientRepository
 ) : BaseIntegrationTest("/security") {
+
+    @MockkBean(relaxed = true)
+    private lateinit var javaMailSender: JavaMailSender
 
     companion object {
         @JvmStatic
@@ -51,7 +60,10 @@ class SecurityIntegrationTest @Autowired constructor(
     }
 
     @BeforeEach
-    fun truncatePatientTable() = patientRepository.deleteAll()
+    fun setUp() {
+        patientRepository.deleteAll()
+        every { javaMailSender.send(any<SimpleMailMessage>()) } just runs
+    }
 
     @ParameterizedTest
     @MethodSource("signUpCases")
