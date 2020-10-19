@@ -30,13 +30,13 @@ class Guardian(
         name = "patient_guardian",
         joinColumns = [
             JoinColumn(
-                name = "patient_id",
+                name = "guardian_id",
                 referencedColumnName = "id"
             ),
         ],
         inverseJoinColumns = [
             JoinColumn(
-                name = "guardian_id",
+                name = "patient_id",
                 referencedColumnName = "id",
                 nullable = false
             )
