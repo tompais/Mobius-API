@@ -5,5 +5,6 @@ import org.springframework.web.bind.annotation.ResponseStatus
 
 @ResponseStatus(NOT_FOUND)
 open class NotFoundException(
-    override val message: String
-) : APIException(message, NOT_FOUND)
+    override val message: String,
+    override val cause: Throwable? = null
+) : APIException(message, NOT_FOUND, cause)

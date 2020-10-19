@@ -3,11 +3,13 @@ package com.coder_rangers.mobius_api.error.handler
 import com.coder_rangers.mobius_api.error.exceptions.APIException
 import com.coder_rangers.mobius_api.error.exceptions.BadRequestException
 import com.coder_rangers.mobius_api.error.exceptions.InternalServerErrorException
+import com.coder_rangers.mobius_api.error.exceptions.NotFoundException
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.databind.exc.MismatchedInputException
 import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import org.apache.commons.lang3.exception.ExceptionUtils
+import org.springframework.data.rest.webmvc.ResourceNotFoundException
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -114,6 +116,17 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
     private fun handleInternalServerErrorException(exception: Exception): ResponseEntity<Any> = handleAPIException(
         InternalServerErrorException(
             exception.message ?: "Something went wrong while processing your request",
+            exception
+        )
+    )
+
+    @ExceptionHandler(ResourceNotFoundException::class)
+    fun handleResourceNotFoundException(resourceNotFoundException: ResourceNotFoundException): ResponseEntity<Any> =
+        handleNotFoundException(resourceNotFoundException)
+
+    private fun handleNotFoundException(exception: Exception): ResponseEntity<Any> = handleAPIException(
+        NotFoundException(
+            exception.message ?: "Requested resource not found",
             exception
         )
     )

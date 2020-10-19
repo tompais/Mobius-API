@@ -39,13 +39,15 @@ class Category(
     @OneToMany(mappedBy = "lastCategoryPlayed", cascade = [ALL])
     val testProgresses: Set<TestProgress>? = null
 ) {
-    enum class Type {
-        ORIENTATION,
-        FIXATION,
-        ATTENTION,
-        CALCULATION,
-        MEMORY,
-        LANGUAGE_AND_PRAXIS;
+    enum class Type(
+        val isTestCategoryType: Boolean = false
+    ) {
+        ORIENTATION(true),
+        FIXATION(true),
+        ATTENTION(true),
+        CALCULATION(true),
+        MEMORY(true),
+        LANGUAGE_AND_PRAXIS(true);
 
         @JsonValue
         override fun toString() = name.toLowerCase()
