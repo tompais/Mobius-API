@@ -1,6 +1,7 @@
 package com.coder_rangers.mobius_api.models
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonValue
 import javax.persistence.CascadeType.ALL
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -36,5 +37,8 @@ class Input(
         VOICE,
         CALENDAR,
         MAPS;
+
+        @JsonValue
+        override fun toString() = name.toLowerCase()
     }
 }
