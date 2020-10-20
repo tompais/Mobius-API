@@ -3,6 +3,7 @@ package com.coder_rangers.mobius_api.controllers
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.services.interfaces.IPatientService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -12,7 +13,7 @@ import javax.validation.constraints.Positive
 
 @RestController
 @Validated
-@RequestMapping("/patients")
+@RequestMapping("/patients", produces = [APPLICATION_JSON_VALUE])
 class PatientController @Autowired constructor(
     private val patientService: IPatientService
 ) {
