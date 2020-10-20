@@ -1,5 +1,6 @@
 package com.coder_rangers.mobius_api.models
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonValue
 import javax.persistence.CascadeType.ALL
 import javax.persistence.Column
@@ -34,9 +35,11 @@ class Category(
 
     @OneToMany(mappedBy = "category", cascade = [ALL])
     @field:NotEmpty
-    val games: Set<Game>,
+    @JsonIgnore
+    val games: List<Game>,
 
     @OneToMany(mappedBy = "lastCategoryPlayed", cascade = [ALL])
+    @JsonIgnore
     val testProgresses: Set<TestProgress>? = null
 ) {
     enum class Type(

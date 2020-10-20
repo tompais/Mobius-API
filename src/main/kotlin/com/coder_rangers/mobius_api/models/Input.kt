@@ -1,5 +1,6 @@
 package com.coder_rangers.mobius_api.models
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.CascadeType.ALL
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -26,6 +27,7 @@ class Input(
     val type: Type,
 
     @ManyToMany(mappedBy = "inputs", cascade = [ALL])
+    @JsonIgnore
     val tasks: Set<Task> = emptySet()
 ) {
     enum class Type {

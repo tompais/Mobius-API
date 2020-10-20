@@ -1,5 +1,6 @@
 package com.coder_rangers.mobius_api.models
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.annotations.CreationTimestamp
 import java.time.LocalDateTime
 import javax.persistence.Basic
@@ -30,6 +31,7 @@ class Task(
 
     @ManyToOne(cascade = [ALL])
     @JoinColumn(name = "game_id")
+    @JsonIgnore
     val game: Game,
 
     @field:NotBlank
@@ -55,9 +57,11 @@ class Task(
     val inputs: List<Input>,
 
     @OneToMany(mappedBy = "task", cascade = [ALL])
+    @JsonIgnore
     val answers: Set<Answer>? = null,
 
     @OneToMany(mappedBy = "task", cascade = [ALL])
+    @JsonIgnore
     val results: Set<Result>? = null
 ) {
     @Entity
