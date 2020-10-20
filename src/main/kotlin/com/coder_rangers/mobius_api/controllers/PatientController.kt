@@ -1,5 +1,6 @@
 package com.coder_rangers.mobius_api.controllers
 
+import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.services.interfaces.IPatientService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.validation.annotation.Validated
@@ -15,8 +16,6 @@ import javax.validation.constraints.Positive
 class PatientController @Autowired constructor(
     private val patientService: IPatientService
 ) {
-    @GetMapping("/{id}/mental-test/games")
-    fun getMentalTestGames(@Positive @PathVariable("id") id: Long) {
-        patientService.getMentalTestGames(id)
-    }
+    @GetMapping("/{id}/mental-test/game")
+    fun getMentalTestGame(@Positive @PathVariable("id") id: Long): Game = patientService.getMentalTestGame(id)
 }

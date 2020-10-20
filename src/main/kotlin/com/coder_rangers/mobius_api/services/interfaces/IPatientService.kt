@@ -1,5 +1,7 @@
 package com.coder_rangers.mobius_api.services.interfaces
 
+import com.coder_rangers.mobius_api.models.Game
+
 interface IPatientService {
-    fun getMentalTestGames(id: Long)
+    fun getMentalTestGame(id: Long): Game
 }
