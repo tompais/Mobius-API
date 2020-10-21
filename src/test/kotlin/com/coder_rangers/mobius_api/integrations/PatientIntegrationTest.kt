@@ -1,8 +1,8 @@
 package com.coder_rangers.mobius_api.integrations
 
-import com.coder_rangers.mobius_api.models.Category
-import com.coder_rangers.mobius_api.models.Category.Type.MEMORY
-import com.coder_rangers.mobius_api.models.Category.Type.ORIENTATION
+import com.coder_rangers.mobius_api.models.Game
+import com.coder_rangers.mobius_api.models.Game.Category.MEMORY
+import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID_WITH_FINISHED_TEST
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_WITHOUT_TEST_PROGRESS
@@ -46,9 +46,9 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
 
     @ParameterizedTest
     @MethodSource("getMentalTestCases")
-    fun getMentalTestGameTest(nextCategoryType: Category.Type, patientId: Long, expectedHttpStatus: HttpStatus) {
+    fun getMentalTestGameTest(nextGameCategory: Game.Category, patientId: Long, expectedHttpStatus: HttpStatus) {
         given()
-            .queryParam("next-category-type", nextCategoryType)
+            .queryParam("next-game-category", nextGameCategory)
             .`when`()
             .get("$baseUrl/$patientId/mental-test/game")
             .then()

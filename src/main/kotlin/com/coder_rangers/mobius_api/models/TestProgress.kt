@@ -11,9 +11,9 @@ import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType.IDENTITY
 import javax.persistence.Id
 import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
 import javax.persistence.OneToOne
 import javax.persistence.Table
+import javax.validation.constraints.NotBlank
 import javax.validation.constraints.PositiveOrZero
 
 @Entity
@@ -29,9 +29,9 @@ class TestProgress(
     @JoinColumn(name = "patient_id", unique = true, updatable = false, nullable = false)
     val patient: Patient,
 
-    @ManyToOne(cascade = [ALL])
-    @JoinColumn(name = "last_category_played_id", nullable = false)
-    val lastCategoryPlayed: Category,
+    @field:NotBlank
+    @Enumerated(STRING)
+    val lastCategoryPlayed: Game.Category,
 
     @Enumerated(STRING)
     @Column(nullable = false)

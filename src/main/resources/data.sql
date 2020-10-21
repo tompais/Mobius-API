@@ -40,17 +40,9 @@ VALUES (5, 1);
 INSERT INTO public.patient_guardian (patient_id, guardian_id)
 VALUES (6, 1);
 
-INSERT INTO public.categories (type, description)
-VALUES ('ORIENTATION', 'ORIENTATION'),
-       ('FIXATION', 'FIXATION'),
-       ('ATTENTION', 'ATTENTION'),
-       ('CALCULATION', 'CALCULATION'),
-       ('MEMORY', 'MEMORY'),
-       ('LANGUAGE_AND_PRAXIS', 'LANGUAGE_AND_PRAXIS');
-
-INSERT INTO public.games (category_id, name, description)
-VALUES (1, 'Juego de orientación', 'Responda las siguientes preguntas'),
-       (2, 'Juego de fijación', null);
+INSERT INTO public.games (category, name, description)
+VALUES ('ORIENTATION', 'Juego de orientación', 'Responda las siguientes preguntas'),
+       ('FIXATION', 'Juego de fijación', null);
 
 INSERT INTO public.tasks (game_id, description)
 VALUES (1, '¿En qué año estamos?'),
@@ -98,8 +90,8 @@ VALUES (1, 'Bicicleta'),
        (2, 'Cuchara'),
        (3, 'Manzana');
 
-INSERT INTO public.test_progresses (status, patient_id, last_category_played_id)
-VALUES ('IN_PROGRESS', 1, 1);
+INSERT INTO public.test_progresses (status, patient_id, last_category_played)
+VALUES ('IN_PROGRESS', 1, 'ORIENTATION');
 
-INSERT INTO public.test_progresses (status, patient_id, last_category_played_id)
-VALUES ('FINISHED', 2, 6);
+INSERT INTO public.test_progresses (status, patient_id, last_category_played)
+VALUES ('FINISHED', 2, 'LANGUAGE_AND_PRAXIS');

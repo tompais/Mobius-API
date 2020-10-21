@@ -1,13 +1,14 @@
 package com.coder_rangers.mobius_api.models
 
+import com.fasterxml.jackson.annotation.JsonValue
 import javax.persistence.CascadeType.ALL
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.EnumType.STRING
+import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType.IDENTITY
 import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 import javax.persistence.Table
 import javax.validation.constraints.NotBlank
@@ -30,8 +31,8 @@ class Game(
     @Column(length = 255)
     val description: String,
 
-    @ManyToOne(cascade = [ALL])
-    @JoinColumn(name = "category_id", updatable = false, nullable = false)
+    @field:NotBlank
+    @Enumerated(STRING)
     val category: Category,
 
     @OneToMany(mappedBy = "game", cascade = [ALL])
@@ -40,4 +41,18 @@ class Game(
 
     @OneToMany(mappedBy = "game", cascade = [ALL])
     val resources: List<Resource>? = null
-)
+) {
+    enum class Category(
+        val isTestCategoryType: Boolean = false
+    ) {
+        ORIENTATION(true),
+        FIXATION(true),
+        ATTENTION(true),
+        CALCULATION(true),
+        MEMORY(true),
+        LANGUAGE_AND_PRAXIS(true);
+
+        @JsonValue
+        override fun toString() = name.toLowerCase()
+    }
+}
