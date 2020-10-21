@@ -25,8 +25,8 @@ class GameServiceTest {
     @Test
     fun getRandomGameByCategoryTypeThrowsNotFoundTest() {
         // GIVEN
-        every { gameDAO.getMaxIdByCategoryType(any()) } returns 1L
-        every { gameDAO.getMinIdByCategoryType(any()) } returns 2L
+        every { gameDAO.getMaxIdByCategoryType(any()) } returns 2L
+        every { gameDAO.getMinIdByCategoryType(any()) } returns 1L
         every { gameDAO.findGameById(any()) } returns null
 
         // THEN

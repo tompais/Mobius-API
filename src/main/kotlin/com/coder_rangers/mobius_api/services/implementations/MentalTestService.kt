@@ -25,7 +25,8 @@ class MentalTestService @Autowired constructor(
     }
 
     override fun getMentalTestGame(patient: Patient, nextCategoryType: Category.Type): Game {
-        if (patient.testProgress?.status == FINISHED) {
+        val testProgress = patient.testProgress
+        if (testProgress?.status == FINISHED) {
             throw FinishedTestException(patient.id)
         }
 

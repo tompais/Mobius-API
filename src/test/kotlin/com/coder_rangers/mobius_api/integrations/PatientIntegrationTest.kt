@@ -3,7 +3,6 @@ package com.coder_rangers.mobius_api.integrations
 import com.coder_rangers.mobius_api.models.Category.Type.ORIENTATION
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID_WITH_FINISHED_TEST
-import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID_WITH_TEST_NOT_STARTED
 import io.restassured.module.mockmvc.RestAssuredMockMvc.given
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -25,10 +24,6 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
             Arguments.of(
                 321L,
                 NOT_FOUND
-            ),
-            Arguments.of(
-                PATIENT_ID_WITH_TEST_NOT_STARTED,
-                BAD_REQUEST
             ),
             Arguments.of(
                 PATIENT_ID_WITH_FINISHED_TEST,
