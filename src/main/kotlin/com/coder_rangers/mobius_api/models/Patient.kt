@@ -3,6 +3,7 @@ package com.coder_rangers.mobius_api.models
 import com.coder_rangers.mobius_api.enums.Genre
 import com.coder_rangers.mobius_api.enums.Genre.OTHER
 import com.coder_rangers.mobius_api.models.User.Status.ACTIVE
+import org.springframework.data.rest.core.annotation.RestResource
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.persistence.CascadeType.ALL
@@ -32,6 +33,7 @@ class Patient(
     lastUpdate: LocalDateTime = LocalDateTime.now(),
 
     @OneToOne(mappedBy = "patient", cascade = [ALL])
+    @RestResource(path = "test-progress", rel = "test-progress")
     val testProgress: TestProgress? = null,
 
     @OneToMany(mappedBy = "patient", cascade = [ALL])

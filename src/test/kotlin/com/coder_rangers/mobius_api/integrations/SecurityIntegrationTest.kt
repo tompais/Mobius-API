@@ -1,9 +1,7 @@
 package com.coder_rangers.mobius_api.integrations
 
-import com.coder_rangers.mobius_api.database.repositories.IPatientRepository
 import com.coder_rangers.mobius_api.notifications.redis.publishers.MessagePublisher
 import com.coder_rangers.mobius_api.requests.SignUpRequest
-import com.coder_rangers.mobius_api.utils.MockUtils.mockPatient
 import com.coder_rangers.mobius_api.utils.MockUtils.mockSignInRequest
 import com.coder_rangers.mobius_api.utils.MockUtils.mockSignUpRequest
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_EMAIL
@@ -31,8 +29,6 @@ import org.springframework.mail.javamail.JavaMailSender
 import java.time.LocalDate
 
 class SecurityIntegrationTest @Autowired constructor(
-    private val patientRepository: IPatientRepository,
-
     @Qualifier("userRegisteredSubscriber")
     private val userRegisteredSubscriber: MessageListener
 ) : BaseIntegrationTest("/security") {
@@ -75,7 +71,6 @@ class SecurityIntegrationTest @Autowired constructor(
 
     @BeforeEach
     fun setUp() {
-        patientRepository.deleteAll()
         every { userRegisteredMessage.toString() } returns PATIENT_EMAIL
         justRun { userRegisteredPublisher.publish(any()) }
         justRun { javaMailSender.send(any<SimpleMailMessage>()) }
@@ -105,8 +100,6 @@ class SecurityIntegrationTest @Autowired constructor(
 
     @Test
     fun signInSuccessfullyTest() {
-        patientRepository.saveAndFlush(mockPatient())
-
         given()
             .accept(JSON)
             .contentType(JSON)

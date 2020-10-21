@@ -12,4 +12,6 @@ class PatientDAO(
 ) : IPatientDAO {
     override fun findActivePatientByEmailAndPassword(email: String, password: String): Patient? =
         patientRepository.findByEmailAndPasswordAndStatus(email, password, ACTIVE)
+
+    override fun findActivePatientById(id: Long): Patient? = patientRepository.findByIdAndStatus(id, ACTIVE)
 }

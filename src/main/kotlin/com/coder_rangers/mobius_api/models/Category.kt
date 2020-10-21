@@ -1,5 +1,6 @@
 package com.coder_rangers.mobius_api.models
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonValue
 import javax.persistence.CascadeType.ALL
 import javax.persistence.Column
@@ -34,18 +35,22 @@ class Category(
 
     @OneToMany(mappedBy = "category", cascade = [ALL])
     @field:NotEmpty
-    val games: Set<Game>,
+    @JsonIgnore
+    val games: List<Game>,
 
     @OneToMany(mappedBy = "lastCategoryPlayed", cascade = [ALL])
+    @JsonIgnore
     val testProgresses: Set<TestProgress>? = null
 ) {
-    enum class Type {
-        ORIENTATION,
-        FIXATION,
-        ATTENTION,
-        CALCULATION,
-        MEMORY,
-        LANGUAGE_AND_PRAXIS;
+    enum class Type(
+        val isTestCategoryType: Boolean = false
+    ) {
+        ORIENTATION(true),
+        FIXATION(true),
+        ATTENTION(true),
+        CALCULATION(true),
+        MEMORY(true),
+        LANGUAGE_AND_PRAXIS(true);
 
         @JsonValue
         override fun toString() = name.toLowerCase()
