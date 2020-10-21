@@ -1,7 +1,6 @@
 package com.coder_rangers.mobius_api.services.implementations
 
 import com.coder_rangers.mobius_api.error.exceptions.FinishedTestException
-import com.coder_rangers.mobius_api.models.Category
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.models.TestProgress.Status.FINISHED
@@ -19,12 +18,12 @@ class MentalTestService @Autowired constructor(
     private companion object {
         // TODO: We should put all the random categories inside.
         private val RANDOM_GAME_CATEGORIES = setOf(
-            Category.Type.ORIENTATION,
-            Category.Type.FIXATION
+            Game.Category.ORIENTATION,
+            Game.Category.FIXATION
         )
     }
 
-    override fun getMentalTestGame(patient: Patient, nextCategoryType: Category.Type): Game {
+    override fun getMentalTestGame(patient: Patient, nextCategoryType: Game.Category): Game {
         val testProgress = patient.testProgress
         if (testProgress?.status == FINISHED) {
             throw FinishedTestException(patient.id)
@@ -33,14 +32,14 @@ class MentalTestService @Autowired constructor(
         return getRandomOrMockGame(nextCategoryType)
     }
 
-    private fun getRandomOrMockGame(nextCategoryType: Category.Type): Game {
-        return if (isRandomGameCategory(nextCategoryType)) {
-            gameService.getRandomGameByCategoryType(nextCategoryType)
+    private fun getRandomOrMockGame(nextGameCategory: Game.Category): Game {
+        return if (isRandomGameCategory(nextGameCategory)) {
+            gameService.getRandomGameByCategory(nextGameCategory)
         } else {
-            gameService.getMockGame(nextCategoryType)
+            gameService.getMockGame(nextGameCategory)
         }
     }
 
-    private fun isRandomGameCategory(nextGameCategory: Category.Type) =
+    private fun isRandomGameCategory(nextGameCategory: Game.Category) =
         nextGameCategory in RANDOM_GAME_CATEGORIES
 }
