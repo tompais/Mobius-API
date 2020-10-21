@@ -7,6 +7,9 @@ VALUES ('2000-10-10', 'fulanito@gmail.com', 'Fulanito', 'De Tal', 'lala1234', 'A
 INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre)
 VALUES ('2000-10-10', 'toto@gmail.com', 'Toto', 'Toto', 'lala1234', 'ACTIVE', 'OTHER');
 
+INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre)
+VALUES ('2000-10-10', 'tomas.j.pais@gmail.com', 'Tomás', 'Pais', 'lala1234', 'ACTIVE', 'OTHER');
+
 INSERT INTO public.patient_guardian (patient_id, guardian_id) VALUES (1, 1);
 
 INSERT INTO public.categories (type, description) VALUES('ORIENTATION', 'ORIENTATION'),

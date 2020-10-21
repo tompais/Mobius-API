@@ -50,7 +50,7 @@ class PatientController @Autowired constructor(
             ),
             ApiResponse(
                 responseCode = "404",
-                description = "Patient not found exception.",
+                description = "The patient or the game were not found.",
                 content = [
                     Content(
                         mediaType = APPLICATION_JSON_VALUE,
@@ -59,13 +59,7 @@ class PatientController @Autowired constructor(
                                 implementation = PatientNotFoundException::class
                             )
                         )
-                    )
-                ]
-            ),
-            ApiResponse(
-                responseCode = "404",
-                description = "Game not found exception.",
-                content = [
+                    ),
                     Content(
                         mediaType = APPLICATION_JSON_VALUE,
                         array = ArraySchema(
