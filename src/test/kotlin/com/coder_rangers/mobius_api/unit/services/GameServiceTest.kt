@@ -5,7 +5,7 @@ import assertk.assertions.isFailure
 import assertk.assertions.isInstanceOf
 import com.coder_rangers.mobius_api.dao.interfaces.IGameDAO
 import com.coder_rangers.mobius_api.error.exceptions.GameNotFoundException
-import com.coder_rangers.mobius_api.models.Category.Type.ATTENTION
+import com.coder_rangers.mobius_api.models.Game.Category.ATTENTION
 import com.coder_rangers.mobius_api.services.implementations.GameService
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -25,13 +25,13 @@ class GameServiceTest {
     @Test
     fun getRandomGameByCategoryTypeThrowsNotFoundTest() {
         // GIVEN
-        every { gameDAO.getMaxIdByCategoryType(any()) } returns 2L
-        every { gameDAO.getMinIdByCategoryType(any()) } returns 1L
+        every { gameDAO.getMaxIdByCategory(any()) } returns 2L
+        every { gameDAO.getMinIdByCategory(any()) } returns 1L
         every { gameDAO.findGameById(any()) } returns null
 
         // THEN
         assertThat {
-            gameService.getRandomGameByCategoryType(ATTENTION)
+            gameService.getRandomGameByCategory(ATTENTION)
         }.isFailure().isInstanceOf(GameNotFoundException::class)
     }
 }

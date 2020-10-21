@@ -2,7 +2,6 @@ package com.coder_rangers.mobius_api.services.implementations
 
 import com.coder_rangers.mobius_api.dao.interfaces.IPatientDAO
 import com.coder_rangers.mobius_api.error.exceptions.PatientNotFoundException
-import com.coder_rangers.mobius_api.models.Category
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.services.interfaces.IMentalTestService
@@ -17,10 +16,10 @@ class PatientService @Autowired constructor(
     private val patientDAO: IPatientDAO,
     private val mentalTestService: IMentalTestService
 ) : IPatientService {
-    override fun getMentalTestGame(id: Long, nextCategoryType: Category.Type): Game {
+    override fun getMentalTestGame(id: Long, nextGameCategory: Game.Category): Game {
         val patient = getActivePatientById(id)
 
-        return mentalTestService.getMentalTestGame(patient, nextCategoryType)
+        return mentalTestService.getMentalTestGame(patient, nextGameCategory)
     }
 
     private fun getActivePatientById(id: Long): Patient =
