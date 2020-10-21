@@ -39,7 +39,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
             Arguments.of(
                 MEMORY,
                 PATIENT_WITHOUT_TEST_PROGRESS,
-                INTERNAL_SERVER_ERROR // TODO: Will throw an exception because mock games are not implemented yet.
+                INTERNAL_SERVER_ERROR // TODO: Will throw an exception because mock games are not implemented yet. Please, change it when they are.
             )
         )
     }
