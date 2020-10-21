@@ -34,4 +34,13 @@ class GameServiceTest {
             gameService.getRandomGameByCategoryType(ATTENTION)
         }.isFailure().isInstanceOf(GameNotFoundException::class)
     }
+
+    @Test
+    // TODO: This test will change when the method changes.
+    fun getMockGameTest() {
+        // THEN
+        assertThat {
+            gameService.getMockGame(ATTENTION)
+        }.isFailure().isInstanceOf(NotImplementedError::class)
+    }
 }
