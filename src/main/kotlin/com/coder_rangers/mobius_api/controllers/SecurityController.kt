@@ -1,5 +1,6 @@
 package com.coder_rangers.mobius_api.controllers
 
+import com.coder_rangers.mobius_api.error.exceptions.PatientNotFoundException
 import com.coder_rangers.mobius_api.requests.SignInRequest
 import com.coder_rangers.mobius_api.requests.SignUpRequest
 import com.coder_rangers.mobius_api.responses.SignInResponse
@@ -56,8 +57,24 @@ class SecurityController @Autowired constructor(
                     )
                 ]
             ),
-            ApiResponse(responseCode = "400", description = "The sign in information that was provided is wrong."),
-            ApiResponse(responseCode = "404", description = "The patient was not found. Check your email and password.")
+            ApiResponse(
+                responseCode = "400",
+                description = "The sign in information that was provided is wrong.",
+            ),
+            ApiResponse(
+                responseCode = "404",
+                description = "The patient was not found. Check your email and password.",
+                content = [
+                    Content(
+                        mediaType = APPLICATION_JSON_VALUE,
+                        array = ArraySchema(
+                            schema = Schema(
+                                implementation = PatientNotFoundException::class
+                            )
+                        )
+                    )
+                ]
+            )
         ]
     )
     @PostMapping("/signin")

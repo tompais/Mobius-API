@@ -10,18 +10,47 @@ VALUES ('2000-10-10', 'toto@gmail.com', 'Toto', 'Toto', 'lala1234', 'ACTIVE', 'O
 INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre)
 VALUES ('2000-10-10', 'tomas.j.pais@gmail.com', 'Tomás', 'Pais', 'lala1234', 'ACTIVE', 'OTHER');
 
-INSERT INTO public.patient_guardian (patient_id, guardian_id) VALUES (1, 1);
+INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre)
+VALUES ('2000-10-10', 'ezequiel.allio@gmail.com', 'Ezequiel', 'Allio', 'lala1234', 'ACTIVE', 'OTHER');
 
-INSERT INTO public.categories (type, description) VALUES('ORIENTATION', 'ORIENTATION'),
-                                                        ('FIXATION', 'FIXATION'),
-                                                        ('ATTENTION', 'ATTENTION'),
-                                                        ('CALCULATION', 'CALCULATION'),
-                                                        ('MEMORY', 'MEMORY'),
-                                                        ('LANGUAGE_AND_PRAXIS', 'LANGUAGE_AND_PRAXIS');
+INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre)
+VALUES ('2000-10-10', 'ferezecarr@gmail.com', 'Fernando', 'Carreño', 'lala1234', 'ACTIVE', 'OTHER');
+
+INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre)
+VALUES ('2000-10-10', 'ezeq.quevedo@gmail.com', 'Ezequiel', 'Quevedo', 'lala1234', 'ACTIVE', 'OTHER');
+
+INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre)
+VALUES ('2000-10-10', 'damiangayoso@gmail.com', 'Damián', 'Gayoso', 'lala1234', 'ACTIVE', 'OTHER');
+
+INSERT INTO public.patient_guardian (patient_id, guardian_id)
+VALUES (1, 1);
+
+INSERT INTO public.patient_guardian (patient_id, guardian_id)
+VALUES (2, 1);
+
+INSERT INTO public.patient_guardian (patient_id, guardian_id)
+VALUES (3, 1);
+
+INSERT INTO public.patient_guardian (patient_id, guardian_id)
+VALUES (4, 1);
+
+INSERT INTO public.patient_guardian (patient_id, guardian_id)
+VALUES (5, 1);
+
+INSERT INTO public.patient_guardian (patient_id, guardian_id)
+VALUES (6, 1);
+
+INSERT INTO public.categories (type, description)
+VALUES ('ORIENTATION', 'ORIENTATION'),
+       ('FIXATION', 'FIXATION'),
+       ('ATTENTION', 'ATTENTION'),
+       ('CALCULATION', 'CALCULATION'),
+       ('MEMORY', 'MEMORY'),
+       ('LANGUAGE_AND_PRAXIS', 'LANGUAGE_AND_PRAXIS');
 
 INSERT INTO public.games (category_id, name, description)
-VALUES(1, 'Juego de orientación', 'Responda las siguientes preguntas'),
-      (2, 'Juego de fijación', null);
+VALUES (1, 'Juego de orientación', 'Responda las siguientes preguntas'),
+       (2, 'Juego de fijación', null);
 
 INSERT INTO public.tasks (game_id, description)
 VALUES (1, '¿En qué año estamos?'),
@@ -56,11 +85,13 @@ VALUES (1, 2),
        (10, 2),
        (11, 3);
 
-INSERT INTO public.resources (game_id, type, file_name) VALUES (2, 'AUDIO', 'audio-file.mp3');
+INSERT INTO public.resources (game_id, type, file_name)
+VALUES (2, 'AUDIO', 'audio-file.mp3');
 
-INSERT INTO public.answers (task_id) VALUES (11),
-                                            (11),
-                                            (11);
+INSERT INTO public.answers (task_id)
+VALUES (11),
+       (11),
+       (11);
 
 INSERT INTO public.text_answers (id, text)
 VALUES (1, 'Bicicleta'),
