@@ -23,7 +23,7 @@ coverage:
         target: 80%
       diff: # maximum decrement of coverage allowed
         target: auto
-        threshold: 0.5%
+        threshold: 5%
         if_not_found: success
 
 comment:
