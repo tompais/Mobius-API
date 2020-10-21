@@ -130,4 +130,11 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
             exception
         )
     )
+
+    @ExceptionHandler(IllegalArgumentException::class)
+    fun handleIllegalArgumentException(illegalArgumentException: IllegalArgumentException): ResponseEntity<Any> =
+        handleBadRequestException(
+            illegalArgumentException.message ?: "Illegal argument exception",
+            illegalArgumentException
+        )
 }

@@ -5,6 +5,7 @@ import com.coder_rangers.mobius_api.models.Game
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Query
+import org.springframework.data.rest.core.annotation.RestResource
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 
@@ -12,8 +13,10 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 interface IGameRepository : JpaRepository<Game, Long>, JpaSpecificationExecutor<Game> {
     @Query("SELECT MAX(g.id) FROM Game g WHERE g.category.type = ?1")
+    @RestResource(exported = false)
     fun getMaxIdByCategoryType(categoryType: Category.Type): Long
 
     @Query("SELECT MIN(g.id) FROM Game g WHERE g.category.type = ?1")
+    @RestResource(exported = false)
     fun getMinIdByCategoryType(categoryType: Category.Type): Long
 }

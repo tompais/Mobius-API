@@ -1,7 +1,12 @@
 package com.coder_rangers.mobius_api.controllers
 
+import com.coder_rangers.mobius_api.error.exceptions.FinishedTestException
+import com.coder_rangers.mobius_api.error.exceptions.GameNotFoundException
+import com.coder_rangers.mobius_api.error.exceptions.PatientNotFoundException
+import com.coder_rangers.mobius_api.models.Category
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.services.interfaces.IPatientService
+import com.coder_rangers.mobius_api.validators.annotations.ValidTestCategoryType
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
@@ -15,6 +20,7 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import javax.validation.constraints.Positive
@@ -44,15 +50,57 @@ class PatientController @Autowired constructor(
             ),
             ApiResponse(
                 responseCode = "404",
-                description = "Patient not found exception"
+                description = "Patient not found exception.",
+                content = [
+                    Content(
+                        mediaType = APPLICATION_JSON_VALUE,
+                        array = ArraySchema(
+                            schema = Schema(
+                                implementation = PatientNotFoundException::class
+                            )
+                        )
+                    )
+                ]
+            ),
+            ApiResponse(
+                responseCode = "404",
+                description = "Game not found exception.",
+                content = [
+                    Content(
+                        mediaType = APPLICATION_JSON_VALUE,
+                        array = ArraySchema(
+                            schema = Schema(
+                                implementation = GameNotFoundException::class
+                            )
+                        )
+                    )
+                ]
             ),
             ApiResponse(
                 responseCode = "400",
-                description = "The patient may have finished the test."
+                description = "The patient may have finished the test.",
+                content = [
+                    Content(
+                        mediaType = APPLICATION_JSON_VALUE,
+                        array = ArraySchema(
+                            schema = Schema(
+                                implementation = FinishedTestException::class
+                            )
+                        )
+                    )
+                ]
             )
         ]
     )
     @GetMapping("/{id}/mental-test/game")
     @ResponseStatus(OK)
-    fun getMentalTestGame(@Positive @PathVariable("id") id: Long): Game = patientService.getMentalTestGame(id)
+    fun getMentalTestGame(
+        @Positive
+        @PathVariable("id")
+        id: Long,
+
+        @ValidTestCategoryType
+        @RequestParam("next-category-type")
+        nextCategoryType: Category.Type
+    ): Game = patientService.getMentalTestGame(id, nextCategoryType)
 }

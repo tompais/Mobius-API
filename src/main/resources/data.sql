@@ -4,6 +4,12 @@ VALUES ('2000-10-10', 'jaimito@gmail.com', 'Jaimito', 'Rodríguez', 'lala1234', 
 INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre)
 VALUES ('2000-10-10', 'fulanito@gmail.com', 'Fulanito', 'De Tal', 'lala1234', 'ACTIVE', 'OTHER');
 
+INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre)
+VALUES ('2000-10-10', 'toto@gmail.com', 'Toto', 'Toto', 'lala1234', 'ACTIVE', 'OTHER');
+
+INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre)
+VALUES ('2000-10-10', 'tomas.j.pais@gmail.com', 'Tomás', 'Pais', 'lala1234', 'ACTIVE', 'OTHER');
+
 INSERT INTO public.patient_guardian (patient_id, guardian_id) VALUES (1, 1);
 
 INSERT INTO public.categories (type, description) VALUES('ORIENTATION', 'ORIENTATION'),
@@ -63,3 +69,6 @@ VALUES (1, 'Bicicleta'),
 
 INSERT INTO public.test_progresses (status, patient_id, last_category_played_id)
 VALUES ('IN_PROGRESS', 1, 1);
+
+INSERT INTO public.test_progresses (status, patient_id, last_category_played_id)
+VALUES ('FINISHED', 2, 6);

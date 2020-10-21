@@ -1,11 +1,10 @@
 package com.coder_rangers.mobius_api.services.implementations
 
-import com.coder_rangers.mobius_api.error.exceptions.NoMoreMentalGamesException
+import com.coder_rangers.mobius_api.error.exceptions.FinishedTestException
 import com.coder_rangers.mobius_api.models.Category
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Patient
-import com.coder_rangers.mobius_api.models.TestProgress
-import com.coder_rangers.mobius_api.models.TestProgress.Status.IN_PROGRESS
+import com.coder_rangers.mobius_api.models.TestProgress.Status.FINISHED
 import com.coder_rangers.mobius_api.services.interfaces.IGameService
 import com.coder_rangers.mobius_api.services.interfaces.IMentalTestService
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,8 +17,6 @@ class MentalTestService @Autowired constructor(
     private val gameService: IGameService
 ) : IMentalTestService {
     private companion object {
-        private val TEST_GAME_CATEGORIES = Category.Type.values().filter { it.isTestCategoryType }
-
         // TODO: We should put all the random categories inside.
         private val RANDOM_GAME_CATEGORIES = setOf(
             Category.Type.ORIENTATION,
@@ -27,32 +24,22 @@ class MentalTestService @Autowired constructor(
         )
     }
 
-    override fun getMentalTestGame(patient: Patient): Game {
-        val nextGameCategory = getNextGameCategory(patient.testProgress)
+    override fun getMentalTestGame(patient: Patient, nextCategoryType: Category.Type): Game {
+        if (patient.testProgress?.status == FINISHED) {
+            throw FinishedTestException(patient.id)
+        }
 
-        return if (nextGameCategory != null) {
-            getRandomOrMockGame(nextGameCategory)
-        } else throw NoMoreMentalGamesException(patient.id)
+        return getRandomOrMockGame(nextCategoryType)
     }
 
-    private fun getRandomOrMockGame(nextGameCategory: Category.Type): Game {
-        return if (isRandomGameCategory(nextGameCategory)) {
-            gameService.getRandomGameByCategoryType(nextGameCategory)
+    private fun getRandomOrMockGame(nextCategoryType: Category.Type): Game {
+        return if (isRandomGameCategory(nextCategoryType)) {
+            gameService.getRandomGameByCategoryType(nextCategoryType)
         } else {
-            gameService.getMockGame(nextGameCategory)
+            gameService.getMockGame(nextCategoryType)
         }
     }
 
     private fun isRandomGameCategory(nextGameCategory: Category.Type) =
         nextGameCategory in RANDOM_GAME_CATEGORIES
-
-    private fun getNextGameCategory(testProgress: TestProgress?): Category.Type? {
-        return when {
-            testProgress == null -> TEST_GAME_CATEGORIES.first()
-            testProgress.status == IN_PROGRESS -> TEST_GAME_CATEGORIES.firstOrNull {
-                it.ordinal == testProgress.lastCategoryPlayed.type.ordinal + 1
-            }
-            else -> null
-        }
-    }
 }
