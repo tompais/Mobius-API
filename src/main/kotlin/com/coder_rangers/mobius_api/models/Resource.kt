@@ -1,5 +1,6 @@
 package com.coder_rangers.mobius_api.models
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonValue
 import javax.persistence.CascadeType.ALL
 import javax.persistence.Column
@@ -26,6 +27,7 @@ class Resource(
 
     @ManyToOne(cascade = [ALL])
     @JoinColumn(name = "game_id", updatable = false, nullable = false)
+    @JsonIgnore
     val game: Game,
 
     @Enumerated(STRING)

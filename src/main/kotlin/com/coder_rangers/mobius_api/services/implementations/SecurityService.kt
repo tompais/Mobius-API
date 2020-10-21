@@ -29,10 +29,11 @@ class SecurityService @Autowired constructor(
     }
 
     override fun signIn(signInRequest: SignInRequest): SignInResponse {
-        val patient = patientDAO.findActivePatientByEmailAndPassword("fulanito@gmail.com", "lala1234")
+        val patient = patientDAO.findActivePatientByEmailAndPassword(signInRequest.email, signInRequest.password)
             ?: throw PatientNotFoundException()
 
         return SignInResponse(
+            patient.id,
             patient.firstName,
             patient.lastName
         )

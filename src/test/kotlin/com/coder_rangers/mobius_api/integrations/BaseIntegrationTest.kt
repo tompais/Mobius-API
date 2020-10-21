@@ -1,6 +1,7 @@
 package com.coder_rangers.mobius_api.integrations
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import io.mockk.junit5.MockKExtension
 import io.restassured.module.mockmvc.RestAssuredMockMvc
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
@@ -13,7 +14,7 @@ import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.web.context.WebApplicationContext
 
-@ExtendWith(SpringExtension::class)
+@ExtendWith(value = [SpringExtension::class, MockKExtension::class])
 @SpringBootTest
 @ContextConfiguration
 @TestInstance(PER_CLASS)
@@ -25,7 +26,7 @@ class BaseIntegrationTest(
 
     @Qualifier("camelCase")
     @Autowired
-    lateinit var mapper: ObjectMapper
+    protected lateinit var mapper: ObjectMapper
 
     @BeforeAll
     fun setUpRestAssuredMockMvc() = RestAssuredMockMvc.webAppContextSetup(webApplicationContext)
