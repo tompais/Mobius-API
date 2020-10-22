@@ -34,7 +34,7 @@ class Patient(
 
     @OneToOne(mappedBy = "patient", cascade = [ALL])
     @RestResource(path = "test-progress", rel = "test-progress")
-    val testProgress: TestProgress? = null,
+    var testProgress: TestProgress? = null,
 
     @OneToMany(mappedBy = "patient", cascade = [ALL])
     val taskResults: Set<Task.Result>? = null
