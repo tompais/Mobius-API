@@ -9,7 +9,7 @@ import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.models.TestProgress
 import com.coder_rangers.mobius_api.models.TestProgress.Status.FINISHED
-import com.coder_rangers.mobius_api.requests.categories.GameAnswersRequest
+import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
 import com.coder_rangers.mobius_api.services.interfaces.IMentalTestService
 import com.coder_rangers.mobius_api.services.interfaces.IPatientService
 import org.slf4j.LoggerFactory
@@ -31,15 +31,15 @@ class PatientService @Autowired constructor(
         return mentalTestService.getMentalTestGame(patient, nextGameCategory)
     }
 
-    override fun processGameAnswers(id: Long, gameAnswersRequest: GameAnswersRequest) {
+    override fun processTestGameAnswers(id: Long, testGameAnswersRequest: TestGameAnswersRequest) {
         val patient = getActivePatientById(id)
 
-        createOrUpdateTestProgress(patient, gameAnswersRequest.category)
-
-        when (gameAnswersRequest.category) {
+        when (testGameAnswersRequest.category) {
             ORIENTATION -> logger.info("holi")
             else -> logger.info("byeee")
         }
+
+        createOrUpdateTestProgress(patient, testGameAnswersRequest.category)
     }
 
     private fun getActivePatientById(id: Long): Patient =
@@ -66,7 +66,7 @@ class PatientService @Autowired constructor(
     }
 
     private fun updateTestProgress(patient: Patient, category: Category) {
-        patient.testProgress!!.apply {
+        patient.testProgress?.apply {
             lastCategoryPlayed = category
             if (isLastTestCategory(category)) {
                 status = FINISHED

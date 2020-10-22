@@ -5,9 +5,9 @@ import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
 import com.coder_rangers.mobius_api.models.Game.Category.MEMORY
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
 import com.coder_rangers.mobius_api.requests.TaskAnswer
-import com.coder_rangers.mobius_api.requests.categories.FixationTaskAnswerRequest
-import com.coder_rangers.mobius_api.requests.categories.GameAnswersRequest
-import com.coder_rangers.mobius_api.requests.categories.OrientationTaskAnswerRequest
+import com.coder_rangers.mobius_api.requests.categories.FixationTestGameAnswersRequest
+import com.coder_rangers.mobius_api.requests.categories.OrientationTestGameAnswersRequest
+import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID_WITH_FINISHED_TEST
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_WITHOUT_TEST_PROGRESS
@@ -55,7 +55,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
         fun processGameAnswersCases() = listOf(
             Arguments.of(
                 PATIENT_WITHOUT_TEST_PROGRESS,
-                OrientationTaskAnswerRequest(
+                OrientationTestGameAnswersRequest(
                     category = ORIENTATION,
                     gameId = 1,
                     taskAnswers = listOf(TaskAnswer(taskId = 1, listOf(true)), TaskAnswer(taskId = 2, listOf(false)))
@@ -64,7 +64,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
             ),
             Arguments.of(
                 PATIENT_ID,
-                FixationTaskAnswerRequest(
+                FixationTestGameAnswersRequest(
                     category = FIXATION,
                     gameId = 1,
                     taskAnswers = listOf(
@@ -91,12 +91,16 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
 
     @ParameterizedTest
     @MethodSource("processGameAnswersCases")
-    fun processGameAnswersTest(id: Long, gameAnswersRequest: GameAnswersRequest, expectedHttpStatus: HttpStatus) {
+    fun processGameAnswersTest(
+        id: Long,
+        testGameAnswersRequest: TestGameAnswersRequest,
+        expectedHttpStatus: HttpStatus
+    ) {
         given()
             .accept(JSON)
             .contentType(JSON)
             .body(
-                mapper.writeValueAsBytes(gameAnswersRequest)
+                mapper.writeValueAsBytes(testGameAnswersRequest)
             )
             .`when`()
             .post("$baseUrl/$id/mental-test/game/answers")
