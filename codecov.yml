@@ -42,4 +42,3 @@ ignore:
   - "**/model*/**"
   - "**/request*/**"
   - "**/publisher*/**"
-  - "**/PatientService.kt"
