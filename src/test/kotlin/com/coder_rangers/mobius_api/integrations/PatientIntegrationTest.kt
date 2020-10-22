@@ -1,11 +1,17 @@
 package com.coder_rangers.mobius_api.integrations
 
 import com.coder_rangers.mobius_api.models.Game
+import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
 import com.coder_rangers.mobius_api.models.Game.Category.MEMORY
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
+import com.coder_rangers.mobius_api.requests.TaskAnswer
+import com.coder_rangers.mobius_api.requests.categories.FixationTaskAnswerRequest
+import com.coder_rangers.mobius_api.requests.categories.GameAnswersRequest
+import com.coder_rangers.mobius_api.requests.categories.OrientationTaskAnswerRequest
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID_WITH_FINISHED_TEST
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_WITHOUT_TEST_PROGRESS
+import io.restassured.http.ContentType.JSON
 import io.restassured.module.mockmvc.RestAssuredMockMvc.given
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -14,6 +20,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import org.springframework.http.HttpStatus.NOT_FOUND
+import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.HttpStatus.OK
 
 class PatientIntegrationTest : BaseIntegrationTest("/patients") {
@@ -42,6 +49,32 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                 INTERNAL_SERVER_ERROR // TODO: Will throw an exception because mock games are not implemented yet. Please, change it when they are.
             )
         )
+
+        @JvmStatic
+        @Suppress("UNUSED")
+        fun processGameAnswersCases() = listOf(
+            Arguments.of(
+                PATIENT_WITHOUT_TEST_PROGRESS,
+                OrientationTaskAnswerRequest(
+                    category = ORIENTATION,
+                    gameId = 1,
+                    taskAnswers = listOf(TaskAnswer(taskId = 1, listOf(true)), TaskAnswer(taskId = 2, listOf(false)))
+                ),
+                NO_CONTENT
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                FixationTaskAnswerRequest(
+                    category = FIXATION,
+                    gameId = 1,
+                    taskAnswers = listOf(
+                        TaskAnswer(taskId = 1, listOf("true")),
+                        TaskAnswer(taskId = 2, listOf("false"))
+                    )
+                ),
+                NO_CONTENT
+            )
+        )
     }
 
     @ParameterizedTest
@@ -51,6 +84,22 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
             .queryParam("next-game-category", nextGameCategory)
             .`when`()
             .get("$baseUrl/$patientId/mental-test/game")
+            .then()
+            .assertThat()
+            .status(expectedHttpStatus)
+    }
+
+    @ParameterizedTest
+    @MethodSource("processGameAnswersCases")
+    fun processGameAnswersTest(id: Long, gameAnswersRequest: GameAnswersRequest, expectedHttpStatus: HttpStatus) {
+        given()
+            .accept(JSON)
+            .contentType(JSON)
+            .body(
+                mapper.writeValueAsBytes(gameAnswersRequest)
+            )
+            .`when`()
+            .post("$baseUrl/$id/mental-test/game/answers")
             .then()
             .assertThat()
             .status(expectedHttpStatus)
