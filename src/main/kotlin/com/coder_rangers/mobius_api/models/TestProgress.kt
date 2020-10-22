@@ -13,7 +13,6 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.OneToOne
 import javax.persistence.Table
-import javax.validation.constraints.NotBlank
 import javax.validation.constraints.PositiveOrZero
 
 @Entity
@@ -29,13 +28,12 @@ class TestProgress(
     @JoinColumn(name = "patient_id", unique = true, updatable = false, nullable = false)
     val patient: Patient,
 
-    @field:NotBlank
     @Enumerated(STRING)
-    val lastCategoryPlayed: Game.Category,
+    var lastCategoryPlayed: Game.Category,
 
     @Enumerated(STRING)
     @Column(nullable = false)
-    val status: Status = IN_PROGRESS
+    var status: Status = IN_PROGRESS
 ) {
     enum class Status {
         IN_PROGRESS,
