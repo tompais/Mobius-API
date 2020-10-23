@@ -1,26 +1,26 @@
 INSERT INTO public.guardians (birthday, email, first_name, last_name, password, status, genre)
 VALUES ('2000-10-10', 'jaimito@gmail.com', 'Jaimito', 'Rodríguez', 'lala1234', 'ACTIVE', 'OTHER');
 
-INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre)
-VALUES ('2000-10-10', 'fulanito@gmail.com', 'Fulanito', 'De Tal', 'lala1234', 'ACTIVE', 'OTHER');
+INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre, test_status)
+VALUES ('2000-10-10', 'fulanito@gmail.com', 'Fulanito', 'De Tal', 'lala1234', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
 
-INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre)
-VALUES ('2000-10-10', 'toto@gmail.com', 'Toto', 'Toto', 'lala1234', 'ACTIVE', 'OTHER');
+INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre, test_status)
+VALUES ('2000-10-10', 'toto@gmail.com', 'Toto', 'Toto', 'lala1234', 'ACTIVE', 'OTHER', 'FINISHED');
 
-INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre)
-VALUES ('2000-10-10', 'tomas.j.pais@gmail.com', 'Tomás', 'Pais', 'lala1234', 'ACTIVE', 'OTHER');
+INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre, test_status)
+VALUES ('2000-10-10', 'tomas.j.pais@gmail.com', 'Tomás', 'Pais', 'lala1234', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
 
-INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre)
-VALUES ('2000-10-10', 'ezequiel.allio@gmail.com', 'Ezequiel', 'Allio', 'lala1234', 'ACTIVE', 'OTHER');
+INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre, test_status)
+VALUES ('2000-10-10', 'ezequiel.allio@gmail.com', 'Ezequiel', 'Allio', 'lala1234', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
 
-INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre)
-VALUES ('2000-10-10', 'ferezecarr@gmail.com', 'Fernando', 'Carreño', 'lala1234', 'ACTIVE', 'OTHER');
+INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre, test_status)
+VALUES ('2000-10-10', 'ferezecarr@gmail.com', 'Fernando', 'Carreño', 'lala1234', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
 
-INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre)
-VALUES ('2000-10-10', 'ezeq.quevedo@gmail.com', 'Ezequiel', 'Quevedo', 'lala1234', 'ACTIVE', 'OTHER');
+INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre, test_status)
+VALUES ('2000-10-10', 'ezeq.quevedo@gmail.com', 'Ezequiel', 'Quevedo', 'lala1234', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
 
-INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre)
-VALUES ('2000-10-10', 'damiangayoso@gmail.com', 'Damián', 'Gayoso', 'lala1234', 'ACTIVE', 'OTHER');
+INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre, test_status)
+VALUES ('2000-10-10', 'damiangayoso@gmail.com', 'Damián', 'Gayoso', 'lala1234', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
 
 INSERT INTO public.patient_guardian (patient_id, guardian_id)
 VALUES (1, 1);
@@ -89,9 +89,3 @@ INSERT INTO public.text_answers (id, text)
 VALUES (1, 'Bicicleta'),
        (2, 'Cuchara'),
        (3, 'Manzana');
-
-INSERT INTO public.test_progresses (status, patient_id, last_category_played)
-VALUES ('IN_PROGRESS', 1, 'ORIENTATION');
-
-INSERT INTO public.test_progresses (status, patient_id, last_category_played)
-VALUES ('FINISHED', 2, 'LANGUAGE_AND_PRAXIS');

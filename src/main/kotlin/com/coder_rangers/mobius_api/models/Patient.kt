@@ -2,15 +2,17 @@ package com.coder_rangers.mobius_api.models
 
 import com.coder_rangers.mobius_api.enums.Genre
 import com.coder_rangers.mobius_api.enums.Genre.OTHER
+import com.coder_rangers.mobius_api.enums.TestStatus
+import com.coder_rangers.mobius_api.enums.TestStatus.IN_PROGRESS
 import com.coder_rangers.mobius_api.models.User.Status.ACTIVE
-import org.springframework.data.rest.core.annotation.RestResource
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.persistence.CascadeType.ALL
 import javax.persistence.Entity
+import javax.persistence.EnumType.STRING
+import javax.persistence.Enumerated
 import javax.persistence.ManyToMany
 import javax.persistence.OneToMany
-import javax.persistence.OneToOne
 import javax.persistence.Table
 import javax.validation.constraints.NotEmpty
 
@@ -32,9 +34,8 @@ class Patient(
     status: Status = ACTIVE,
     lastUpdate: LocalDateTime = LocalDateTime.now(),
 
-    @OneToOne(mappedBy = "patient", cascade = [ALL])
-    @RestResource(path = "test-progress", rel = "test-progress")
-    var testProgress: TestProgress? = null,
+    @Enumerated(STRING)
+    var testStatus: TestStatus = IN_PROGRESS,
 
     @OneToMany(mappedBy = "patient", cascade = [ALL])
     val taskResults: Set<Task.Result>? = null

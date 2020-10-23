@@ -18,7 +18,6 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.BAD_REQUEST
-import org.springframework.http.HttpStatus.FORBIDDEN
 import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.NO_CONTENT
@@ -73,26 +72,6 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     )
                 ),
                 NO_CONTENT
-            ),
-            Arguments.of(
-                PATIENT_ID,
-                OrientationTestGameAnswersRequest(
-                    category = ORIENTATION,
-                    gameId = 1,
-                    patientTaskAnswersList = listOf(
-                        PatientTaskAnswers(taskId = 1, listOf(true)),
-                        PatientTaskAnswers(taskId = 2, listOf(false)),
-                        PatientTaskAnswers(taskId = 3, listOf(false)),
-                        PatientTaskAnswers(taskId = 4, listOf(false)),
-                        PatientTaskAnswers(taskId = 5, listOf(false)),
-                        PatientTaskAnswers(taskId = 6, listOf(false)),
-                        PatientTaskAnswers(taskId = 7, listOf(false)),
-                        PatientTaskAnswers(taskId = 8, listOf(false)),
-                        PatientTaskAnswers(taskId = 9, listOf(false)),
-                        PatientTaskAnswers(taskId = 10, listOf(false))
-                    )
-                ),
-                FORBIDDEN
             ),
             Arguments.of(
                 PATIENT_ID,

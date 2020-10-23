@@ -1,13 +1,13 @@
 package com.coder_rangers.mobius_api.services.implementations
 
 import com.coder_rangers.mobius_api.components.interfaces.IGameAnswersResolver
+import com.coder_rangers.mobius_api.enums.TestStatus.FINISHED
 import com.coder_rangers.mobius_api.error.exceptions.FinishedTestException
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category
 import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
 import com.coder_rangers.mobius_api.models.Patient
-import com.coder_rangers.mobius_api.models.TestProgress.Status.FINISHED
 import com.coder_rangers.mobius_api.requests.categories.FixationTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.OrientationTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
@@ -38,8 +38,7 @@ class MentalTestService @Autowired constructor(
     }
 
     override fun getMentalTestGame(patient: Patient, nextCategoryType: Category): Game {
-        val testProgress = patient.testProgress
-        if (testProgress?.status == FINISHED) {
+        if (patient.testStatus == FINISHED) {
             throw FinishedTestException(patient.id)
         }
 
