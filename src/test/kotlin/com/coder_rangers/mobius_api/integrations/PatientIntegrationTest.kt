@@ -2,7 +2,6 @@ package com.coder_rangers.mobius_api.integrations
 
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
-import com.coder_rangers.mobius_api.models.Game.Category.MEMORY
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
 import com.coder_rangers.mobius_api.requests.PatientTaskAnswers
 import com.coder_rangers.mobius_api.requests.categories.FixationTestGameAnswersRequest
@@ -44,11 +43,6 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
             ),
             Arguments.of(
                 FIXATION,
-                PATIENT_ID,
-                OK
-            ),
-            Arguments.of(
-                MEMORY,
                 PATIENT_ID,
                 OK
             )
