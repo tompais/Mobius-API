@@ -42,4 +42,4 @@ ignore:
   - "**/model*/**"
   - "**/request*/**"
   - "**/publisher*/**"
-  - "**/IGameAnswersResolverService*"
+  - "**/IGameAnswersResolver*"

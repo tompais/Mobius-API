@@ -2,7 +2,6 @@ package com.coder_rangers.mobius_api.unit.services
 
 import com.coder_rangers.mobius_api.dao.interfaces.IPatientDAO
 import com.coder_rangers.mobius_api.models.Game.Category.LANGUAGE_AND_PRAXIS
-import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
 import com.coder_rangers.mobius_api.services.implementations.PatientService
@@ -22,6 +21,7 @@ class PatientServiceTest {
     private lateinit var patientDAO: IPatientDAO
 
     @MockK(relaxed = true)
+    @Suppress("UNUSED")
     private lateinit var mentalTestService: IMentalTestService
 
     @InjectMockKs
@@ -30,11 +30,7 @@ class PatientServiceTest {
     @Test
     fun playsLastCategoryTest() {
         // GIVEN
-        val patient = mockk<Patient>(relaxed = true) {
-            every { testProgress } returns mockk(relaxed = true) {
-                every { lastCategoryPlayed } returns ORIENTATION
-            }
-        }
+        val patient = mockk<Patient>(relaxed = true)
         val testGameAnswersRequest = mockk<TestGameAnswersRequest<*>>(relaxed = true) {
             every { category } returns LANGUAGE_AND_PRAXIS
         }
@@ -44,6 +40,6 @@ class PatientServiceTest {
         patientService.processTestGameAnswers(1L, testGameAnswersRequest)
 
         // THEN
-        verify { patient.testProgress!! setProperty "status" }
+        verify { patientDAO.saveOrUpdate(any()) }
     }
 }

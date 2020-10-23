@@ -2,7 +2,6 @@ package com.coder_rangers.mobius_api.integrations
 
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
-import com.coder_rangers.mobius_api.models.Game.Category.MEMORY
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
 import com.coder_rangers.mobius_api.requests.PatientTaskAnswers
 import com.coder_rangers.mobius_api.requests.categories.FixationTestGameAnswersRequest
@@ -18,8 +17,6 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.BAD_REQUEST
-import org.springframework.http.HttpStatus.FORBIDDEN
-import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.HttpStatus.OK
@@ -31,7 +28,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
         fun getMentalTestCases() = listOf(
             Arguments.of(
                 ORIENTATION,
-                PATIENT_ID,
+                PATIENT_WITHOUT_TEST_PROGRESS,
                 OK
             ),
             Arguments.of(
@@ -45,9 +42,9 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                 BAD_REQUEST
             ),
             Arguments.of(
-                MEMORY,
-                PATIENT_WITHOUT_TEST_PROGRESS,
-                INTERNAL_SERVER_ERROR // TODO: Will throw an exception because mock games are not implemented yet. Please, change it when they are.
+                FIXATION,
+                PATIENT_ID,
+                OK
             )
         )
 
@@ -61,21 +58,32 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     gameId = 1,
                     patientTaskAnswersList = listOf(
                         PatientTaskAnswers(taskId = 1, listOf(true)),
-                        PatientTaskAnswers(taskId = 2, listOf(false))
+                        PatientTaskAnswers(taskId = 2, listOf(false)),
+                        PatientTaskAnswers(taskId = 3, listOf(false)),
+                        PatientTaskAnswers(taskId = 4, listOf(false)),
+                        PatientTaskAnswers(taskId = 5, listOf(false)),
+                        PatientTaskAnswers(taskId = 6, listOf(false)),
+                        PatientTaskAnswers(taskId = 7, listOf(false)),
+                        PatientTaskAnswers(taskId = 8, listOf(false)),
+                        PatientTaskAnswers(taskId = 9, listOf(false)),
+                        PatientTaskAnswers(taskId = 10, listOf(false))
                     )
                 ),
                 NO_CONTENT
             ),
             Arguments.of(
-                PATIENT_ID,
-                FixationTestGameAnswersRequest(
+                PATIENT_WITHOUT_TEST_PROGRESS,
+                OrientationTestGameAnswersRequest(
                     category = ORIENTATION,
                     gameId = 1,
                     patientTaskAnswersList = listOf(
-                        PatientTaskAnswers(taskId = 1, listOf("true")),
+                        PatientTaskAnswers(taskId = 1, listOf(true)),
+                        PatientTaskAnswers(taskId = 2, listOf(false)),
+                        PatientTaskAnswers(taskId = 3, listOf(false)),
+                        PatientTaskAnswers(taskId = 4, listOf(false))
                     )
                 ),
-                FORBIDDEN
+                BAD_REQUEST
             ),
             Arguments.of(
                 PATIENT_ID,
