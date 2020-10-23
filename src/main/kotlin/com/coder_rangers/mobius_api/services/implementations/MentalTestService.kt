@@ -5,7 +5,10 @@ import com.coder_rangers.mobius_api.enums.TestStatus.FINISHED
 import com.coder_rangers.mobius_api.error.exceptions.FinishedTestException
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category
+import com.coder_rangers.mobius_api.models.Game.Category.ATTENTION
+import com.coder_rangers.mobius_api.models.Game.Category.CALCULATION
 import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
+import com.coder_rangers.mobius_api.models.Game.Category.LANGUAGE_AND_PRAXIS
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.requests.categories.FixationTestGameAnswersRequest
@@ -30,10 +33,11 @@ class MentalTestService @Autowired constructor(
     private val fixationGameAnswersResolver: IGameAnswersResolver<String>
 ) : IMentalTestService {
     private companion object {
-        // TODO: We should put all the random categories inside.
         private val RANDOM_GAME_CATEGORIES = setOf(
-            ORIENTATION,
-            FIXATION
+            FIXATION,
+            ATTENTION,
+            CALCULATION,
+            LANGUAGE_AND_PRAXIS // TODO dividir lenguaje y praxia en varias categories
         )
     }
 
@@ -42,7 +46,7 @@ class MentalTestService @Autowired constructor(
             throw FinishedTestException(patient.id)
         }
 
-        return getRandomOrMockGame(nextCategoryType)
+        return getSpecificOrRandomGame(nextCategoryType)
     }
 
     override fun processGameAnswers(patient: Patient, testGameAnswersRequest: TestGameAnswersRequest<*>) {
@@ -62,11 +66,11 @@ class MentalTestService @Autowired constructor(
         }
     }
 
-    private fun getRandomOrMockGame(nextGameCategory: Category): Game {
+    private fun getSpecificOrRandomGame(nextGameCategory: Category): Game {
         return if (isRandomGameCategory(nextGameCategory)) {
             gameService.getRandomGameByCategory(nextGameCategory)
         } else {
-            gameService.getMockGame(nextGameCategory)
+            gameService.getSpecificGameByCategory(nextGameCategory)
         }
     }
 

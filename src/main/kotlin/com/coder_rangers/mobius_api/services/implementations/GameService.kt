@@ -3,6 +3,7 @@ package com.coder_rangers.mobius_api.services.implementations
 import com.coder_rangers.mobius_api.dao.interfaces.IGameDAO
 import com.coder_rangers.mobius_api.error.exceptions.GameNotFoundException
 import com.coder_rangers.mobius_api.models.Game
+import com.coder_rangers.mobius_api.models.Game.Category
 import com.coder_rangers.mobius_api.services.interfaces.IGameService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -13,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional
 class GameService @Autowired constructor(
     private val gameDAO: IGameDAO
 ) : IGameService {
-    override fun getRandomGameByCategory(category: Game.Category): Game {
+    override fun getRandomGameByCategory(category: Category): Game {
         val minId = gameDAO.getMinIdByCategory(category)
         val maxId = gameDAO.getMaxIdByCategory(category)
 
@@ -22,9 +23,7 @@ class GameService @Autowired constructor(
         return getGameById(randomId)
     }
 
-    override fun getMockGame(category: Game.Category): Game {
-        TODO("Not yet implemented")
-    }
+    override fun getSpecificGameByCategory(category: Category): Game = gameDAO.findGameByCategory(category)
 
     override fun getGameById(id: Long): Game = gameDAO.findGameById(id) ?: throw GameNotFoundException(id)
 }
