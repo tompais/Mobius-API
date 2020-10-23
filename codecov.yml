@@ -1,7 +1,7 @@
 codecov:
   bot: "codecov-io"
   ci:
-    - "travis.com"
+    - "travis.org"
   require_ci_to_pass: true
   notify:
     require_ci_to_pass: yes
