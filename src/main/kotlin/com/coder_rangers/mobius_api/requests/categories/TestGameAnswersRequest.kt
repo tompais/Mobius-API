@@ -1,7 +1,7 @@
 package com.coder_rangers.mobius_api.requests.categories
 
 import com.coder_rangers.mobius_api.models.Game
-import com.coder_rangers.mobius_api.requests.TaskAnswer
+import com.coder_rangers.mobius_api.requests.PatientTaskAnswers
 import com.coder_rangers.mobius_api.validators.annotations.ValidTestGameCategory
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type
@@ -21,7 +21,7 @@ import javax.validation.constraints.Positive
     Type(value = OrientationTestGameAnswersRequest::class, name = "orientation"),
     Type(value = FixationTestGameAnswersRequest::class, name = "fixation")
 )
-open class TestGameAnswersRequest(
+open class TestGameAnswersRequest<T>(
     @ValidTestGameCategory
     val category: Game.Category,
 
@@ -29,5 +29,5 @@ open class TestGameAnswersRequest(
     val gameId: Long,
 
     @field:NotEmpty
-    val taskAnswers: List<TaskAnswer<*>>
+    val patientTaskAnswersList: List<PatientTaskAnswers<T>>
 )

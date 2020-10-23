@@ -31,7 +31,7 @@ class PatientServiceTest {
     @Test
     fun updateTestProgressToFinishedTest() {
         // GIVEN
-        val testGameAnswersRequest = mockk<TestGameAnswersRequest> {
+        val testGameAnswersRequest = mockk<TestGameAnswersRequest<*>> {
             every { category } returns LANGUAGE_AND_PRAXIS
         }
         val patient = mockk<Patient>(relaxed = true) {

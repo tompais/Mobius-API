@@ -1,10 +1,10 @@
 package com.coder_rangers.mobius_api.requests.categories
 
 import com.coder_rangers.mobius_api.models.Game
-import com.coder_rangers.mobius_api.requests.TaskAnswer
+import com.coder_rangers.mobius_api.requests.PatientTaskAnswers
 
 class FixationTestGameAnswersRequest(
     category: Game.Category,
     gameId: Long,
-    taskAnswers: List<TaskAnswer<String>>
-) : TestGameAnswersRequest(category, gameId, taskAnswers)
+    patientTaskAnswers: List<PatientTaskAnswers<String>>
+) : TestGameAnswersRequest<String>(category, gameId, patientTaskAnswers)

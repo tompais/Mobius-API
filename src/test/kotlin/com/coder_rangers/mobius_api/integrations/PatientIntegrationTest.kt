@@ -4,7 +4,7 @@ import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
 import com.coder_rangers.mobius_api.models.Game.Category.MEMORY
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
-import com.coder_rangers.mobius_api.requests.TaskAnswer
+import com.coder_rangers.mobius_api.requests.PatientTaskAnswers
 import com.coder_rangers.mobius_api.requests.categories.FixationTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.OrientationTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
@@ -58,7 +58,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                 OrientationTestGameAnswersRequest(
                     category = ORIENTATION,
                     gameId = 1,
-                    taskAnswers = listOf(TaskAnswer(taskId = 1, listOf(true)), TaskAnswer(taskId = 2, listOf(false)))
+                    patientTaskAnswers = listOf(PatientTaskAnswers(taskId = 1, listOf(true)), PatientTaskAnswers(taskId = 2, listOf(false)))
                 ),
                 NO_CONTENT
             ),
@@ -67,9 +67,9 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                 FixationTestGameAnswersRequest(
                     category = FIXATION,
                     gameId = 1,
-                    taskAnswers = listOf(
-                        TaskAnswer(taskId = 1, listOf("true")),
-                        TaskAnswer(taskId = 2, listOf("false"))
+                    patientTaskAnswers = listOf(
+                        PatientTaskAnswers(taskId = 1, listOf("true")),
+                        PatientTaskAnswers(taskId = 2, listOf("false"))
                     )
                 ),
                 NO_CONTENT
@@ -93,7 +93,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
     @MethodSource("processGameAnswersCases")
     fun processGameAnswersTest(
         id: Long,
-        testGameAnswersRequest: TestGameAnswersRequest,
+        testGameAnswersRequest: TestGameAnswersRequest<*>,
         expectedHttpStatus: HttpStatus
     ) {
         given()
