@@ -110,6 +110,17 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     )
                 ),
                 BAD_REQUEST
+            ),
+            Arguments.of(
+                PATIENT_WITHOUT_TEST_PROGRESS,
+                FixationTestGameAnswersRequest(
+                    category = FIXATION,
+                    gameId = 2,
+                    patientTaskAnswersList = listOf(
+                        PatientTaskAnswers(taskId = 11, listOf("Bicicleta", "Cuchara", "Coca")),
+                    )
+                ),
+                NO_CONTENT
             )
         )
     }
