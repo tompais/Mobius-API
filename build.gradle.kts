@@ -162,7 +162,8 @@ tasks.jacocoTestCoverageVerification {
                 "*.models.*",
                 "*.enums.*",
                 "*.responses.*",
-                "*.publishers.*"
+                "*.publishers.*",
+                "*.IGameAnswersResolverServiceKt"
             )
             limit {
                 minimum = "0.8".toBigDecimal()
