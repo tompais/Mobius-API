@@ -2,11 +2,11 @@ package com.coder_rangers.mobius_api.unit.services
 
 import com.coder_rangers.mobius_api.dao.interfaces.IPatientDAO
 import com.coder_rangers.mobius_api.models.Game.Category.LANGUAGE_AND_PRAXIS
+import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
 import com.coder_rangers.mobius_api.services.implementations.PatientService
 import com.coder_rangers.mobius_api.services.interfaces.IMentalTestService
-import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -18,33 +18,32 @@ import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(MockKExtension::class)
 class PatientServiceTest {
-    @MockK
+    @MockK(relaxed = true)
     private lateinit var patientDAO: IPatientDAO
 
-    @MockK
-    @Suppress("UNUSED")
+    @MockK(relaxed = true)
     private lateinit var mentalTestService: IMentalTestService
 
     @InjectMockKs
     private lateinit var patientService: PatientService
 
     @Test
-    fun updateTestProgressToFinishedTest() {
+    fun playsLastCategoryTest() {
         // GIVEN
-        val testGameAnswersRequest = mockk<TestGameAnswersRequest> {
+        val patient = mockk<Patient>(relaxed = true) {
+            every { testProgress } returns mockk(relaxed = true) {
+                every { lastCategoryPlayed } returns ORIENTATION
+            }
+        }
+        val testGameAnswersRequest = mockk<TestGameAnswersRequest<*>>(relaxed = true) {
             every { category } returns LANGUAGE_AND_PRAXIS
         }
-        val patient = mockk<Patient>(relaxed = true) {
-            every { testProgress } returns mockk(relaxed = true)
-        }
-
         every { patientDAO.findActivePatientById(any()) } returns patient
-        every { patientDAO.saveOrUpdate(patient) } returns patient
 
         // WHEN
-        patientService.processTestGameAnswers(PATIENT_ID, testGameAnswersRequest)
+        patientService.processTestGameAnswers(1L, testGameAnswersRequest)
 
         // THEN
-        verify { patient.testProgress }
+        verify { patient.testProgress!! setProperty "status" }
     }
 }

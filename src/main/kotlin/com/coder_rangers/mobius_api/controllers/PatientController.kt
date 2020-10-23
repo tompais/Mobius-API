@@ -118,6 +118,6 @@ class PatientController @Autowired constructor(
 
         @RequestBody
         @Valid
-        testGameAnswersRequest: TestGameAnswersRequest
+        testGameAnswersRequest: TestGameAnswersRequest<*>
     ) = patientService.processTestGameAnswers(id, testGameAnswersRequest)
 }

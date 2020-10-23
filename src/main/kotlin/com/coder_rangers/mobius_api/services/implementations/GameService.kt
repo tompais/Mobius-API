@@ -26,5 +26,5 @@ class GameService @Autowired constructor(
         TODO("Not yet implemented")
     }
 
-    private fun getGameById(id: Long): Game = gameDAO.findGameById(id) ?: throw GameNotFoundException(id)
+    override fun getGameById(id: Long): Game = gameDAO.findGameById(id) ?: throw GameNotFoundException(id)
 }
