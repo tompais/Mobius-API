@@ -1,14 +1,12 @@
 package com.coder_rangers.mobius_api.services.implementations
 
 import com.coder_rangers.mobius_api.dao.interfaces.IPatientDAO
+import com.coder_rangers.mobius_api.enums.TestStatus.FINISHED
 import com.coder_rangers.mobius_api.error.exceptions.PatientNotFoundException
-import com.coder_rangers.mobius_api.error.exceptions.TestCategoryAlreadyPlayedException
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category
 import com.coder_rangers.mobius_api.models.Game.Category.LANGUAGE_AND_PRAXIS
 import com.coder_rangers.mobius_api.models.Patient
-import com.coder_rangers.mobius_api.models.TestProgress
-import com.coder_rangers.mobius_api.models.TestProgress.Status.FINISHED
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
 import com.coder_rangers.mobius_api.services.interfaces.IMentalTestService
 import com.coder_rangers.mobius_api.services.interfaces.IPatientService
@@ -33,7 +31,7 @@ class PatientService @Autowired constructor(
 
         mentalTestService.processGameAnswers(patient, testGameAnswersRequest)
 
-        createOrUpdateTestProgress(patient, testGameAnswersRequest.category)
+        updateTestStatus(patient, testGameAnswersRequest.category)
     }
 
     private fun getActivePatientById(id: Long): Patient =
@@ -41,36 +39,10 @@ class PatientService @Autowired constructor(
 
     private fun isLastTestCategory(category: Category) = category == LANGUAGE_AND_PRAXIS
 
-    private fun createOrUpdateTestProgress(patient: Patient, category: Category) {
-        if (patient.testProgress == null) {
-            createTestProgress(patient, category)
-        } else {
-            updateTestProgress(patient, category)
-        }
-
-        patientDAO.saveOrUpdate(patient)
-    }
-
-    private fun createTestProgress(patient: Patient, category: Category) {
-        patient.testProgress = TestProgress(
-            id = 0,
-            patient = patient,
-            lastCategoryPlayed = category
-        )
-    }
-
-    private fun updateTestProgress(patient: Patient, category: Category) {
-        val testProgress = patient.testProgress!!
-
-        if (testProgress.lastCategoryPlayed >= category) {
-            throw TestCategoryAlreadyPlayedException(patient.id, category)
-        }
-
-        testProgress.apply {
-            lastCategoryPlayed = category
-            if (isLastTestCategory(category)) {
-                status = FINISHED
-            }
+    private fun updateTestStatus(patient: Patient, category: Category) {
+        if (isLastTestCategory(category)) {
+            patient.testStatus = FINISHED
+            patientDAO.saveOrUpdate(patient)
         }
     }
 }
