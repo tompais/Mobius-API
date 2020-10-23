@@ -61,18 +61,35 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     gameId = 1,
                     patientTaskAnswersList = listOf(
                         PatientTaskAnswers(taskId = 1, listOf(true)),
-                        PatientTaskAnswers(taskId = 2, listOf(false))
+                        PatientTaskAnswers(taskId = 2, listOf(false)),
+                        PatientTaskAnswers(taskId = 3, listOf(false)),
+                        PatientTaskAnswers(taskId = 4, listOf(false)),
+                        PatientTaskAnswers(taskId = 5, listOf(false)),
+                        PatientTaskAnswers(taskId = 6, listOf(false)),
+                        PatientTaskAnswers(taskId = 7, listOf(false)),
+                        PatientTaskAnswers(taskId = 8, listOf(false)),
+                        PatientTaskAnswers(taskId = 9, listOf(false)),
+                        PatientTaskAnswers(taskId = 10, listOf(false))
                     )
                 ),
                 NO_CONTENT
             ),
             Arguments.of(
                 PATIENT_ID,
-                FixationTestGameAnswersRequest(
+                OrientationTestGameAnswersRequest(
                     category = ORIENTATION,
                     gameId = 1,
                     patientTaskAnswersList = listOf(
-                        PatientTaskAnswers(taskId = 1, listOf("true")),
+                        PatientTaskAnswers(taskId = 1, listOf(true)),
+                        PatientTaskAnswers(taskId = 2, listOf(false)),
+                        PatientTaskAnswers(taskId = 3, listOf(false)),
+                        PatientTaskAnswers(taskId = 4, listOf(false)),
+                        PatientTaskAnswers(taskId = 5, listOf(false)),
+                        PatientTaskAnswers(taskId = 6, listOf(false)),
+                        PatientTaskAnswers(taskId = 7, listOf(false)),
+                        PatientTaskAnswers(taskId = 8, listOf(false)),
+                        PatientTaskAnswers(taskId = 9, listOf(false)),
+                        PatientTaskAnswers(taskId = 10, listOf(false))
                     )
                 ),
                 FORBIDDEN
