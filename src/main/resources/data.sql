@@ -78,7 +78,7 @@ VALUES (1, 2),
        (11, 3);
 
 INSERT INTO public.resources (game_id, type, file_name)
-VALUES (2, 'AUDIO', 'audio-file.mp3');
+VALUES (2, 'AUDIO', 'Bicicleta-Cuchara-Manzana.mp3');
 
 INSERT INTO public.answers (task_id)
 VALUES (11),

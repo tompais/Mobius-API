@@ -4,7 +4,7 @@ import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
 import com.coder_rangers.mobius_api.models.Game.Category.MEMORY
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
-import com.coder_rangers.mobius_api.requests.TaskAnswer
+import com.coder_rangers.mobius_api.requests.PatientTaskAnswers
 import com.coder_rangers.mobius_api.requests.categories.FixationTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.OrientationTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
@@ -18,6 +18,7 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.BAD_REQUEST
+import org.springframework.http.HttpStatus.FORBIDDEN
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.HttpStatus.OK
@@ -62,7 +63,32 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                 OrientationTestGameAnswersRequest(
                     category = ORIENTATION,
                     gameId = 1,
-                    taskAnswers = listOf(TaskAnswer(taskId = 1, listOf(true)), TaskAnswer(taskId = 2, listOf(false)))
+                    patientTaskAnswersList = listOf(
+                        PatientTaskAnswers(taskId = 1, listOf(true)),
+                        PatientTaskAnswers(taskId = 2, listOf(false))
+                    )
+                ),
+                NO_CONTENT
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                FixationTestGameAnswersRequest(
+                    category = ORIENTATION,
+                    gameId = 1,
+                    patientTaskAnswersList = listOf(
+                        PatientTaskAnswers(taskId = 1, listOf("true")),
+                    )
+                ),
+                FORBIDDEN
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                FixationTestGameAnswersRequest(
+                    category = FIXATION,
+                    gameId = 2,
+                    patientTaskAnswersList = listOf(
+                        PatientTaskAnswers(taskId = 11, listOf("Bicicleta", "Cuchara", "Manzana")),
+                    )
                 ),
                 NO_CONTENT
             ),
@@ -70,10 +96,32 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                 PATIENT_ID,
                 FixationTestGameAnswersRequest(
                     category = FIXATION,
-                    gameId = 1,
-                    taskAnswers = listOf(
-                        TaskAnswer(taskId = 1, listOf("true")),
-                        TaskAnswer(taskId = 2, listOf("false"))
+                    gameId = 2,
+                    patientTaskAnswersList = listOf(
+                        PatientTaskAnswers(taskId = 11, listOf("Bicicleta", "Cuchara", "Manzana")),
+                        PatientTaskAnswers(taskId = 1, listOf("Bicicleta", "Cuchara", "Manzana")),
+                    )
+                ),
+                BAD_REQUEST
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                FixationTestGameAnswersRequest(
+                    category = FIXATION,
+                    gameId = 2,
+                    patientTaskAnswersList = listOf(
+                        PatientTaskAnswers(taskId = 1, listOf("Bicicleta", "Cuchara", "Manzana")),
+                    )
+                ),
+                BAD_REQUEST
+            ),
+            Arguments.of(
+                PATIENT_WITHOUT_TEST_PROGRESS,
+                FixationTestGameAnswersRequest(
+                    category = FIXATION,
+                    gameId = 2,
+                    patientTaskAnswersList = listOf(
+                        PatientTaskAnswers(taskId = 11, listOf("Bicicleta", "Cuchara", "Coca")),
                     )
                 ),
                 NO_CONTENT
@@ -97,7 +145,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
     @MethodSource("processGameAnswersCases")
     fun processGameAnswersTest(
         id: Long,
-        testGameAnswersRequest: TestGameAnswersRequest,
+        testGameAnswersRequest: TestGameAnswersRequest<*>,
         expectedHttpStatus: HttpStatus
     ) {
         given()

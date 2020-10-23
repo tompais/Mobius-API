@@ -1,7 +1,7 @@
 package com.coder_rangers.mobius_api.requests
 
-class TaskAnswer<T>(
+class PatientTaskAnswers<T>(
     val taskId: Long,
 
-    val answers: List<T>
+    val patientAnswers: List<T>
 )
