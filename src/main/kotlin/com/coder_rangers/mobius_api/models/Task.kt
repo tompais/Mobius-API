@@ -32,7 +32,7 @@ class Task(
     @ManyToOne(cascade = [ALL])
     @JoinColumn(name = "game_id")
     @JsonIgnore
-    val game: Game,
+    val game: Game?,
 
     @field:NotBlank
     @Column(nullable = false, length = 255)

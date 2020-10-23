@@ -49,7 +49,7 @@ class Game(
         FIXATION(true),
         ATTENTION(true),
         CALCULATION(true),
-        MEMORY_TEST(true),
+        MEMORY(true),
         LANGUAGE_AND_PRAXIS(true);
 
         @JsonValue
