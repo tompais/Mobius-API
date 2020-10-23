@@ -4,7 +4,7 @@ import com.coder_rangers.mobius_api.error.exceptions.FinishedTestException
 import com.coder_rangers.mobius_api.error.exceptions.GameNotFoundException
 import com.coder_rangers.mobius_api.error.exceptions.PatientNotFoundException
 import com.coder_rangers.mobius_api.models.Game
-import com.coder_rangers.mobius_api.requests.categories.GameAnswersRequest
+import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
 import com.coder_rangers.mobius_api.services.interfaces.IPatientService
 import com.coder_rangers.mobius_api.validators.annotations.ValidTestGameCategory
 import io.swagger.v3.oas.annotations.Operation
@@ -111,10 +111,13 @@ class PatientController @Autowired constructor(
         ]
     )
     @ResponseStatus(NO_CONTENT)
-    fun processGameAnswers(
-        @PathVariable("id") @Positive id: Long,
-        @RequestBody @Valid gameAnswersRequest: GameAnswersRequest
-    ) {
-        patientService.processGameAnswers(id, gameAnswersRequest)
-    }
+    fun processTestGameAnswers(
+        @PathVariable("id")
+        @Positive
+        id: Long,
+
+        @RequestBody
+        @Valid
+        testGameAnswersRequest: TestGameAnswersRequest<*>
+    ) = patientService.processTestGameAnswers(id, testGameAnswersRequest)
 }
