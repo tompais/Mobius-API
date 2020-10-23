@@ -18,4 +18,7 @@ class GameDAO @Autowired constructor(
         gameRepository.getMinIdByCategory(category)
 
     override fun findGameById(id: Long): Game? = gameRepository.findByIdOrNull(id)
+
+    override fun findGameByCategory(category: Game.Category): Game =
+        gameRepository.getGameByCategory(category)
 }
