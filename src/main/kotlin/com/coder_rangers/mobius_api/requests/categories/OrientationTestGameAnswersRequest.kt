@@ -6,5 +6,5 @@ import com.coder_rangers.mobius_api.requests.PatientTaskAnswers
 class OrientationTestGameAnswersRequest(
     category: Game.Category,
     gameId: Long,
-    patientTaskAnswers: List<PatientTaskAnswers<Boolean>>
-) : TestGameAnswersRequest<Boolean>(category, gameId, patientTaskAnswers)
+    patientTaskAnswersList: List<PatientTaskAnswers<Boolean>>
+) : TestGameAnswersRequest<Boolean>(category, gameId, patientTaskAnswersList)

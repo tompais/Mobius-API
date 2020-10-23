@@ -16,7 +16,7 @@ class FixationGameAnswersResolverService @Autowired constructor(
 
         return patientTaskAnswers.patientAnswers.map { patientAnswer ->
             textAnswers.any { textAnswer ->
-                textAnswer.text == patientAnswer
+                textAnswer.text.toLowerCase() == patientAnswer.toLowerCase()
             }.toInt()
         }.sum()
     }
