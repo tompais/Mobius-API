@@ -116,7 +116,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     category = FIXATION,
                     gameId = 2,
                     patientTaskAnswersList = listOf(
-                        PatientTaskAnswers(taskId = 1, listOf("Bicicleta", "Cuchara", "Manzana")),
+                        PatientTaskAnswers(taskId = 1, listOf("bicicleta", "Cuchara", "Manzana")),
                     )
                 ),
                 BAD_REQUEST
