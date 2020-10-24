@@ -139,7 +139,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     gameId = 3,
                     patientTaskAnswersList = listOf(
                         PatientTaskAnswers(taskId = 12, listOf(93)),
-                        PatientTaskAnswers(taskId = 12, listOf(86, 79, 72, 65))
+                        PatientTaskAnswers(taskId = 13, listOf(86, 79, 72, 65))
                     )
                 ),
                 NO_CONTENT

@@ -19,7 +19,8 @@ import javax.validation.constraints.Positive
 )
 @JsonSubTypes(
     Type(value = OrientationTestGameAnswersRequest::class, name = "orientation"),
-    Type(value = FixationTestGameAnswersRequest::class, name = "fixation")
+    Type(value = FixationTestGameAnswersRequest::class, name = "fixation"),
+    Type(value = CalculationTestGameAnswersRequest::class, name = "calculation")
 )
 open class TestGameAnswersRequest<T>(
     @ValidTestGameCategory
