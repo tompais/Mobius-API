@@ -1,10 +1,12 @@
 package com.coder_rangers.mobius_api.integrations
 
 import com.coder_rangers.mobius_api.models.Game
+import com.coder_rangers.mobius_api.models.Game.Category.CALCULATION
 import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
 import com.coder_rangers.mobius_api.models.Game.Category.MEMORY
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
 import com.coder_rangers.mobius_api.requests.PatientTaskAnswers
+import com.coder_rangers.mobius_api.requests.categories.CalculationTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.FixationTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.OrientationTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
@@ -131,6 +133,30 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     )
                 ),
                 NO_CONTENT
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                CalculationTestGameAnswersRequest(
+                    category = CALCULATION,
+                    gameId = 3,
+                    patientTaskAnswersList = listOf(
+                        PatientTaskAnswers(taskId = 12, listOf(93)),
+                        PatientTaskAnswers(taskId = 12, listOf(86, 79, 72, 65))
+                    )
+                ),
+                NO_CONTENT
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                CalculationTestGameAnswersRequest(
+                    category = CALCULATION,
+                    gameId = 3,
+                    patientTaskAnswersList = listOf(
+                        PatientTaskAnswers(taskId = 12, listOf(93)),
+                        PatientTaskAnswers(taskId = 1, listOf(86, 74))
+                    )
+                ),
+                BAD_REQUEST
             )
         )
     }
