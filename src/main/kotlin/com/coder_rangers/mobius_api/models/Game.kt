@@ -47,8 +47,8 @@ class Game(
     ) {
         ORIENTATION(true),
         FIXATION(true),
-        ATTENTION(true),
         CALCULATION(true),
+        ATTENTION(true),
         MEMORY(true),
         LANGUAGE_AND_PRAXIS(true);
 
