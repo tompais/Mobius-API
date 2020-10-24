@@ -14,10 +14,8 @@ class CalculationGameAnswersResolver @Autowired constructor(
     override fun getScore(patientTaskAnswers: PatientTaskAnswers<Int>, answers: Set<Answer>?): Int {
         val numericAnswers = answers!!.map { it as NumericAnswer }
 
-        return patientTaskAnswers.patientAnswers.map { patientAnswer ->
-            numericAnswers.any { numericAnswer ->
-                numericAnswer.number == patientAnswer
-            }.toInt()
+        return patientTaskAnswers.patientAnswers.mapIndexed { index, patientAnswer ->
+            (numericAnswers[index].number == patientAnswer).toInt()
         }.sum()
     }
 }

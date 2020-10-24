@@ -43,3 +43,4 @@ ignore:
   - "**/request*/**"
   - "**/publisher*/**"
   - "**/IGameAnswersResolver*"
+  - "**/FixationGameAnswersResolver.kt"
