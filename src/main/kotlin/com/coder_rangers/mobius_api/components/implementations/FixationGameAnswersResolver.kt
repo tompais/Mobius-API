@@ -14,7 +14,7 @@ class FixationGameAnswersResolver @Autowired constructor(
     override fun getScore(patientTaskAnswers: PatientTaskAnswers<String>, answers: Set<Answer>?): Int {
         val textAnswers = answers!!.map { it as TextAnswer }
 
-        return patientTaskAnswers.patientAnswers.map { patientAnswer ->
+        return patientTaskAnswers.patientAnswers.toSet().map { patientAnswer ->
             textAnswers.any { textAnswer ->
                 textAnswer.text.toLowerCase() == patientAnswer.toLowerCase()
             }.toInt()
