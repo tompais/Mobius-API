@@ -12,7 +12,7 @@ class CalculationGameAnswersResolver @Autowired constructor(
     taskResultService: ITaskResultService
 ) : BaseGameAnswersResolver<Int>(taskResultService) {
     override fun getScore(patientTaskAnswers: PatientTaskAnswers<Int>, answers: Set<Answer>?): Int {
-        val numericAnswers = answers!!.map { it as NumericAnswer }
+        val numericAnswers = answers!!.map { it as NumericAnswer }.sortedByDescending { it.number }
 
         return patientTaskAnswers.patientAnswers.mapIndexed { index, patientAnswer ->
             (numericAnswers[index].number == patientAnswer).toInt()
