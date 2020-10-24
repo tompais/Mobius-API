@@ -11,6 +11,7 @@ import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
 import com.coder_rangers.mobius_api.models.Game.Category.LANGUAGE_AND_PRAXIS
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
 import com.coder_rangers.mobius_api.models.Patient
+import com.coder_rangers.mobius_api.requests.categories.CalculationTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.FixationTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.OrientationTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
@@ -30,7 +31,10 @@ class MentalTestService @Autowired constructor(
     private val orientationGameAnswersResolver: IGameAnswersResolver<Boolean>,
 
     @Qualifier("fixationGameAnswersResolver")
-    private val fixationGameAnswersResolver: IGameAnswersResolver<String>
+    private val fixationGameAnswersResolver: IGameAnswersResolver<String>,
+
+    @Qualifier("calculationGameAnswersResolver")
+    private val calculationGameAnswersResolver: IGameAnswersResolver<Int>
 ) : IMentalTestService {
     private companion object {
         private val RANDOM_GAME_CATEGORIES = setOf(
@@ -58,10 +62,15 @@ class MentalTestService @Autowired constructor(
                 game,
                 (testGameAnswersRequest as OrientationTestGameAnswersRequest).patientTaskAnswersList
             )
-            else -> fixationGameAnswersResolver.resolveAnswers(
+            FIXATION -> fixationGameAnswersResolver.resolveAnswers(
                 patient,
                 game,
                 (testGameAnswersRequest as FixationTestGameAnswersRequest).patientTaskAnswersList
+            )
+            else -> calculationGameAnswersResolver.resolveAnswers(
+                patient,
+                game,
+                (testGameAnswersRequest as CalculationTestGameAnswersRequest).patientTaskAnswersList
             )
         }
     }
