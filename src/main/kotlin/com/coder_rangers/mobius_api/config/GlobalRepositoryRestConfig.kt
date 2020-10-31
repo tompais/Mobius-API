@@ -27,7 +27,7 @@ class GlobalRepositoryRestConfig : RepositoryRestConfigurer {
             .addMapping("/**")
             .allowedOrigins(ALL)
             .allowedMethods(*ALLOWED_METHODS)
-        
+
         super.configureRepositoryRestConfiguration(config)
     }
 }
