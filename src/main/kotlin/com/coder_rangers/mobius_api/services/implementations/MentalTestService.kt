@@ -38,7 +38,7 @@ class MentalTestService @Autowired constructor(
     private val calculationGameAnswersResolver: IGameAnswersResolver<Int>,
 
     @Qualifier("attentionGameAnswersResolver")
-    private val attentionGameAnswersResolver: IGameAnswersResolver<String>
+    private val attentionGameAnswersResolver: IGameAnswersResolver<Char>
 ) : IMentalTestService {
     private companion object {
         private val RANDOM_GAME_CATEGORIES = setOf(

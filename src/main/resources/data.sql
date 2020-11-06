@@ -113,12 +113,7 @@ VALUES (11),
 INSERT INTO public.text_answers (id, text)
 VALUES (1, 'Bicicleta'),
        (2, 'Cuchara'),
-       (3, 'Manzana'),
-       (9, 'O'),
-       (10, 'D'),
-       (11, 'N'),
-       (12, 'U'),
-       (13, 'M');
+       (3, 'Manzana');
 
 INSERT INTO public.numeric_answers (id, number)
 VALUES (4, 93),
@@ -126,3 +121,10 @@ VALUES (4, 93),
        (6, 79),
        (7, 72),
        (8, 65);
+
+INSERT INTO public.char_answers (id, letter)
+VALUES (9, 'O'),
+       (10, 'D'),
+       (11, 'N'),
+       (12, 'U'),
+       (13, 'M');

@@ -164,7 +164,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     category = ATTENTION,
                     gameId = 4,
                     patientTaskAnswersList = listOf(
-                        PatientTaskAnswers(taskId = 14, listOf("o", "d", "n", "u", "m"))
+                        PatientTaskAnswers(taskId = 14, listOf('o', 'd', 'n', 'u', 'm'))
                     )
                 ),
                 NO_CONTENT
@@ -175,7 +175,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     category = ATTENTION,
                     gameId = 4,
                     patientTaskAnswersList = listOf(
-                        PatientTaskAnswers(taskId = 1, listOf("bicicleta", "Cuchara", "Manzana")),
+                        PatientTaskAnswers(taskId = 1, listOf('b', 'a', 'M')),
                     )
                 ),
                 BAD_REQUEST
