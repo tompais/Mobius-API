@@ -16,7 +16,7 @@ class AttentionGameAnswersResolver @Autowired constructor(
 
         return patientTaskAnswers.patientAnswers.map {
             it.toLowerCase()
-        }.toSet().map { patientAnswer ->
+        }.toList().map { patientAnswer ->
             charAnswers.any { charAnswer ->
                 charAnswer.letter.toLowerCase() == patientAnswer
             }.toInt()
