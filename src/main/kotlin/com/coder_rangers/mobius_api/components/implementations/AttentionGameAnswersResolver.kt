@@ -12,14 +12,10 @@ class AttentionGameAnswersResolver @Autowired constructor(
     taskResultService: ITaskResultService
 ) : BaseGameAnswersResolver<Char>(taskResultService) {
     override fun getScore(patientTaskAnswers: PatientTaskAnswers<Char>, answers: Set<Answer>?): Int {
-        val charAnswers = answers!!.map { it as CharAnswer }
+        val charAnswers = answers!!.map { it as CharAnswer }.sortedBy { it.id }
 
-        return patientTaskAnswers.patientAnswers.map {
-            it.toLowerCase()
-        }.toList().map { patientAnswer ->
-            charAnswers.any { charAnswer ->
-                charAnswer.letter.toLowerCase() == patientAnswer
-            }.toInt()
+        return patientTaskAnswers.patientAnswers.mapIndexed { index, patientAnswer ->
+            (charAnswers[index].letter.toLowerCase() == patientAnswer.toLowerCase()).toInt()
         }.sum()
     }
 }
