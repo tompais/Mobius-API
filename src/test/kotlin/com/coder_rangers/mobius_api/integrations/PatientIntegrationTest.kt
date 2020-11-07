@@ -1,10 +1,12 @@
 package com.coder_rangers.mobius_api.integrations
 
 import com.coder_rangers.mobius_api.models.Game
+import com.coder_rangers.mobius_api.models.Game.Category.ATTENTION
 import com.coder_rangers.mobius_api.models.Game.Category.CALCULATION
 import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
 import com.coder_rangers.mobius_api.requests.PatientTaskAnswers
+import com.coder_rangers.mobius_api.requests.categories.AttentionTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.CalculationTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.FixationTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.OrientationTestGameAnswersRequest
@@ -152,6 +154,28 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     patientTaskAnswersList = listOf(
                         PatientTaskAnswers(taskId = 12, listOf(93)),
                         PatientTaskAnswers(taskId = 1, listOf(86, 74))
+                    )
+                ),
+                BAD_REQUEST
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                AttentionTestGameAnswersRequest(
+                    category = ATTENTION,
+                    gameId = 4,
+                    patientTaskAnswersList = listOf(
+                        PatientTaskAnswers(taskId = 14, listOf('o', 'd', 'n', 'u', 'm'))
+                    )
+                ),
+                NO_CONTENT
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                AttentionTestGameAnswersRequest(
+                    category = ATTENTION,
+                    gameId = 4,
+                    patientTaskAnswersList = listOf(
+                        PatientTaskAnswers(taskId = 1, listOf('b', 'a', 'M')),
                     )
                 ),
                 BAD_REQUEST

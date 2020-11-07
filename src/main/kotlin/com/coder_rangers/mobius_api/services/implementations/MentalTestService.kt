@@ -11,6 +11,7 @@ import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
 import com.coder_rangers.mobius_api.models.Game.Category.LANGUAGE_AND_PRAXIS
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
 import com.coder_rangers.mobius_api.models.Patient
+import com.coder_rangers.mobius_api.requests.categories.AttentionTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.CalculationTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.FixationTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.OrientationTestGameAnswersRequest
@@ -34,13 +35,17 @@ class MentalTestService @Autowired constructor(
     private val fixationGameAnswersResolver: IGameAnswersResolver<String>,
 
     @Qualifier("calculationGameAnswersResolver")
-    private val calculationGameAnswersResolver: IGameAnswersResolver<Int>
+    private val calculationGameAnswersResolver: IGameAnswersResolver<Int>,
+
+    @Qualifier("attentionGameAnswersResolver")
+    private val attentionGameAnswersResolver: IGameAnswersResolver<Char>
 ) : IMentalTestService {
     private companion object {
         private val RANDOM_GAME_CATEGORIES = setOf(
             FIXATION,
             ATTENTION,
             CALCULATION,
+            ATTENTION,
             LANGUAGE_AND_PRAXIS // TODO dividir lenguaje y praxia en varias categories
         )
     }
@@ -67,10 +72,15 @@ class MentalTestService @Autowired constructor(
                 game,
                 (testGameAnswersRequest as FixationTestGameAnswersRequest).patientTaskAnswersList
             )
-            else -> calculationGameAnswersResolver.resolveAnswers(
+            CALCULATION -> calculationGameAnswersResolver.resolveAnswers(
                 patient,
                 game,
                 (testGameAnswersRequest as CalculationTestGameAnswersRequest).patientTaskAnswersList
+            )
+            else -> attentionGameAnswersResolver.resolveAnswers(
+                patient,
+                game,
+                (testGameAnswersRequest as AttentionTestGameAnswersRequest).patientTaskAnswersList
             )
         }
     }

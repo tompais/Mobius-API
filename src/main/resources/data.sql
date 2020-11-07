@@ -43,7 +43,8 @@ VALUES (6, 1);
 INSERT INTO public.games (category, name, description)
 VALUES ('ORIENTATION', 'Juego de orientación', 'Responda las siguientes preguntas'),
        ('FIXATION', 'Juego de fijación', null),
-       ('CALCULATION', 'Juego de cálculo', null);
+       ('CALCULATION', 'Juego de cálculo', null),
+       ('ATTENTION', 'Juego de atención', null);
 
 INSERT INTO public.tasks (game_id, description)
 VALUES (1, '¿En qué año estamos?'),
@@ -58,7 +59,8 @@ VALUES (1, '¿En qué año estamos?'),
        (1, '¿En qué piso estamos?'),
        (2, 'Voy a decirle 3 palabras y usted tiene que repetirlas una vez que yo acabe'),
        (3, '¿Cuánto es 100 menos 7?'),
-       (3, 'Ahora repita la resta 4 veces más');
+       (3, 'Ahora repita la resta 4 veces más'),
+       (4, 'Deletree la palabra MUNDO al revés');
 
 INSERT INTO public.inputs (type)
 VALUES ('TEXT'),
@@ -83,7 +85,12 @@ VALUES (1, 2),
        (13, 2),
        (13, 2),
        (13, 2),
-       (13, 2);
+       (13, 2),
+       (14, 1),
+       (14, 1),
+       (14, 1),
+       (14, 1),
+       (14, 1);
 
 INSERT INTO public.resources (game_id, type, file_name)
 VALUES (2, 'AUDIO', 'Bicicleta-Cuchara-Manzana.mp3');
@@ -96,7 +103,12 @@ VALUES (11),
        (13),
        (13),
        (13),
-       (13);
+       (13),
+       (14),
+       (14),
+       (14),
+       (14),
+       (14);
 
 INSERT INTO public.text_answers (id, text)
 VALUES (1, 'Bicicleta'),
@@ -109,3 +121,10 @@ VALUES (4, 93),
        (6, 79),
        (7, 72),
        (8, 65);
+
+INSERT INTO public.char_answers (id, letter)
+VALUES (9, 'O'),
+       (10, 'D'),
+       (11, 'N'),
+       (12, 'U'),
+       (13, 'M');
