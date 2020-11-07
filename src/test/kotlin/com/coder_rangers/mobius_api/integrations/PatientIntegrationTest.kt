@@ -4,16 +4,19 @@ import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category.ATTENTION
 import com.coder_rangers.mobius_api.models.Game.Category.CALCULATION
 import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
+import com.coder_rangers.mobius_api.models.Game.Category.MEMORY_TEST
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
+import com.coder_rangers.mobius_api.models.Game.Category.VISUALIZATION
 import com.coder_rangers.mobius_api.requests.PatientTaskAnswers
 import com.coder_rangers.mobius_api.requests.categories.AttentionTestGameAnswersRequest
+import com.coder_rangers.mobius_api.requests.categories.BooleanTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.CalculationTestGameAnswersRequest
-import com.coder_rangers.mobius_api.requests.categories.FixationTestGameAnswersRequest
-import com.coder_rangers.mobius_api.requests.categories.OrientationTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
+import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersRequest
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID_WITH_FINISHED_TEST
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_WITHOUT_TEST_PROGRESS
+import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_WITH_TEST_PROGRESS
 import io.restassured.http.ContentType.JSON
 import io.restassured.module.mockmvc.RestAssuredMockMvc.given
 import org.junit.jupiter.params.ParameterizedTest
@@ -47,7 +50,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
             ),
             Arguments.of(
                 FIXATION,
-                PATIENT_ID,
+                PATIENT_WITH_TEST_PROGRESS,
                 OK
             )
         )
@@ -57,7 +60,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
         fun processGameAnswersCases() = listOf(
             Arguments.of(
                 PATIENT_WITHOUT_TEST_PROGRESS,
-                OrientationTestGameAnswersRequest(
+                BooleanTestGameAnswersRequest(
                     category = ORIENTATION,
                     gameId = 1,
                     patientTaskAnswersList = listOf(
@@ -77,7 +80,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
             ),
             Arguments.of(
                 PATIENT_WITHOUT_TEST_PROGRESS,
-                OrientationTestGameAnswersRequest(
+                BooleanTestGameAnswersRequest(
                     category = ORIENTATION,
                     gameId = 1,
                     patientTaskAnswersList = listOf(
@@ -91,7 +94,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
             ),
             Arguments.of(
                 PATIENT_ID,
-                FixationTestGameAnswersRequest(
+                TextTestGameAnswersRequest(
                     category = FIXATION,
                     gameId = 2,
                     patientTaskAnswersList = listOf(
@@ -102,7 +105,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
             ),
             Arguments.of(
                 PATIENT_ID,
-                FixationTestGameAnswersRequest(
+                TextTestGameAnswersRequest(
                     category = FIXATION,
                     gameId = 2,
                     patientTaskAnswersList = listOf(
@@ -114,7 +117,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
             ),
             Arguments.of(
                 PATIENT_ID,
-                FixationTestGameAnswersRequest(
+                TextTestGameAnswersRequest(
                     category = FIXATION,
                     gameId = 2,
                     patientTaskAnswersList = listOf(
@@ -125,7 +128,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
             ),
             Arguments.of(
                 PATIENT_WITHOUT_TEST_PROGRESS,
-                FixationTestGameAnswersRequest(
+                TextTestGameAnswersRequest(
                     category = FIXATION,
                     gameId = 2,
                     patientTaskAnswersList = listOf(
@@ -176,6 +179,54 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     gameId = 4,
                     patientTaskAnswersList = listOf(
                         PatientTaskAnswers(taskId = 1, listOf('b', 'a', 'M')),
+                    )
+                ),
+                BAD_REQUEST
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                BooleanTestGameAnswersRequest(
+                    category = MEMORY_TEST,
+                    gameId = 5,
+                    patientTaskAnswersList = listOf(
+                        PatientTaskAnswers(taskId = 15, listOf(true, false, true))
+                    )
+                ),
+                NO_CONTENT
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                BooleanTestGameAnswersRequest(
+                    category = MEMORY_TEST,
+                    gameId = 5,
+                    patientTaskAnswersList = listOf(
+                        PatientTaskAnswers(taskId = 15, listOf(true)),
+                        PatientTaskAnswers(taskId = 15, listOf(false)),
+                        PatientTaskAnswers(taskId = 15, listOf(false)),
+                        PatientTaskAnswers(taskId = 15, listOf(false))
+                    )
+                ),
+                BAD_REQUEST
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                TextTestGameAnswersRequest(
+                    category = VISUALIZATION,
+                    gameId = 6,
+                    patientTaskAnswersList = listOf(
+                        PatientTaskAnswers(taskId = 16, listOf("Tigre"))
+                    )
+                ),
+                NO_CONTENT
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                TextTestGameAnswersRequest(
+                    category = VISUALIZATION,
+                    gameId = 6,
+                    patientTaskAnswersList = listOf(
+                        PatientTaskAnswers(taskId = 11, listOf("Manzana")),
+                        PatientTaskAnswers(taskId = 1, listOf("Bicicleta"))
                     )
                 ),
                 BAD_REQUEST

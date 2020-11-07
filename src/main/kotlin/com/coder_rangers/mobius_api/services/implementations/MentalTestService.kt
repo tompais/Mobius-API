@@ -8,14 +8,15 @@ import com.coder_rangers.mobius_api.models.Game.Category
 import com.coder_rangers.mobius_api.models.Game.Category.ATTENTION
 import com.coder_rangers.mobius_api.models.Game.Category.CALCULATION
 import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
-import com.coder_rangers.mobius_api.models.Game.Category.LANGUAGE_AND_PRAXIS
+import com.coder_rangers.mobius_api.models.Game.Category.MEMORY_TEST
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
+import com.coder_rangers.mobius_api.models.Game.Category.VISUALIZATION
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.requests.categories.AttentionTestGameAnswersRequest
+import com.coder_rangers.mobius_api.requests.categories.BooleanTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.CalculationTestGameAnswersRequest
-import com.coder_rangers.mobius_api.requests.categories.FixationTestGameAnswersRequest
-import com.coder_rangers.mobius_api.requests.categories.OrientationTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
+import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersRequest
 import com.coder_rangers.mobius_api.services.interfaces.IGameService
 import com.coder_rangers.mobius_api.services.interfaces.IMentalTestService
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,8 +29,8 @@ import org.springframework.transaction.annotation.Transactional
 class MentalTestService @Autowired constructor(
     private val gameService: IGameService,
 
-    @Qualifier("orientationGameAnswersResolver")
-    private val orientationGameAnswersResolver: IGameAnswersResolver<Boolean>,
+    @Qualifier("booleanGameAnswersResolver")
+    private val booleanGameAnswersResolver: IGameAnswersResolver<Boolean>,
 
     @Qualifier("fixationGameAnswersResolver")
     private val fixationGameAnswersResolver: IGameAnswersResolver<String>,
@@ -38,7 +39,10 @@ class MentalTestService @Autowired constructor(
     private val calculationGameAnswersResolver: IGameAnswersResolver<Int>,
 
     @Qualifier("attentionGameAnswersResolver")
-    private val attentionGameAnswersResolver: IGameAnswersResolver<Char>
+    private val attentionGameAnswersResolver: IGameAnswersResolver<Char>,
+
+    @Qualifier("visualizationGameAnswersResolver")
+    private val visualizationGameAnswersResolver: IGameAnswersResolver<String>
 ) : IMentalTestService {
     private companion object {
         private val RANDOM_GAME_CATEGORIES = setOf(
@@ -46,7 +50,7 @@ class MentalTestService @Autowired constructor(
             ATTENTION,
             CALCULATION,
             ATTENTION,
-            LANGUAGE_AND_PRAXIS // TODO dividir lenguaje y praxia en varias categories
+            VISUALIZATION
         )
     }
 
@@ -62,25 +66,30 @@ class MentalTestService @Autowired constructor(
         val game = gameService.getGameById(testGameAnswersRequest.gameId)
 
         when (testGameAnswersRequest.category) {
-            ORIENTATION -> orientationGameAnswersResolver.resolveAnswers(
+            ORIENTATION, MEMORY_TEST -> booleanGameAnswersResolver.resolveAnswers(
                 patient,
                 game,
-                (testGameAnswersRequest as OrientationTestGameAnswersRequest).patientTaskAnswersList
+                (testGameAnswersRequest as BooleanTestGameAnswersRequest).patientTaskAnswersList
             )
             FIXATION -> fixationGameAnswersResolver.resolveAnswers(
                 patient,
                 game,
-                (testGameAnswersRequest as FixationTestGameAnswersRequest).patientTaskAnswersList
+                (testGameAnswersRequest as TextTestGameAnswersRequest).patientTaskAnswersList
             )
             CALCULATION -> calculationGameAnswersResolver.resolveAnswers(
                 patient,
                 game,
                 (testGameAnswersRequest as CalculationTestGameAnswersRequest).patientTaskAnswersList
             )
-            else -> attentionGameAnswersResolver.resolveAnswers(
+            ATTENTION -> attentionGameAnswersResolver.resolveAnswers(
                 patient,
                 game,
                 (testGameAnswersRequest as AttentionTestGameAnswersRequest).patientTaskAnswersList
+            )
+            else -> visualizationGameAnswersResolver.resolveAnswers(
+                patient,
+                game,
+                (testGameAnswersRequest as TextTestGameAnswersRequest).patientTaskAnswersList
             )
         }
     }
