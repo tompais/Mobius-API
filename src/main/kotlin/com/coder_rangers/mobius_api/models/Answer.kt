@@ -26,4 +26,8 @@ open class Answer(
     @ManyToOne(cascade = [ALL])
     @JoinColumn(name = "task_id", nullable = false)
     open val task: Task,
-)
+) {
+    override fun hashCode(): Int {
+        return id.toInt()
+    }
+}
