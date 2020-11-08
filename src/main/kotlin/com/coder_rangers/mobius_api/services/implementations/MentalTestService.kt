@@ -68,11 +68,6 @@ class MentalTestService @Autowired constructor(
                 game,
                 (testGameAnswersRequest as BooleanTestGameAnswersRequest).patientTaskAnswersList
             )
-            FIXATION -> textGameAnswersResolver.resolveAnswers(
-                patient,
-                game,
-                (testGameAnswersRequest as TextTestGameAnswersRequest).patientTaskAnswersList
-            )
             CALCULATION -> calculationGameAnswersResolver.resolveAnswers(
                 patient,
                 game,
