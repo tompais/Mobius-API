@@ -32,17 +32,14 @@ class MentalTestService @Autowired constructor(
     @Qualifier("booleanGameAnswersResolver")
     private val booleanGameAnswersResolver: IGameAnswersResolver<Boolean>,
 
-    @Qualifier("fixationGameAnswersResolver")
-    private val fixationGameAnswersResolver: IGameAnswersResolver<String>,
+    @Qualifier("textGameAnswersResolver")
+    private val textGameAnswersResolver: IGameAnswersResolver<String>,
 
     @Qualifier("calculationGameAnswersResolver")
     private val calculationGameAnswersResolver: IGameAnswersResolver<Int>,
 
     @Qualifier("attentionGameAnswersResolver")
-    private val attentionGameAnswersResolver: IGameAnswersResolver<Char>,
-
-    @Qualifier("visualizationGameAnswersResolver")
-    private val visualizationGameAnswersResolver: IGameAnswersResolver<String>
+    private val attentionGameAnswersResolver: IGameAnswersResolver<Char>
 ) : IMentalTestService {
     private companion object {
         private val RANDOM_GAME_CATEGORIES = setOf(
@@ -71,7 +68,7 @@ class MentalTestService @Autowired constructor(
                 game,
                 (testGameAnswersRequest as BooleanTestGameAnswersRequest).patientTaskAnswersList
             )
-            FIXATION -> fixationGameAnswersResolver.resolveAnswers(
+            FIXATION -> textGameAnswersResolver.resolveAnswers(
                 patient,
                 game,
                 (testGameAnswersRequest as TextTestGameAnswersRequest).patientTaskAnswersList
@@ -86,7 +83,7 @@ class MentalTestService @Autowired constructor(
                 game,
                 (testGameAnswersRequest as AttentionTestGameAnswersRequest).patientTaskAnswersList
             )
-            else -> visualizationGameAnswersResolver.resolveAnswers(
+            else -> textGameAnswersResolver.resolveAnswers(
                 patient,
                 game,
                 (testGameAnswersRequest as TextTestGameAnswersRequest).patientTaskAnswersList

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class FixationGameAnswersResolver @Autowired constructor(
+class TextGameAnswersResolver @Autowired constructor(
     taskResultService: ITaskResultService
 ) : BaseGameAnswersResolver<String>(taskResultService) {
     override fun getScore(patientTaskAnswers: PatientTaskAnswers<String>, answers: Set<Answer>?): Int {
