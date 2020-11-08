@@ -49,8 +49,8 @@ class Game(
         FIXATION(true),
         CALCULATION(true),
         ATTENTION(true),
-        MEMORY(true),
-        LANGUAGE_AND_PRAXIS(true);
+        MEMORY_TEST(true),
+        VISUALIZATION(true);
 
         @JsonValue
         override fun toString() = name.toLowerCase()
