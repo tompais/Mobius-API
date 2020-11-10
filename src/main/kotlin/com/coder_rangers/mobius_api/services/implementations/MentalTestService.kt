@@ -3,20 +3,21 @@ package com.coder_rangers.mobius_api.services.implementations
 import com.coder_rangers.mobius_api.components.interfaces.IGameAnswersResolver
 import com.coder_rangers.mobius_api.enums.TestStatus.FINISHED
 import com.coder_rangers.mobius_api.error.exceptions.FinishedTestException
+import com.coder_rangers.mobius_api.models.AnswerWithResult
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category
 import com.coder_rangers.mobius_api.models.Game.Category.ATTENTION
 import com.coder_rangers.mobius_api.models.Game.Category.CALCULATION
 import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
-import com.coder_rangers.mobius_api.models.Game.Category.MEMORY_TEST
+import com.coder_rangers.mobius_api.models.Game.Category.MEMORY
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
 import com.coder_rangers.mobius_api.models.Game.Category.VISUALIZATION
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.requests.categories.AttentionTestGameAnswersRequest
-import com.coder_rangers.mobius_api.requests.categories.BooleanTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.CalculationTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersRequest
+import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersWithResultsRequest
 import com.coder_rangers.mobius_api.services.interfaces.IGameService
 import com.coder_rangers.mobius_api.services.interfaces.IMentalTestService
 import org.springframework.beans.factory.annotation.Autowired
@@ -29,8 +30,8 @@ import org.springframework.transaction.annotation.Transactional
 class MentalTestService @Autowired constructor(
     private val gameService: IGameService,
 
-    @Qualifier("booleanGameAnswersResolver")
-    private val booleanGameAnswersResolver: IGameAnswersResolver<Boolean>,
+    @Qualifier("textGameAnswersWithResultsResolver")
+    private val textGameAnswersWithResultsResolver: IGameAnswersResolver<AnswerWithResult<String>>,
 
     @Qualifier("textGameAnswersResolver")
     private val textGameAnswersResolver: IGameAnswersResolver<String>,
@@ -63,25 +64,25 @@ class MentalTestService @Autowired constructor(
         val game = gameService.getGameById(testGameAnswersRequest.gameId)
 
         when (testGameAnswersRequest.category) {
-            ORIENTATION, MEMORY_TEST -> booleanGameAnswersResolver.resolveAnswers(
+            ORIENTATION, MEMORY -> textGameAnswersWithResultsResolver.resolveAnswers(
                 patient,
                 game,
-                (testGameAnswersRequest as BooleanTestGameAnswersRequest).patientTaskAnswersList
+                (testGameAnswersRequest as TextTestGameAnswersWithResultsRequest).patientTaskAnswersRequestList
             )
             CALCULATION -> calculationGameAnswersResolver.resolveAnswers(
                 patient,
                 game,
-                (testGameAnswersRequest as CalculationTestGameAnswersRequest).patientTaskAnswersList
+                (testGameAnswersRequest as CalculationTestGameAnswersRequest).patientTaskAnswersRequestList
             )
             ATTENTION -> attentionGameAnswersResolver.resolveAnswers(
                 patient,
                 game,
-                (testGameAnswersRequest as AttentionTestGameAnswersRequest).patientTaskAnswersList
+                (testGameAnswersRequest as AttentionTestGameAnswersRequest).patientTaskAnswersRequestList
             )
             else -> textGameAnswersResolver.resolveAnswers(
                 patient,
                 game,
-                (testGameAnswersRequest as TextTestGameAnswersRequest).patientTaskAnswersList
+                (testGameAnswersRequest as TextTestGameAnswersRequest).patientTaskAnswersRequestList
             )
         }
     }
