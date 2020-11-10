@@ -39,18 +39,18 @@ class Game(
     @field:NotEmpty
     val tasks: List<Task>,
 
+    val isTest: Boolean = false,
+
     @OneToMany(mappedBy = "game", cascade = [ALL])
     val resources: List<Resource>? = null
 ) {
-    enum class Category(
-        val isTestCategoryType: Boolean = false
-    ) {
-        ORIENTATION(true),
-        FIXATION(true),
-        CALCULATION(true),
-        ATTENTION(true),
-        MEMORY_TEST(true),
-        VISUALIZATION(true);
+    enum class Category {
+        ORIENTATION,
+        FIXATION,
+        CALCULATION,
+        ATTENTION,
+        MEMORY,
+        VISUALIZATION;
 
         @JsonValue
         override fun toString() = name.toLowerCase()

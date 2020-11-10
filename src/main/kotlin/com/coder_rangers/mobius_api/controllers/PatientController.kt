@@ -6,7 +6,6 @@ import com.coder_rangers.mobius_api.error.exceptions.PatientNotFoundException
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
 import com.coder_rangers.mobius_api.services.interfaces.IPatientService
-import com.coder_rangers.mobius_api.validators.annotations.ValidTestGameCategory
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
@@ -97,7 +96,6 @@ class PatientController @Autowired constructor(
         @PathVariable("id")
         id: Long,
 
-        @ValidTestGameCategory
         @RequestParam("next-game-category")
         nextGameCategory: Game.Category
     ): Game = patientService.getMentalTestGame(id, nextGameCategory)

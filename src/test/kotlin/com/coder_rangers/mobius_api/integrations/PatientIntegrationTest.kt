@@ -1,18 +1,19 @@
 package com.coder_rangers.mobius_api.integrations
 
+import com.coder_rangers.mobius_api.models.AnswerWithResult
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category.ATTENTION
 import com.coder_rangers.mobius_api.models.Game.Category.CALCULATION
 import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
-import com.coder_rangers.mobius_api.models.Game.Category.MEMORY_TEST
+import com.coder_rangers.mobius_api.models.Game.Category.MEMORY
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
 import com.coder_rangers.mobius_api.models.Game.Category.VISUALIZATION
-import com.coder_rangers.mobius_api.requests.PatientTaskAnswers
+import com.coder_rangers.mobius_api.requests.PatientTaskAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.AttentionTestGameAnswersRequest
-import com.coder_rangers.mobius_api.requests.categories.BooleanTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.CalculationTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersRequest
+import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersWithResultsRequest
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID_WITH_FINISHED_TEST
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_WITHOUT_TEST_PROGRESS
@@ -60,34 +61,34 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
         fun processGameAnswersCases() = listOf(
             Arguments.of(
                 PATIENT_WITHOUT_TEST_PROGRESS,
-                BooleanTestGameAnswersRequest(
+                TextTestGameAnswersWithResultsRequest(
                     category = ORIENTATION,
                     gameId = 1,
-                    patientTaskAnswersList = listOf(
-                        PatientTaskAnswers(taskId = 1, listOf(true)),
-                        PatientTaskAnswers(taskId = 2, listOf(false)),
-                        PatientTaskAnswers(taskId = 3, listOf(false)),
-                        PatientTaskAnswers(taskId = 4, listOf(false)),
-                        PatientTaskAnswers(taskId = 5, listOf(false)),
-                        PatientTaskAnswers(taskId = 6, listOf(false)),
-                        PatientTaskAnswers(taskId = 7, listOf(false)),
-                        PatientTaskAnswers(taskId = 8, listOf(false)),
-                        PatientTaskAnswers(taskId = 9, listOf(false)),
-                        PatientTaskAnswers(taskId = 10, listOf(false))
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(taskId = 1, listOf(AnswerWithResult(true, "lala"))),
+                        PatientTaskAnswersRequest(taskId = 2, listOf(AnswerWithResult(false, "lala"))),
+                        PatientTaskAnswersRequest(taskId = 3, listOf(AnswerWithResult(false, "lala"))),
+                        PatientTaskAnswersRequest(taskId = 4, listOf(AnswerWithResult(false, "lala"))),
+                        PatientTaskAnswersRequest(taskId = 5, listOf(AnswerWithResult(false, "lala"))),
+                        PatientTaskAnswersRequest(taskId = 6, listOf(AnswerWithResult(false, "lala"))),
+                        PatientTaskAnswersRequest(taskId = 7, listOf(AnswerWithResult(false, "lala"))),
+                        PatientTaskAnswersRequest(taskId = 8, listOf(AnswerWithResult(false, "lala"))),
+                        PatientTaskAnswersRequest(taskId = 9, listOf(AnswerWithResult(false, "lala"))),
+                        PatientTaskAnswersRequest(taskId = 10, listOf(AnswerWithResult(false, "lala")))
                     )
                 ),
                 NO_CONTENT
             ),
             Arguments.of(
                 PATIENT_WITHOUT_TEST_PROGRESS,
-                BooleanTestGameAnswersRequest(
+                TextTestGameAnswersWithResultsRequest(
                     category = ORIENTATION,
                     gameId = 1,
-                    patientTaskAnswersList = listOf(
-                        PatientTaskAnswers(taskId = 1, listOf(true)),
-                        PatientTaskAnswers(taskId = 2, listOf(false)),
-                        PatientTaskAnswers(taskId = 3, listOf(false)),
-                        PatientTaskAnswers(taskId = 4, listOf(false))
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(taskId = 1, listOf(AnswerWithResult(true, "lala"))),
+                        PatientTaskAnswersRequest(taskId = 2, listOf(AnswerWithResult(false, "lala"))),
+                        PatientTaskAnswersRequest(taskId = 3, listOf(AnswerWithResult(false, "lala"))),
+                        PatientTaskAnswersRequest(taskId = 4, listOf(AnswerWithResult(false, "lala")))
                     )
                 ),
                 BAD_REQUEST
@@ -97,8 +98,8 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                 TextTestGameAnswersRequest(
                     category = FIXATION,
                     gameId = 2,
-                    patientTaskAnswersList = listOf(
-                        PatientTaskAnswers(taskId = 11, listOf("Bicicleta", "Cuchara", "Manzana")),
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(taskId = 11, listOf("Bicicleta", "Cuchara", "Manzana")),
                     )
                 ),
                 NO_CONTENT
@@ -108,9 +109,9 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                 TextTestGameAnswersRequest(
                     category = FIXATION,
                     gameId = 2,
-                    patientTaskAnswersList = listOf(
-                        PatientTaskAnswers(taskId = 11, listOf("Bicicleta", "Cuchara", "Manzana")),
-                        PatientTaskAnswers(taskId = 1, listOf("Bicicleta", "Cuchara", "Manzana")),
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(taskId = 11, listOf("Bicicleta", "Cuchara", "Manzana")),
+                        PatientTaskAnswersRequest(taskId = 1, listOf("Bicicleta", "Cuchara", "Manzana")),
                     )
                 ),
                 BAD_REQUEST
@@ -120,8 +121,8 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                 TextTestGameAnswersRequest(
                     category = FIXATION,
                     gameId = 2,
-                    patientTaskAnswersList = listOf(
-                        PatientTaskAnswers(taskId = 1, listOf("bicicleta", "Cuchara", "Manzana")),
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(taskId = 1, listOf("bicicleta", "Cuchara", "Manzana")),
                     )
                 ),
                 BAD_REQUEST
@@ -131,8 +132,8 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                 TextTestGameAnswersRequest(
                     category = FIXATION,
                     gameId = 2,
-                    patientTaskAnswersList = listOf(
-                        PatientTaskAnswers(taskId = 11, listOf("Bicicleta", "Cuchara", "Coca")),
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(taskId = 11, listOf("Bicicleta", "Cuchara", "Coca")),
                     )
                 ),
                 NO_CONTENT
@@ -142,9 +143,9 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                 CalculationTestGameAnswersRequest(
                     category = CALCULATION,
                     gameId = 3,
-                    patientTaskAnswersList = listOf(
-                        PatientTaskAnswers(taskId = 12, listOf(93)),
-                        PatientTaskAnswers(taskId = 13, listOf(86, 79, 72, 65))
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(taskId = 12, listOf(93)),
+                        PatientTaskAnswersRequest(taskId = 13, listOf(86, 79, 72, 65))
                     )
                 ),
                 NO_CONTENT
@@ -154,9 +155,9 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                 CalculationTestGameAnswersRequest(
                     category = CALCULATION,
                     gameId = 3,
-                    patientTaskAnswersList = listOf(
-                        PatientTaskAnswers(taskId = 12, listOf(93)),
-                        PatientTaskAnswers(taskId = 1, listOf(86, 74))
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(taskId = 12, listOf(93)),
+                        PatientTaskAnswersRequest(taskId = 1, listOf(86, 74))
                     )
                 ),
                 BAD_REQUEST
@@ -166,8 +167,8 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                 AttentionTestGameAnswersRequest(
                     category = ATTENTION,
                     gameId = 4,
-                    patientTaskAnswersList = listOf(
-                        PatientTaskAnswers(taskId = 14, listOf('o', 'd', 'n', 'u', 'm'))
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(taskId = 14, listOf('o', 'd', 'n', 'u', 'm'))
                     )
                 ),
                 NO_CONTENT
@@ -177,44 +178,26 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                 AttentionTestGameAnswersRequest(
                     category = ATTENTION,
                     gameId = 4,
-                    patientTaskAnswersList = listOf(
-                        PatientTaskAnswers(taskId = 1, listOf('b', 'a', 'M')),
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(taskId = 1, listOf('b', 'a', 'M')),
                     )
                 ),
                 BAD_REQUEST
             ),
             Arguments.of(
                 PATIENT_ID,
-                BooleanTestGameAnswersRequest(
-                    category = MEMORY_TEST,
+                TextTestGameAnswersWithResultsRequest(
+                    category = MEMORY,
                     gameId = 5,
-                    patientTaskAnswersList = listOf(
-                        PatientTaskAnswers(taskId = 15, listOf(true, false, true))
-                    )
-                ),
-                NO_CONTENT
-            ),
-            Arguments.of(
-                PATIENT_ID,
-                BooleanTestGameAnswersRequest(
-                    category = MEMORY_TEST,
-                    gameId = 5,
-                    patientTaskAnswersList = listOf(
-                        PatientTaskAnswers(taskId = 15, listOf(true)),
-                        PatientTaskAnswers(taskId = 15, listOf(false)),
-                        PatientTaskAnswers(taskId = 15, listOf(false)),
-                        PatientTaskAnswers(taskId = 15, listOf(false))
-                    )
-                ),
-                BAD_REQUEST
-            ),
-            Arguments.of(
-                PATIENT_ID,
-                TextTestGameAnswersRequest(
-                    category = VISUALIZATION,
-                    gameId = 6,
-                    patientTaskAnswersList = listOf(
-                        PatientTaskAnswers(taskId = 16, listOf("Tigre"))
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(
+                            taskId = 15,
+                            listOf(
+                                AnswerWithResult(true, "lala"),
+                                AnswerWithResult(false, "lala"),
+                                AnswerWithResult(true, "lala")
+                            )
+                        )
                     )
                 ),
                 NO_CONTENT
@@ -224,9 +207,20 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                 TextTestGameAnswersRequest(
                     category = VISUALIZATION,
                     gameId = 6,
-                    patientTaskAnswersList = listOf(
-                        PatientTaskAnswers(taskId = 11, listOf("Manzana")),
-                        PatientTaskAnswers(taskId = 1, listOf("Bicicleta"))
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(taskId = 16, listOf("Tigre"))
+                    )
+                ),
+                NO_CONTENT
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                TextTestGameAnswersRequest(
+                    category = VISUALIZATION,
+                    gameId = 6,
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(taskId = 11, listOf("Manzana")),
+                        PatientTaskAnswersRequest(taskId = 1, listOf("Bicicleta"))
                     )
                 ),
                 BAD_REQUEST

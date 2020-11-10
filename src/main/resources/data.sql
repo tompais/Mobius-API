@@ -40,13 +40,13 @@ VALUES (5, 1);
 INSERT INTO public.patient_guardian (patient_id, guardian_id)
 VALUES (6, 1);
 
-INSERT INTO public.games (category, name, description)
-VALUES ('ORIENTATION', 'Juego de orientación', 'Responda las siguientes preguntas'),
-       ('FIXATION', 'Juego de fijación', null),
-       ('CALCULATION', 'Juego de cálculo', null),
-       ('ATTENTION', 'Juego de atención', null),
-       ('MEMORY_TEST', 'Juego de memoria', null),
-       ('VISUALIZATION', 'Juego de visualización', null);
+INSERT INTO public.games (category, name, description, is_test)
+VALUES ('ORIENTATION', 'Juego de orientación', 'Responda las siguientes preguntas', true),
+       ('FIXATION', 'Juego de fijación', null, true),
+       ('CALCULATION', 'Juego de cálculo', null, true),
+       ('ATTENTION', 'Juego de atención', null, true),
+       ('MEMORY', 'Juego de memoria', null, true),
+       ('VISUALIZATION', 'Juego de visualización', null, true);
 
 INSERT INTO public.tasks (game_id, description)
 VALUES (1, '¿En qué año estamos?'),

@@ -1,10 +1,10 @@
 package com.coder_rangers.mobius_api.requests.categories
 
 import com.coder_rangers.mobius_api.models.Game
-import com.coder_rangers.mobius_api.requests.PatientTaskAnswers
+import com.coder_rangers.mobius_api.requests.PatientTaskAnswersRequest
 
 class CalculationTestGameAnswersRequest(
     category: Game.Category,
     gameId: Long,
-    patientTaskAnswersList: List<PatientTaskAnswers<Int>>
-) : TestGameAnswersRequest<Int>(category, gameId, patientTaskAnswersList)
+    patientTaskAnswersRequestList: List<PatientTaskAnswersRequest<Int>>
+) : TestGameAnswersRequest<Int>(category, gameId, patientTaskAnswersRequestList)

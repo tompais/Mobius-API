@@ -81,12 +81,12 @@ class Task(
         @JoinColumn(name = "task_id", updatable = false, nullable = false)
         val task: Task,
 
+        @OneToMany(mappedBy = "taskResult", cascade = [ALL])
+        val patientAnswers: MutableList<PatientAnswer> = mutableListOf(),
+
         @field:PositiveOrZero
         @Column(nullable = false, updatable = false)
         val score: Int = 0,
-
-        @Column(nullable = false, updatable = false)
-        val isTest: Boolean = false,
 
         @Basic
         @CreationTimestamp
