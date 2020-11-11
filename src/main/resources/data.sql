@@ -100,7 +100,7 @@ VALUES (1, 2),
 
 INSERT INTO public.resources (game_id, type, file_name)
 VALUES (2, 'AUDIO', 'Bicicleta-Cuchara-Manzana.mp3'),
-       (6, 'IMAGE', 'Tigre.jpg');
+       (6, 'IMAGE', 'Tigre.png');
 
 INSERT INTO public.answers (task_id)
 VALUES (11),
