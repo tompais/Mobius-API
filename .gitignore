@@ -57,3 +57,6 @@ out/
 hs_err_pid*
 src/main/resources/db/
 src/main/resources/templates/
+
+# Visual Studio Code
+.vs/
