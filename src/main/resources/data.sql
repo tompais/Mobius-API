@@ -49,7 +49,8 @@ VALUES ('ORIENTATION', 'Juego de orientación', 'Responda las siguientes pregunt
        ('CALCULATION', 'Juego de cálculo', null, true),
        ('ATTENTION', 'Juego de atención', null, true),
        ('MEMORY', 'Juego de memoria', null, true),
-       ('VISUALIZATION', 'Juego de visualización', null, true);
+       ('VISUALIZATION', 'Juego de visualización', null, true),
+       ('REPETITION', 'Juego de repetición', null, true);
 
 INSERT INTO public.tasks (game_id, description)
 VALUES (1, '¿En qué año estamos?'),
@@ -67,7 +68,8 @@ VALUES (1, '¿En qué año estamos?'),
        (3, 'Ahora repita la resta 4 veces más'),
        (4, 'Deletree la palabra MUNDO al revés'),
        (5, '¿Puede recordar las 3 palabras del segundo ejercicio?'),
-       (6, '¿Qué es esto?');
+       (6, '¿Qué es esto?'),
+       (7, 'Escuche bien la frase y repítala');
 
 INSERT INTO public.inputs (type)
 VALUES ('TEXT'),
@@ -99,11 +101,13 @@ VALUES (1, 2),
        (14, 1),
        (14, 1),
        (15, 3),
-       (16, 1);
+       (16, 1),
+       (17, 3);
 
 INSERT INTO public.resources (game_id, type, file_name)
 VALUES (2, 'AUDIO', 'Bicicleta-Cuchara-Manzana.mp3'),
-       (6, 'IMAGE', 'Tigre.png');
+       (6, 'IMAGE', 'Tigre.png'),
+       (7, 'AUDIO', 'Flan-Frutilla-Frambuesas.mp3');
 
 INSERT INTO public.answers (task_id)
 VALUES (11),
@@ -119,13 +123,15 @@ VALUES (11),
        (14),
        (14),
        (14),
-       (16);
+       (16),
+       (17);
 
 INSERT INTO public.text_answers (id, text)
 VALUES (1, 'Bicicleta'),
        (2, 'Cuchara'),
        (3, 'Manzana'),
-       (14, 'Tigre');
+       (14, 'Tigre'),
+       (15, 'El flan tiene frutillas y frambuesas');
 
 INSERT INTO public.numeric_answers (id, number)
 VALUES (4, 93),

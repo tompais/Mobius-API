@@ -7,6 +7,7 @@ import com.coder_rangers.mobius_api.models.Game.Category.CALCULATION
 import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
 import com.coder_rangers.mobius_api.models.Game.Category.MEMORY
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
+import com.coder_rangers.mobius_api.models.Game.Category.REPETITION
 import com.coder_rangers.mobius_api.models.Game.Category.VISUALIZATION
 import com.coder_rangers.mobius_api.requests.PatientTaskAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.AttentionTestGameAnswersRequest
@@ -224,6 +225,17 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     )
                 ),
                 BAD_REQUEST
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                TextTestGameAnswersRequest(
+                    category = REPETITION,
+                    gameId = 7,
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(taskId = 17, listOf("El flan tiene frutillas y frambuesas"))
+                    )
+                ),
+                NO_CONTENT
             )
         )
     }
