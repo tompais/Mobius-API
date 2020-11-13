@@ -51,6 +51,7 @@ class Game(
         ATTENTION,
         MEMORY,
         VISUALIZATION,
+        REPETITION,
         COMPREHENSION;
 
         @JsonValue

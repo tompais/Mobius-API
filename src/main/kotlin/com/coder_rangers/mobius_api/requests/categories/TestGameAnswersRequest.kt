@@ -23,6 +23,7 @@ import javax.validation.constraints.Positive
     Type(value = TextTestGameAnswersWithResultsRequest::class, name = "memory"),
     Type(value = AttentionTestGameAnswersRequest::class, name = "attention"),
     Type(value = TextTestGameAnswersRequest::class, name = "visualization"),
+    Type(value = TextTestGameAnswersRequest::class, name = "repetition"),
     Type(value = TextTestGameAnswersRequest::class, name = "comprehension")
 )
 open class TestGameAnswersRequest<T>(

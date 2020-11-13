@@ -50,6 +50,7 @@ VALUES ('ORIENTATION', 'Juego de orientación', 'Responda las siguientes pregunt
        ('ATTENTION', 'Juego de atención', null, true),
        ('MEMORY', 'Juego de memoria', null, true),
        ('VISUALIZATION', 'Juego de visualización', null, true),
+       ('REPETITION', 'Juego de repetición', null, true),
        ('COMPREHENSION', 'Juego de comprensión', null, true);
 
 INSERT INTO public.tasks (game_id, description)
@@ -69,6 +70,7 @@ VALUES (1, '¿En qué año estamos?'),
        (4, 'Deletree la palabra MUNDO al revés'),
        (5, '¿Puede recordar las 3 palabras del segundo ejercicio?'),
        (6, '¿Qué es esto?'),
+       (7, 'Escuche bien la frase y repítala'),
        (8, 'Escuche el audio atentamente y toque los botones en el orden correspondiente');
 
 INSERT INTO public.inputs (type)
@@ -102,6 +104,7 @@ VALUES (1, 2),
        (14, 1),
        (15, 3),
        (16, 1),
+       (17, 3),
        (18, 1),
        (18, 1),
        (18, 1);
@@ -109,6 +112,7 @@ VALUES (1, 2),
 INSERT INTO public.resources (game_id, type, file_name)
 VALUES (2, 'AUDIO', 'Bicicleta-Cuchara-Manzana.mp3'),
        (6, 'IMAGE', 'Tigre.png'),
+       (7, 'AUDIO', 'Flan-Frutilla-Frambuesas.mp3'),
        (8, 'AUDIO', 'Triangulo-Cuadrado-Circulo.mp3');
 
 INSERT INTO public.answers (task_id)
@@ -126,6 +130,7 @@ VALUES (11),
        (14),
        (14),
        (16),
+       (17),
        (18),
        (18),
        (18);
@@ -135,6 +140,7 @@ VALUES (1, 'Bicicleta'),
        (2, 'Cuchara'),
        (3, 'Manzana'),
        (14, 'Tigre'),
+       (15, 'El flan tiene frutillas y frambuesas'),
        (16, 'Triangulo'),
        (17, 'Cuadrado'),
        (18, 'Circulo');
