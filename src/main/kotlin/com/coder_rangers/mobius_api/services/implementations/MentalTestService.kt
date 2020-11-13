@@ -41,7 +41,10 @@ class MentalTestService @Autowired constructor(
     private val calculationGameAnswersResolver: IGameAnswersResolver<Int>,
 
     @Qualifier("attentionGameAnswersResolver")
-    private val attentionGameAnswersResolver: IGameAnswersResolver<Char>
+    private val attentionGameAnswersResolver: IGameAnswersResolver<Char>,
+
+    @Qualifier("comprehensionGameAnswersResolver")
+    private val comprehensionGameAnswersResolver: IGameAnswersResolver<String>
 ) : IMentalTestService {
     private companion object {
         private val RANDOM_GAME_CATEGORIES = setOf(
@@ -80,6 +83,11 @@ class MentalTestService @Autowired constructor(
                 patient,
                 game,
                 (testGameAnswersRequest as AttentionTestGameAnswersRequest).patientTaskAnswersRequestList
+            )
+            COMPREHENSION -> comprehensionGameAnswersResolver.resolveAnswers(
+                patient,
+                game,
+                (testGameAnswersRequest as TextTestGameAnswersRequest).patientTaskAnswersRequestList
             )
             else -> textGameAnswersResolver.resolveAnswers(
                 patient,
