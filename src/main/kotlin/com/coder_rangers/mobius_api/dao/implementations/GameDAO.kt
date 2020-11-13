@@ -18,7 +18,4 @@ class GameDAO @Autowired constructor(
         gameRepository.getMinTestIdByCategory(category)
 
     override fun getGameById(id: Long): Game? = gameRepository.findByIdOrNull(id)
-
-    override fun getGameByCategory(category: Game.Category): Game =
-        gameRepository.getFirstByCategory(category)
 }

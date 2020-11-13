@@ -43,7 +43,7 @@ VALUES (6, 1);
 INSERT INTO public.patient_guardian (patient_id, guardian_id)
 VALUES (7, 1);
 
-INSERT INTO public.games (category, name, description, is_test)
+INSERT INTO public.games (category, name, description, is_test_game)
 VALUES ('ORIENTATION', 'Juego de orientación', 'Responda las siguientes preguntas', true),
        ('FIXATION', 'Juego de fijación', null, true),
        ('CALCULATION', 'Juego de cálculo', null, true),

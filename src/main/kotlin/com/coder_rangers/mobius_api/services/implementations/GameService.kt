@@ -23,7 +23,5 @@ class GameService @Autowired constructor(
         return getGameById(randomId)
     }
 
-    override fun getSpecificGameByCategory(category: Category): Game = gameDAO.getGameByCategory(category)
-
     override fun getGameById(id: Long): Game = gameDAO.getGameById(id) ?: throw GameNotFoundException(id)
 }
