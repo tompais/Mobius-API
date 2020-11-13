@@ -12,10 +12,11 @@ import com.coder_rangers.mobius_api.models.Game.Category.COMPREHENSION
 import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
 import com.coder_rangers.mobius_api.models.Game.Category.MEMORY
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
+import com.coder_rangers.mobius_api.models.Game.Category.READING
 import com.coder_rangers.mobius_api.models.Game.Category.VISUALIZATION
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.requests.categories.AttentionTestGameAnswersRequest
-import com.coder_rangers.mobius_api.requests.categories.CalculationTestGameAnswersRequest
+import com.coder_rangers.mobius_api.requests.categories.NumericTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersWithResultsRequest
@@ -37,8 +38,8 @@ class MentalTestService @Autowired constructor(
     @Qualifier("textGameAnswersResolver")
     private val textGameAnswersResolver: IGameAnswersResolver<String>,
 
-    @Qualifier("calculationGameAnswersResolver")
-    private val calculationGameAnswersResolver: IGameAnswersResolver<Int>,
+    @Qualifier("numericGameAnswersResolver")
+    private val numericGameAnswersResolver: IGameAnswersResolver<Int>,
 
     @Qualifier("attentionGameAnswersResolver")
     private val attentionGameAnswersResolver: IGameAnswersResolver<Char>,
@@ -74,10 +75,10 @@ class MentalTestService @Autowired constructor(
                 game,
                 (testGameAnswersRequest as TextTestGameAnswersWithResultsRequest).patientTaskAnswersRequestList
             )
-            CALCULATION -> calculationGameAnswersResolver.resolveAnswers(
+            CALCULATION, READING -> numericGameAnswersResolver.resolveAnswers(
                 patient,
                 game,
-                (testGameAnswersRequest as CalculationTestGameAnswersRequest).patientTaskAnswersRequestList
+                (testGameAnswersRequest as NumericTestGameAnswersRequest).patientTaskAnswersRequestList
             )
             ATTENTION -> attentionGameAnswersResolver.resolveAnswers(
                 patient,
