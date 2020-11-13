@@ -1,7 +1,7 @@
 package com.coder_rangers.mobius_api.unit.services
 
 import com.coder_rangers.mobius_api.dao.interfaces.IPatientDAO
-import com.coder_rangers.mobius_api.models.Game.Category.READING
+import com.coder_rangers.mobius_api.models.Game.Category.WRITING
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
 import com.coder_rangers.mobius_api.services.implementations.PatientService
@@ -32,7 +32,7 @@ class PatientServiceTest {
         // GIVEN
         val patient = mockk<Patient>(relaxed = true)
         val testGameAnswersRequest = mockk<TestGameAnswersRequest<*>>(relaxed = true) {
-            every { category } returns READING // TODO: update last category
+            every { category } returns WRITING // TODO: update last category
         }
         every { patientDAO.findActivePatientById(any()) } returns patient
 
