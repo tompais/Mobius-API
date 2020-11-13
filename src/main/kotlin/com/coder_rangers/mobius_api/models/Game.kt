@@ -51,7 +51,8 @@ class Game(
         ATTENTION,
         MEMORY,
         VISUALIZATION,
-        REPETITION;
+        REPETITION,
+        COMPREHENSION;
 
         @JsonValue
         override fun toString() = name.toLowerCase()

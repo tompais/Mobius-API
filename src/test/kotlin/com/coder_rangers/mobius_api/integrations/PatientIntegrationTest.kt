@@ -4,6 +4,7 @@ import com.coder_rangers.mobius_api.models.AnswerWithResult
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category.ATTENTION
 import com.coder_rangers.mobius_api.models.Game.Category.CALCULATION
+import com.coder_rangers.mobius_api.models.Game.Category.COMPREHENSION
 import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
 import com.coder_rangers.mobius_api.models.Game.Category.MEMORY
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
@@ -233,6 +234,17 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     gameId = 7,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 17, listOf("El flan tiene frutillas y frambuesas"))
+                    )
+                ),
+                NO_CONTENT
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                TextTestGameAnswersRequest(
+                    category = COMPREHENSION,
+                    gameId = 8,
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(taskId = 18, listOf("triangulo", "cuadrado", "circulo"))
                     )
                 ),
                 NO_CONTENT
