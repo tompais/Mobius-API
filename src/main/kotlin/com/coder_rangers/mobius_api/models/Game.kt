@@ -39,7 +39,7 @@ class Game(
     @field:NotEmpty
     val tasks: List<Task>,
 
-    val isTest: Boolean = false,
+    val isTestGame: Boolean = false,
 
     @OneToMany(mappedBy = "game", cascade = [ALL])
     val resources: List<Resource>? = null
