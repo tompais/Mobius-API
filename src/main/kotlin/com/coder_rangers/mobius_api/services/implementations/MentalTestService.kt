@@ -13,7 +13,9 @@ import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
 import com.coder_rangers.mobius_api.models.Game.Category.MEMORY
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
 import com.coder_rangers.mobius_api.models.Game.Category.READING
+import com.coder_rangers.mobius_api.models.Game.Category.REPETITION
 import com.coder_rangers.mobius_api.models.Game.Category.VISUALIZATION
+import com.coder_rangers.mobius_api.models.Game.Category.WRITING
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.requests.categories.AttentionTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.NumericTestGameAnswersRequest
@@ -54,7 +56,10 @@ class MentalTestService @Autowired constructor(
             CALCULATION,
             ATTENTION,
             VISUALIZATION,
-            COMPREHENSION
+            COMPREHENSION,
+            WRITING,
+            REPETITION,
+            READING
         )
     }
 
