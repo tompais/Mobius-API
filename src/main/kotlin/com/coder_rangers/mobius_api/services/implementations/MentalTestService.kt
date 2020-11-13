@@ -9,13 +9,9 @@ import com.coder_rangers.mobius_api.models.Game.Category
 import com.coder_rangers.mobius_api.models.Game.Category.ATTENTION
 import com.coder_rangers.mobius_api.models.Game.Category.CALCULATION
 import com.coder_rangers.mobius_api.models.Game.Category.COMPREHENSION
-import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
 import com.coder_rangers.mobius_api.models.Game.Category.MEMORY
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
 import com.coder_rangers.mobius_api.models.Game.Category.READING
-import com.coder_rangers.mobius_api.models.Game.Category.REPETITION
-import com.coder_rangers.mobius_api.models.Game.Category.VISUALIZATION
-import com.coder_rangers.mobius_api.models.Game.Category.WRITING
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.requests.categories.AttentionTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.NumericTestGameAnswersRequest
@@ -49,20 +45,6 @@ class MentalTestService @Autowired constructor(
     @Qualifier("comprehensionGameAnswersResolver")
     private val comprehensionGameAnswersResolver: IGameAnswersResolver<String>
 ) : IMentalTestService {
-    private companion object {
-        private val RANDOM_GAME_CATEGORIES = setOf(
-            FIXATION,
-            ATTENTION,
-            CALCULATION,
-            ATTENTION,
-            VISUALIZATION,
-            COMPREHENSION,
-            WRITING,
-            REPETITION,
-            READING
-        )
-    }
-
     override fun getMentalTestGame(patient: Patient, nextCategoryType: Category): Game {
         if (patient.testStatus == FINISHED) {
             throw FinishedTestException(patient.id)
@@ -103,14 +85,6 @@ class MentalTestService @Autowired constructor(
         }
     }
 
-    private fun getSpecificOrRandomGame(nextGameCategory: Category): Game {
-        return if (isRandomGameCategory(nextGameCategory)) {
-            gameService.getRandomGameByCategory(nextGameCategory)
-        } else {
-            gameService.getSpecificGameByCategory(nextGameCategory)
-        }
-    }
-
-    private fun isRandomGameCategory(nextGameCategory: Category) =
-        nextGameCategory in RANDOM_GAME_CATEGORIES
+    private fun getSpecificOrRandomGame(nextGameCategory: Category): Game =
+        gameService.getRandomGameByCategory(nextGameCategory)
 }

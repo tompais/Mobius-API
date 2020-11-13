@@ -12,13 +12,10 @@ class GameDAO @Autowired constructor(
     private val gameRepository: IGameRepository
 ) : IGameDAO {
     override fun getMaxIdByCategory(category: Game.Category): Long =
-        gameRepository.getMaxIdByCategory(category)
+        gameRepository.getMaxTestIdByCategory(category)
 
     override fun getMinIdByCategory(category: Game.Category): Long =
-        gameRepository.getMinIdByCategory(category)
+        gameRepository.getMinTestIdByCategory(category)
 
-    override fun findGameById(id: Long): Game? = gameRepository.findByIdOrNull(id)
-
-    override fun findGameByCategory(category: Game.Category): Game =
-        gameRepository.getGameByCategory(category)
+    override fun getGameById(id: Long): Game? = gameRepository.findByIdOrNull(id)
 }
