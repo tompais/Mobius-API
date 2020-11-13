@@ -76,9 +76,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                         PatientTaskAnswersRequest(taskId = 5, listOf(AnswerWithResult(false, "lala"))),
                         PatientTaskAnswersRequest(taskId = 6, listOf(AnswerWithResult(false, "lala"))),
                         PatientTaskAnswersRequest(taskId = 7, listOf(AnswerWithResult(false, "lala"))),
-                        PatientTaskAnswersRequest(taskId = 8, listOf(AnswerWithResult(false, "lala"))),
-                        PatientTaskAnswersRequest(taskId = 9, listOf(AnswerWithResult(false, "lala"))),
-                        PatientTaskAnswersRequest(taskId = 10, listOf(AnswerWithResult(false, "lala")))
+                        PatientTaskAnswersRequest(taskId = 8, listOf(AnswerWithResult(false, "lala")))
                     )
                 ),
                 NO_CONTENT
@@ -103,7 +101,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     category = FIXATION,
                     gameId = 2,
                     patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(taskId = 11, listOf("Bicicleta", "Cuchara", "Manzana")),
+                        PatientTaskAnswersRequest(taskId = 9, listOf("Bicicleta", "Cuchara", "Manzana")),
                     )
                 ),
                 NO_CONTENT
@@ -114,7 +112,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     category = FIXATION,
                     gameId = 2,
                     patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(taskId = 11, listOf("Bicicleta", "Cuchara", "Manzana")),
+                        PatientTaskAnswersRequest(taskId = 9, listOf("Bicicleta", "Cuchara", "Manzana")),
                         PatientTaskAnswersRequest(taskId = 1, listOf("Bicicleta", "Cuchara", "Manzana")),
                     )
                 ),
@@ -137,7 +135,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     category = FIXATION,
                     gameId = 2,
                     patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(taskId = 11, listOf("Bicicleta", "Cuchara", "Coca")),
+                        PatientTaskAnswersRequest(taskId = 9, listOf("Bicicleta", "Cuchara", "Coca")),
                     )
                 ),
                 NO_CONTENT
@@ -148,8 +146,8 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     category = CALCULATION,
                     gameId = 3,
                     patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(taskId = 12, listOf(93)),
-                        PatientTaskAnswersRequest(taskId = 13, listOf(86, 79, 72, 65))
+                        PatientTaskAnswersRequest(taskId = 10, listOf(93)),
+                        PatientTaskAnswersRequest(taskId = 11, listOf(86, 79, 72, 65))
                     )
                 ),
                 NO_CONTENT
@@ -160,7 +158,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     category = CALCULATION,
                     gameId = 3,
                     patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(taskId = 12, listOf(93)),
+                        PatientTaskAnswersRequest(taskId = 10, listOf(93)),
                         PatientTaskAnswersRequest(taskId = 1, listOf(86, 74))
                     )
                 ),
@@ -172,7 +170,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     category = ATTENTION,
                     gameId = 4,
                     patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(taskId = 14, listOf('o', 'd', 'n', 'u', 'm'))
+                        PatientTaskAnswersRequest(taskId = 12, listOf('o', 'd', 'n', 'u', 'm'))
                     )
                 ),
                 NO_CONTENT
@@ -195,7 +193,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     gameId = 5,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(
-                            taskId = 15,
+                            taskId = 13,
                             listOf(
                                 AnswerWithResult(true, "lala"),
                                 AnswerWithResult(false, "lala"),
@@ -212,7 +210,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     category = VISUALIZATION,
                     gameId = 6,
                     patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(taskId = 16, listOf("Tigre"))
+                        PatientTaskAnswersRequest(taskId = 14, listOf("Tigre"))
                     )
                 ),
                 NO_CONTENT
@@ -223,7 +221,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     category = VISUALIZATION,
                     gameId = 6,
                     patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(taskId = 11, listOf("Manzana")),
+                        PatientTaskAnswersRequest(taskId = 9, listOf("Manzana")),
                         PatientTaskAnswersRequest(taskId = 1, listOf("Bicicleta"))
                     )
                 ),
@@ -235,7 +233,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     category = REPETITION,
                     gameId = 7,
                     patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(taskId = 17, listOf("El flan tiene frutillas y frambuesas"))
+                        PatientTaskAnswersRequest(taskId = 15, listOf("El flan tiene frutillas y frambuesas"))
                     )
                 ),
                 NO_CONTENT
@@ -246,7 +244,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     category = COMPREHENSION,
                     gameId = 8,
                     patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(taskId = 18, listOf("triangulo", "cuadrado", "circulo"))
+                        PatientTaskAnswersRequest(taskId = 16, listOf("triangulo", "cuadrado", "circulo"))
                     )
                 ),
                 NO_CONTENT
@@ -257,7 +255,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     category = READING,
                     gameId = 9,
                     patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(taskId = 19, listOf(4))
+                        PatientTaskAnswersRequest(taskId = 17, listOf(4))
                     )
                 ),
                 NO_CONTENT
@@ -268,7 +266,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     category = WRITING,
                     gameId = 10,
                     patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(taskId = 20, listOf("Si llueve mucho, entra agua por el tejado"))
+                        PatientTaskAnswersRequest(taskId = 18, listOf("Si llueve mucho, entra agua por el tejado"))
                     )
                 ),
                 NO_CONTENT
