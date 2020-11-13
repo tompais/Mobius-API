@@ -8,11 +8,13 @@ import com.coder_rangers.mobius_api.models.Game.Category.COMPREHENSION
 import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
 import com.coder_rangers.mobius_api.models.Game.Category.MEMORY
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
+import com.coder_rangers.mobius_api.models.Game.Category.READING
 import com.coder_rangers.mobius_api.models.Game.Category.REPETITION
 import com.coder_rangers.mobius_api.models.Game.Category.VISUALIZATION
+import com.coder_rangers.mobius_api.models.Game.Category.WRITING
 import com.coder_rangers.mobius_api.requests.PatientTaskAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.AttentionTestGameAnswersRequest
-import com.coder_rangers.mobius_api.requests.categories.CalculationTestGameAnswersRequest
+import com.coder_rangers.mobius_api.requests.categories.NumericTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersWithResultsRequest
@@ -142,7 +144,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
             ),
             Arguments.of(
                 PATIENT_ID,
-                CalculationTestGameAnswersRequest(
+                NumericTestGameAnswersRequest(
                     category = CALCULATION,
                     gameId = 3,
                     patientTaskAnswersRequestList = listOf(
@@ -154,7 +156,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
             ),
             Arguments.of(
                 PATIENT_ID,
-                CalculationTestGameAnswersRequest(
+                NumericTestGameAnswersRequest(
                     category = CALCULATION,
                     gameId = 3,
                     patientTaskAnswersRequestList = listOf(
@@ -245,6 +247,28 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     gameId = 8,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 18, listOf("triangulo", "cuadrado", "circulo"))
+                    )
+                ),
+                NO_CONTENT
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                NumericTestGameAnswersRequest(
+                    category = READING,
+                    gameId = 9,
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(taskId = 19, listOf(4))
+                    )
+                ),
+                NO_CONTENT
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                TextTestGameAnswersRequest(
+                    category = WRITING,
+                    gameId = 10,
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(taskId = 20, listOf("Si llueve mucho, entra agua por el tejado"))
                     )
                 ),
                 NO_CONTENT

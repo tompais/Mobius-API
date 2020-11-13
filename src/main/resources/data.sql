@@ -51,7 +51,9 @@ VALUES ('ORIENTATION', 'Juego de orientación', 'Responda las siguientes pregunt
        ('MEMORY', 'Juego de memoria', null, true),
        ('VISUALIZATION', 'Juego de visualización', null, true),
        ('REPETITION', 'Juego de repetición', null, true),
-       ('COMPREHENSION', 'Juego de comprensión', null, true);
+       ('COMPREHENSION', 'Juego de comprensión', null, true),
+       ('READING', 'Juego de lectura', 'Responda que persona coincide con la siguiente descripción:', true),
+       ('WRITING', 'Juego de escritura', null, true);
 
 INSERT INTO public.tasks (game_id, description)
 VALUES (1, '¿En qué año estamos?'),
@@ -71,7 +73,9 @@ VALUES (1, '¿En qué año estamos?'),
        (5, '¿Puede recordar las 3 palabras del segundo ejercicio?'),
        (6, '¿Qué es esto?'),
        (7, 'Escuche bien la frase y repítala'),
-       (8, 'Escuche el audio atentamente y toque los botones en el orden correspondiente');
+       (8, 'Escuche el audio atentamente y toque los botones en el orden correspondiente'),
+       (9, 'La persona que buscamos tiene barba de color castaño oscuro, viste unos pantalones de tono rojizo, la parte superior de su traje es de color negro y tanto su corbata como sus zapatos son de color azul.'),
+       (10, 'Ordene la siguiente oración:');
 
 INSERT INTO public.inputs (type)
 VALUES ('TEXT'),
@@ -107,13 +111,16 @@ VALUES (1, 2),
        (17, 3),
        (18, 1),
        (18, 1),
-       (18, 1);
+       (18, 1),
+       (19, 2);
 
 INSERT INTO public.resources (game_id, type, file_name)
 VALUES (2, 'AUDIO', 'Bicicleta-Cuchara-Manzana.mp3'),
        (6, 'IMAGE', 'Tigre.png'),
        (7, 'AUDIO', 'Flan-Frutilla-Frambuesas.mp3'),
-       (8, 'AUDIO', 'Triangulo-Cuadrado-Circulo.mp3');
+       (8, 'AUDIO', 'Triangulo-Cuadrado-Circulo.mp3'),
+       (9, 'IMAGE', 'lectura-1.png'),
+       (10, 'TEXT', 'LluviaTejado.txt');
 
 INSERT INTO public.answers (task_id)
 VALUES (11),
@@ -133,7 +140,9 @@ VALUES (11),
        (17),
        (18),
        (18),
-       (18);
+       (18),
+       (19),
+       (20);
 
 INSERT INTO public.text_answers (id, text)
 VALUES (1, 'Bicicleta'),
@@ -143,14 +152,16 @@ VALUES (1, 'Bicicleta'),
        (15, 'El flan tiene frutillas y frambuesas'),
        (16, 'Triangulo'),
        (17, 'Cuadrado'),
-       (18, 'Circulo');
+       (18, 'Circulo'),
+       (20, 'Si llueve mucho, entra agua por el tejado');
 
 INSERT INTO public.numeric_answers (id, number)
 VALUES (4, 93),
        (5, 86),
        (6, 79),
        (7, 72),
-       (8, 65);
+       (8, 65),
+       (19, 4);
 
 INSERT INTO public.char_answers (id, letter)
 VALUES (9, 'O'),

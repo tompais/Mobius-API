@@ -19,12 +19,14 @@ import javax.validation.constraints.Positive
 @JsonSubTypes(
     Type(value = TextTestGameAnswersWithResultsRequest::class, name = "orientation"),
     Type(value = TextTestGameAnswersRequest::class, name = "fixation"),
-    Type(value = CalculationTestGameAnswersRequest::class, name = "calculation"),
+    Type(value = NumericTestGameAnswersRequest::class, name = "calculation"),
     Type(value = TextTestGameAnswersWithResultsRequest::class, name = "memory"),
     Type(value = AttentionTestGameAnswersRequest::class, name = "attention"),
     Type(value = TextTestGameAnswersRequest::class, name = "visualization"),
     Type(value = TextTestGameAnswersRequest::class, name = "repetition"),
-    Type(value = TextTestGameAnswersRequest::class, name = "comprehension")
+    Type(value = TextTestGameAnswersRequest::class, name = "comprehension"),
+    Type(value = NumericTestGameAnswersRequest::class, name = "reading"),
+    Type(value = TextTestGameAnswersRequest::class, name = "writing")
 )
 open class TestGameAnswersRequest<T>(
     val category: Game.Category,
