@@ -9,6 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: hmarr/auto-approve-action@v2.0.0
-        if: ${{ github.base_ref == "master" && (startsWith(github.head_ref, "release/") || startsWith(github.head_ref, "backport/")) }}
+        if: ${{ github.base_ref == "master" && startsWith(github.head_ref, "release/") || github.base_ref == "develop" && startsWith(github.head_ref, "backport/") }}
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
