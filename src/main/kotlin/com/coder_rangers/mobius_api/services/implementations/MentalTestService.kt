@@ -8,6 +8,7 @@ import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category
 import com.coder_rangers.mobius_api.models.Game.Category.ATTENTION
 import com.coder_rangers.mobius_api.models.Game.Category.CALCULATION
+import com.coder_rangers.mobius_api.models.Game.Category.COMPREHENSION
 import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
 import com.coder_rangers.mobius_api.models.Game.Category.MEMORY
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
@@ -48,7 +49,8 @@ class MentalTestService @Autowired constructor(
             ATTENTION,
             CALCULATION,
             ATTENTION,
-            VISUALIZATION
+            VISUALIZATION,
+            COMPREHENSION
         )
     }
 
