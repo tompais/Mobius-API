@@ -40,6 +40,7 @@ class Resource(
 ) {
     enum class Type {
         IMAGE,
+        TEXT,
         AUDIO;
 
         @JsonValue

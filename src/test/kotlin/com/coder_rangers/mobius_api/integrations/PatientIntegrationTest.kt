@@ -11,6 +11,7 @@ import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
 import com.coder_rangers.mobius_api.models.Game.Category.READING
 import com.coder_rangers.mobius_api.models.Game.Category.REPETITION
 import com.coder_rangers.mobius_api.models.Game.Category.VISUALIZATION
+import com.coder_rangers.mobius_api.models.Game.Category.WRITING
 import com.coder_rangers.mobius_api.requests.PatientTaskAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.AttentionTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.NumericTestGameAnswersRequest
@@ -257,6 +258,17 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     gameId = 9,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 19, listOf(4))
+                    )
+                ),
+                NO_CONTENT
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                TextTestGameAnswersRequest(
+                    category = WRITING,
+                    gameId = 10,
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(taskId = 20, listOf("Si llueve mucho, entra agua por el tejado"))
                     )
                 ),
                 NO_CONTENT
