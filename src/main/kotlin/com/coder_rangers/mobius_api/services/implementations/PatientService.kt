@@ -5,7 +5,7 @@ import com.coder_rangers.mobius_api.enums.TestStatus.FINISHED
 import com.coder_rangers.mobius_api.error.exceptions.PatientNotFoundException
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category
-import com.coder_rangers.mobius_api.models.Game.Category.VISUALIZATION
+import com.coder_rangers.mobius_api.models.Game.Category.READING
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
 import com.coder_rangers.mobius_api.services.interfaces.IMentalTestService
@@ -38,7 +38,7 @@ class PatientService @Autowired constructor(
         patientDAO.findActivePatientById(id) ?: throw PatientNotFoundException(id)
 
     // TODO: update last category
-    private fun isLastTestCategory(category: Category) = category == VISUALIZATION
+    private fun isLastTestCategory(category: Category) = category == READING
 
     private fun updateTestStatus(patient: Patient, category: Category) {
         if (isLastTestCategory(category)) {

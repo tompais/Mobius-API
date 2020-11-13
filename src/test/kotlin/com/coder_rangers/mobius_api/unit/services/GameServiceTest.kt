@@ -27,7 +27,7 @@ class GameServiceTest {
         // GIVEN
         every { gameDAO.getMaxIdByCategory(any()) } returns 2L
         every { gameDAO.getMinIdByCategory(any()) } returns 1L
-        every { gameDAO.findGameById(any()) } returns null
+        every { gameDAO.getGameById(any()) } returns null
 
         // THEN
         assertThat {
