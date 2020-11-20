@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Github actor
-        run: echo github.actor
+        run: echo '$github.actor'
       - uses: hmarr/auto-approve-action@v2.0.0
         if: github.actor == 'release-slayer' || github.actor == 'imgbot'
         with:
