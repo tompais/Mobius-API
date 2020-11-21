@@ -12,5 +12,5 @@ import org.springframework.transaction.annotation.Transactional
 interface ITaskResultRepository : JpaRepository<Task.Result, Long> {
     @Query("SELECT SUM(tr.score) FROM Result tr WHERE tr.patient.id = ?1 AND tr.task.game.isTestGame = true")
     @RestResource(exported = false)
-    fun getResultByPatientId(patientId: Long): Int
+    fun getTestTotalScore(patientId: Long): Int
 }

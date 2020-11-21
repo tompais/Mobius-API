@@ -3,8 +3,10 @@ package com.coder_rangers.mobius_api.controllers
 import com.coder_rangers.mobius_api.error.exceptions.FinishedTestException
 import com.coder_rangers.mobius_api.error.exceptions.GameNotFoundException
 import com.coder_rangers.mobius_api.error.exceptions.PatientNotFoundException
+import com.coder_rangers.mobius_api.error.exceptions.TestNotFinishedException
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
+import com.coder_rangers.mobius_api.responses.PatientTestResult
 import com.coder_rangers.mobius_api.services.interfaces.IPatientService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
@@ -119,17 +121,57 @@ class PatientController @Autowired constructor(
         testGameAnswersRequest: TestGameAnswersRequest<*>
     ) = patientService.processTestGameAnswers(id, testGameAnswersRequest)
 
-    @Operation(summary = "Endpoint to get the test result")
     @GetMapping("/{id}/mental-test/result")
+    @ResponseStatus(OK)
+    @Operation(summary = "Endpoint to get the test result")
     @ApiResponses(
         value = [
-            ApiResponse(responseCode = "200", description = "Test result retrieved successfully.")
+            ApiResponse(
+                responseCode = "200", description = "Test result retrieved successfully.",
+                content = [
+                    Content(
+                        mediaType = APPLICATION_JSON_VALUE,
+                        array = ArraySchema(
+                            schema = Schema(
+                                implementation = PatientTestResult::class
+                            )
+                        )
+                    )
+                ]
+            ),
+            ApiResponse(
+                responseCode = "404",
+                description = "The patient was not found.",
+                content = [
+                    Content(
+                        mediaType = APPLICATION_JSON_VALUE,
+                        array = ArraySchema(
+                            schema = Schema(
+                                implementation = PatientNotFoundException::class
+                            )
+                        )
+                    )
+                ]
+            ),
+            ApiResponse(
+                responseCode = "400",
+                description = "The test was not finished.",
+                content = [
+                    Content(
+                        mediaType = APPLICATION_JSON_VALUE,
+                        array = ArraySchema(
+                            schema = Schema(
+                                implementation = TestNotFinishedException::class
+                            )
+                        )
+                    )
+                ]
+            )
         ]
     )
-    @ResponseStatus(OK)
     fun getTestResult(
         @PathVariable("id")
         @Positive
         id: Long
-    ) = patientService.getTestResult(id)
+    ): PatientTestResult = patientService.getTestResult(id)
 }

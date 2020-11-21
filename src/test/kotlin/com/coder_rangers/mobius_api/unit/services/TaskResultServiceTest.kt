@@ -3,12 +3,12 @@ package com.coder_rangers.mobius_api.unit.services
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import com.coder_rangers.mobius_api.dao.interfaces.ITaskResultDAO
-import com.coder_rangers.mobius_api.responses.PatientTestResult.DementiaLevel
-import com.coder_rangers.mobius_api.responses.PatientTestResult.DementiaLevel.MILD_TO_MODERATE_DEMENTIA
-import com.coder_rangers.mobius_api.responses.PatientTestResult.DementiaLevel.MODERATE_TO_SEVERE_DEMENTIA
-import com.coder_rangers.mobius_api.responses.PatientTestResult.DementiaLevel.NO_DEMENTIA
-import com.coder_rangers.mobius_api.responses.PatientTestResult.DementiaLevel.POSSIBLE_DEMENTIA
-import com.coder_rangers.mobius_api.responses.PatientTestResult.DementiaLevel.SEVERE_DEMENTIA
+import com.coder_rangers.mobius_api.enums.DementiaLevel
+import com.coder_rangers.mobius_api.enums.DementiaLevel.MILD_TO_MODERATE_DEMENTIA
+import com.coder_rangers.mobius_api.enums.DementiaLevel.MODERATE_TO_SEVERE_DEMENTIA
+import com.coder_rangers.mobius_api.enums.DementiaLevel.NO_DEMENTIA
+import com.coder_rangers.mobius_api.enums.DementiaLevel.POSSIBLE_DEMENTIA
+import com.coder_rangers.mobius_api.enums.DementiaLevel.SEVERE_DEMENTIA
 import com.coder_rangers.mobius_api.services.implementations.TaskResultService
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID
 import io.mockk.every
@@ -60,12 +60,12 @@ class TaskResultServiceTest {
     @MethodSource("getTestResultCases")
     fun getTestResultOfPatient(expectedTestResult: Int, expectedDementiaLevel: DementiaLevel) {
         // GIVEN
-        every { taskResultDAO.getPatientTestResult(any()) } returns expectedTestResult
+        every { taskResultDAO.getTestTotalScore(any()) } returns expectedTestResult
 
         // WHEN
-        val actualDementiaLevel = taskResultService.getPatientTestResult(PATIENT_ID).result
+        val actualDementiaLevel = taskResultService.getPatientTestResult(PATIENT_ID).dementiaLevel
         // THEN
-        verify { taskResultDAO.getPatientTestResult(any()) }
+        verify { taskResultDAO.getTestTotalScore(any()) }
 
         assertThat(
             actualDementiaLevel

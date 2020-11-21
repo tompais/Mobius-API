@@ -19,11 +19,11 @@ import com.coder_rangers.mobius_api.requests.categories.NumericTestGameAnswersRe
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersWithResultsRequest
+import com.coder_rangers.mobius_api.utils.TestConstants.NON_EXISTENT_PATIENT_ID
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID_WITH_FINISHED_TEST
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_WITHOUT_TEST_PROGRESS
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_WITH_TEST_PROGRESS
-import com.coder_rangers.mobius_api.utils.TestConstants.WRONG_PATIENT_ID
 import com.ninjasquad.springmockk.SpykBean
 import io.mockk.clearMocks
 import io.mockk.every
@@ -54,7 +54,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
             ),
             Arguments.of(
                 ORIENTATION,
-                WRONG_PATIENT_ID,
+                NON_EXISTENT_PATIENT_ID,
                 NOT_FOUND
             ),
             Arguments.of(
@@ -285,7 +285,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
         @Suppress("UNUSED")
         fun getTestResultCases() = listOf(
             Arguments.of(
-                WRONG_PATIENT_ID,
+                NON_EXISTENT_PATIENT_ID,
                 NOT_FOUND
             ),
             Arguments.of(
@@ -340,7 +340,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
     @MethodSource("getTestResultCases")
     fun getTestResultTest(patientId: Long, expectedHttpStatus: HttpStatus) {
         if (expectedHttpStatus == OK) {
-            every { taskResultRepository.getResultByPatientId(patientId) } returns 27
+            every { taskResultRepository.getTestTotalScore(patientId) } returns 27
         }
         given()
             .`when`()

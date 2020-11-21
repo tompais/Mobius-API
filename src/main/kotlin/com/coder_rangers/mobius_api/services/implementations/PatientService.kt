@@ -2,8 +2,8 @@ package com.coder_rangers.mobius_api.services.implementations
 
 import com.coder_rangers.mobius_api.dao.interfaces.IPatientDAO
 import com.coder_rangers.mobius_api.enums.TestStatus.FINISHED
-import com.coder_rangers.mobius_api.error.exceptions.NoFinishedTestException
 import com.coder_rangers.mobius_api.error.exceptions.PatientNotFoundException
+import com.coder_rangers.mobius_api.error.exceptions.TestNotFinishedException
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category
 import com.coder_rangers.mobius_api.models.Game.Category.WRITING
@@ -40,9 +40,9 @@ class PatientService @Autowired constructor(
         val patient = getActivePatientById(id)
 
         if (patient.testStatus != FINISHED)
-            throw NoFinishedTestException(patient.id)
+            throw TestNotFinishedException(id)
 
-        return mentalTestService.getPatientTestResult(patient.id)
+        return mentalTestService.getPatientTestResult(id)
     }
 
     private fun getActivePatientById(id: Long): Patient =
