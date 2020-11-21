@@ -118,4 +118,18 @@ class PatientController @Autowired constructor(
         @Valid
         testGameAnswersRequest: TestGameAnswersRequest<*>
     ) = patientService.processTestGameAnswers(id, testGameAnswersRequest)
+
+    @Operation(summary = "Endpoint to get the test result")
+    @GetMapping("/{id}/mental-test/result")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "Test result retrieved successfully.")
+        ]
+    )
+    @ResponseStatus(OK)
+    fun getTestResult(
+        @PathVariable("id")
+        @Positive
+        id: Long
+    ) = patientService.getTestResult(id)
 }

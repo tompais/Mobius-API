@@ -22,6 +22,7 @@ import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID_WITH_FINISHED_TEST
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_WITHOUT_TEST_PROGRESS
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_WITH_TEST_PROGRESS
+import com.coder_rangers.mobius_api.utils.TestConstants.WRONG_PATIENT_ID
 import io.restassured.http.ContentType.JSON
 import io.restassured.module.mockmvc.RestAssuredMockMvc.given
 import org.junit.jupiter.params.ParameterizedTest
@@ -45,7 +46,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
             ),
             Arguments.of(
                 ORIENTATION,
-                321L,
+                WRONG_PATIENT_ID,
                 NOT_FOUND
             ),
             Arguments.of(
@@ -272,6 +273,19 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                 NO_CONTENT
             )
         )
+
+        @JvmStatic
+        @Suppress("UNUSED")
+        fun getTestResultCases() = listOf(
+            Arguments.of(
+                WRONG_PATIENT_ID,
+                NOT_FOUND
+            ),
+            Arguments.of(
+                PATIENT_WITH_TEST_PROGRESS,
+                NOT_FOUND
+            )
+        )
     }
 
     @ParameterizedTest
@@ -301,6 +315,17 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
             )
             .`when`()
             .post("$baseUrl/$id/mental-test/game/answers")
+            .then()
+            .assertThat()
+            .status(expectedHttpStatus)
+    }
+
+    @ParameterizedTest
+    @MethodSource("getTestResultCases")
+    fun getTestResultTest(patientId: Long, expectedHttpStatus: HttpStatus) {
+        given()
+            .`when`()
+            .get("$baseUrl/$patientId/mental-test/result")
             .then()
             .assertThat()
             .status(expectedHttpStatus)
