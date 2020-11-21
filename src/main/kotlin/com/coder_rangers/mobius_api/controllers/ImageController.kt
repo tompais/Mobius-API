@@ -1,8 +1,12 @@
 package com.coder_rangers.mobius_api.controllers
 
+import com.coder_rangers.mobius_api.error.exceptions.IllegalImageExtensionException
 import com.coder_rangers.mobius_api.responses.UploadImageResponse
 import com.coder_rangers.mobius_api.services.interfaces.IImageService
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.ArraySchema
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.springframework.beans.factory.annotation.Autowired
@@ -30,7 +34,31 @@ class ImageController @Autowired constructor(
         value = [
             ApiResponse(
                 responseCode = "200",
-                description = "The image was uploaded successfully."
+                description = "The image was uploaded successfully.",
+                content = [
+                    Content(
+                        mediaType = APPLICATION_JSON_VALUE,
+                        array = ArraySchema(
+                            schema = Schema(
+                                implementation = UploadImageResponse::class
+                            )
+                        )
+                    )
+                ]
+            ),
+            ApiResponse(
+                responseCode = "400",
+                description = "The image extension was not a PNG.",
+                content = [
+                    Content(
+                        mediaType = APPLICATION_JSON_VALUE,
+                        array = ArraySchema(
+                            schema = Schema(
+                                implementation = IllegalImageExtensionException::class
+                            )
+                        )
+                    )
+                ]
             )
         ]
     )
