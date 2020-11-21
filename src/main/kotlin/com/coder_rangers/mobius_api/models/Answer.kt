@@ -30,4 +30,14 @@ open class Answer(
     override fun hashCode(): Int {
         return id.toInt()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Answer) return false
+
+        if (id != other.id) return false
+        if (task != other.task) return false
+
+        return true
+    }
 }
