@@ -6,7 +6,7 @@ import com.coder_rangers.mobius_api.services.interfaces.IAmazonS3Service
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import java.io.InputStream
+import java.io.ByteArrayInputStream
 
 @Service
 class AmazonS3Service @Autowired constructor(
@@ -15,7 +15,14 @@ class AmazonS3Service @Autowired constructor(
     @Value("\${s3.bucket_name}")
     private val bucketName: String
 ) : IAmazonS3Service {
-    override fun uploadFileToS3(filePath: String, inputStream: InputStream) {
-        amazonS3Client.putObject(bucketName, filePath, inputStream, ObjectMetadata())
+    override fun uploadFileToS3(filePath: String, byteArray: ByteArray) {
+        amazonS3Client.putObject(
+            bucketName,
+            filePath,
+            ByteArrayInputStream(byteArray),
+            ObjectMetadata().apply {
+                contentLength = byteArray.size.toLong()
+            }
+        )
     }
 }

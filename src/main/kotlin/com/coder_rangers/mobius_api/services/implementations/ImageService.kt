@@ -21,7 +21,7 @@ class ImageService @Autowired constructor(
         val fileName = buildFileName()
         val filePath = buildFilePath(fileName)
 
-        amazonS3Service.uploadFileToS3(filePath, imageFile.inputStream)
+        amazonS3Service.uploadFileToS3(filePath, imageFile.bytes)
 
         return UploadImageResponse(fileName)
     }
