@@ -30,7 +30,7 @@ import javax.validation.constraints.Positive
 
 @RestController
 @Validated
-@RequestMapping("/patients", consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
+@RequestMapping("/patients", produces = [APPLICATION_JSON_VALUE])
 class PatientController @Autowired constructor(
     private val patientService: IPatientService
 ) {
@@ -100,7 +100,7 @@ class PatientController @Autowired constructor(
         nextGameCategory: Game.Category
     ): Game = patientService.getMentalTestGame(id, nextGameCategory)
 
-    @PostMapping("/{id}/mental-test/game/answers")
+    @PostMapping("/{id}/mental-test/game/answers", consumes = [APPLICATION_JSON_VALUE])
     @ResponseStatus(NO_CONTENT)
     @Operation(summary = "Endpoint to process and save the answers of the game")
     @ApiResponses(
