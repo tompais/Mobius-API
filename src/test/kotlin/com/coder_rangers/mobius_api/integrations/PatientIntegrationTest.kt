@@ -282,7 +282,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
             ),
             Arguments.of(
                 PATIENT_WITH_TEST_PROGRESS,
-                NOT_FOUND
+                BAD_REQUEST
             )
         )
     }

@@ -2,6 +2,7 @@ package com.coder_rangers.mobius_api.services.implementations
 
 import com.coder_rangers.mobius_api.dao.interfaces.IPatientDAO
 import com.coder_rangers.mobius_api.enums.TestStatus.FINISHED
+import com.coder_rangers.mobius_api.error.exceptions.NoFinishedTestException
 import com.coder_rangers.mobius_api.error.exceptions.PatientNotFoundException
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category
@@ -36,9 +37,12 @@ class PatientService @Autowired constructor(
     }
 
     override fun getTestResult(id: Long): PatientTestResult {
-        val patientId = getActivePatientById(id).id
+        val patient = getActivePatientById(id)
 
-        return mentalTestService.getPatientTestResult(patientId)
+        if (patient.testStatus != FINISHED)
+            throw NoFinishedTestException(patient.id)
+
+        return mentalTestService.getPatientTestResult(patient.id)
     }
 
     private fun getActivePatientById(id: Long): Patient =

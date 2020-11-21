@@ -1,7 +1,6 @@
 package com.coder_rangers.mobius_api.services.implementations
 
 import com.coder_rangers.mobius_api.dao.interfaces.ITaskResultDAO
-import com.coder_rangers.mobius_api.error.exceptions.NoResultNotFoundException
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.models.PatientAnswer
 import com.coder_rangers.mobius_api.models.Task
@@ -25,7 +24,7 @@ class TaskResultService @Autowired constructor(
         taskResultDAO.createTaskResult(patient, task, score, patientAnswers)
 
     override fun getPatientTestResult(patientId: Long): PatientTestResult {
-        val testResult = taskResultDAO.getPatientTestResult(patientId) ?: throw NoResultNotFoundException(patientId)
+        val testResult = taskResultDAO.getPatientTestResult(patientId)
 
         return PatientTestResult(testResult)
     }
