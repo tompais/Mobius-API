@@ -36,6 +36,8 @@ import javax.validation.constraints.Positive
 class PatientController @Autowired constructor(
     private val patientService: IPatientService
 ) {
+    @GetMapping("/{id}/mental-test/game")
+    @ResponseStatus(OK)
     @Operation(summary = "Endpoint to get the mental test game that user has to do.")
     @ApiResponses(
         value = [
@@ -91,8 +93,6 @@ class PatientController @Autowired constructor(
             )
         ]
     )
-    @GetMapping("/{id}/mental-test/game")
-    @ResponseStatus(OK)
     fun getMentalTestGame(
         @Positive
         @PathVariable("id")
@@ -102,15 +102,15 @@ class PatientController @Autowired constructor(
         nextGameCategory: Game.Category
     ): Game = patientService.getMentalTestGame(id, nextGameCategory)
 
-    @Operation(summary = "Endpoint to process and save the answers of the game")
     @PostMapping("/{id}/mental-test/game/answers", consumes = [APPLICATION_JSON_VALUE])
+    @ResponseStatus(NO_CONTENT)
+    @Operation(summary = "Endpoint to process and save the answers of the game")
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "204", description = "Game answers processed and registered successfully."),
             ApiResponse(responseCode = "400", description = "The game answers information that was provided is wrong.")
         ]
     )
-    @ResponseStatus(NO_CONTENT)
     fun processTestGameAnswers(
         @PathVariable("id")
         @Positive

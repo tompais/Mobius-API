@@ -60,3 +60,4 @@ src/main/resources/templates/
 
 # Visual Studio Code
 .vs/
+/src/main/resources/drawings/
