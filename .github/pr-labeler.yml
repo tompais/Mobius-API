@@ -4,3 +4,4 @@ refactor: refactor/*
 enhancement: [enhancement/*, imgbot]
 hotfix: hotfix/*
 skip-changelog: [release/*, backport/*]
+autosquash: [backport/*, imgbot]
