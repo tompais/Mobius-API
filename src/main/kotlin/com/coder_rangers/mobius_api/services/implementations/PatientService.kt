@@ -2,6 +2,7 @@ package com.coder_rangers.mobius_api.services.implementations
 
 import com.coder_rangers.mobius_api.dao.interfaces.IPatientDAO
 import com.coder_rangers.mobius_api.enums.TestStatus.FINISHED
+import com.coder_rangers.mobius_api.enums.TestStatus.IN_PROGRESS
 import com.coder_rangers.mobius_api.error.exceptions.PatientNotFoundException
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category
@@ -32,6 +33,16 @@ class PatientService @Autowired constructor(
         mentalTestService.processGameAnswers(patient, testGameAnswersRequest)
 
         updateTestStatus(patient, testGameAnswersRequest.category)
+    }
+
+    override fun cleanTestProgress(id: Long) {
+        val patient = getActivePatientById(id)
+
+        patient.testStatus = IN_PROGRESS
+
+        patient.taskResults = null
+
+        patientDAO.saveOrUpdate(patient)
     }
 
     private fun getActivePatientById(id: Long): Patient =

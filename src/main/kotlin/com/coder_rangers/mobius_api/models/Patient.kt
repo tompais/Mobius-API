@@ -38,7 +38,7 @@ class Patient(
     var testStatus: TestStatus = IN_PROGRESS,
 
     @OneToMany(mappedBy = "patient", cascade = [ALL])
-    val taskResults: Set<Task.Result>? = null
+    var taskResults: Set<Task.Result>? = null
 ) : User(
     id,
     firstName,
