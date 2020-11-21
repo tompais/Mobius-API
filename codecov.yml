@@ -45,3 +45,4 @@ ignore:
   - "**/IGameAnswersResolver*"
   - "**/FixationGameAnswersResolver.kt"
   - "**/CalculationGameAnswersResolver.kt"
+  - "**/response*/**"
