@@ -57,6 +57,7 @@ dependencies {
     implementation("org.liquibase:liquibase-core")
     implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
     implementation("org.apache.commons:commons-lang3:3.11")
+    implementation("commons-io:commons-io:2.8.0")
     implementation("org.springdoc:springdoc-openapi-ui:1.4.8")
     implementation("org.springdoc:springdoc-openapi-data-rest:1.4.8")
     implementation("org.springdoc:springdoc-openapi-kotlin:1.4.8")
