@@ -1,5 +1,6 @@
 package com.coder_rangers.mobius_api.integrations
 
+import com.coder_rangers.mobius_api.database.repositories.ITaskResultRepository
 import com.coder_rangers.mobius_api.models.AnswerWithResult
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category.ATTENTION
@@ -23,8 +24,12 @@ import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID_WITH_FINISHED
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_WITHOUT_TEST_PROGRESS
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_WITH_TEST_PROGRESS
 import com.coder_rangers.mobius_api.utils.TestConstants.WRONG_PATIENT_ID
+import com.ninjasquad.springmockk.SpykBean
+import io.mockk.clearMocks
+import io.mockk.every
 import io.restassured.http.ContentType.JSON
 import io.restassured.module.mockmvc.RestAssuredMockMvc.given
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -35,6 +40,9 @@ import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.HttpStatus.OK
 
 class PatientIntegrationTest : BaseIntegrationTest("/patients") {
+    @SpykBean
+    private lateinit var taskResultRepository: ITaskResultRepository
+
     companion object {
         @JvmStatic
         @Suppress("UNUSED")
@@ -283,8 +291,17 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
             Arguments.of(
                 PATIENT_WITH_TEST_PROGRESS,
                 BAD_REQUEST
+            ),
+            Arguments.of(
+                PATIENT_ID_WITH_FINISHED_TEST,
+                OK
             )
         )
+    }
+
+    @BeforeEach
+    fun beforeEach() {
+        clearMocks(taskResultRepository)
     }
 
     @ParameterizedTest
@@ -322,6 +339,9 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
     @ParameterizedTest
     @MethodSource("getTestResultCases")
     fun getTestResultTest(patientId: Long, expectedHttpStatus: HttpStatus) {
+        if (expectedHttpStatus == OK) {
+            every { taskResultRepository.getResultByPatientId(patientId) } returns 27
+        }
         given()
             .`when`()
             .get("$baseUrl/$patientId/mental-test/result")
