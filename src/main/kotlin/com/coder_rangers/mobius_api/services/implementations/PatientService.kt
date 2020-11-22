@@ -51,7 +51,7 @@ class PatientService @Autowired constructor(
 
         patient.testStatus = IN_PROGRESS
 
-        patient.taskResults = null
+        patient.taskResults?.clear()
 
         patientDAO.saveOrUpdate(patient)
     }

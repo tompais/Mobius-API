@@ -37,8 +37,8 @@ class Patient(
     @Enumerated(STRING)
     var testStatus: TestStatus = IN_PROGRESS,
 
-    @OneToMany(mappedBy = "patient", cascade = [ALL])
-    var taskResults: Set<Task.Result>? = null
+    @OneToMany(mappedBy = "patient", cascade = [ALL], orphanRemoval = true)
+    var taskResults: MutableSet<Task.Result>? = null
 ) : User(
     id,
     firstName,
