@@ -3,8 +3,10 @@ package com.coder_rangers.mobius_api.controllers
 import com.coder_rangers.mobius_api.error.exceptions.FinishedTestException
 import com.coder_rangers.mobius_api.error.exceptions.GameNotFoundException
 import com.coder_rangers.mobius_api.error.exceptions.PatientNotFoundException
+import com.coder_rangers.mobius_api.error.exceptions.TestNotFinishedException
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
+import com.coder_rangers.mobius_api.responses.PatientTestResult
 import com.coder_rangers.mobius_api.services.interfaces.IPatientService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
@@ -34,6 +36,8 @@ import javax.validation.constraints.Positive
 class PatientController @Autowired constructor(
     private val patientService: IPatientService
 ) {
+    @GetMapping("/{id}/mental-test/game")
+    @ResponseStatus(OK)
     @Operation(summary = "Endpoint to get the mental test game that user has to do.")
     @ApiResponses(
         value = [
@@ -89,8 +93,6 @@ class PatientController @Autowired constructor(
             )
         ]
     )
-    @GetMapping("/{id}/mental-test/game")
-    @ResponseStatus(OK)
     fun getMentalTestGame(
         @Positive
         @PathVariable("id")
@@ -100,15 +102,15 @@ class PatientController @Autowired constructor(
         nextGameCategory: Game.Category
     ): Game = patientService.getMentalTestGame(id, nextGameCategory)
 
-    @Operation(summary = "Endpoint to process and save the answers of the game")
     @PostMapping("/{id}/mental-test/game/answers", consumes = [APPLICATION_JSON_VALUE])
+    @ResponseStatus(NO_CONTENT)
+    @Operation(summary = "Endpoint to process and save the answers of the game")
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "204", description = "Game answers processed and registered successfully."),
             ApiResponse(responseCode = "400", description = "The game answers information that was provided is wrong.")
         ]
     )
-    @ResponseStatus(NO_CONTENT)
     fun processTestGameAnswers(
         @PathVariable("id")
         @Positive
@@ -118,4 +120,58 @@ class PatientController @Autowired constructor(
         @Valid
         testGameAnswersRequest: TestGameAnswersRequest<*>
     ) = patientService.processTestGameAnswers(id, testGameAnswersRequest)
+
+    @GetMapping("/{id}/mental-test/result")
+    @ResponseStatus(OK)
+    @Operation(summary = "Endpoint to get the test result")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "Test result retrieved successfully.",
+                content = [
+                    Content(
+                        mediaType = APPLICATION_JSON_VALUE,
+                        array = ArraySchema(
+                            schema = Schema(
+                                implementation = PatientTestResult::class
+                            )
+                        )
+                    )
+                ]
+            ),
+            ApiResponse(
+                responseCode = "404",
+                description = "The patient was not found.",
+                content = [
+                    Content(
+                        mediaType = APPLICATION_JSON_VALUE,
+                        array = ArraySchema(
+                            schema = Schema(
+                                implementation = PatientNotFoundException::class
+                            )
+                        )
+                    )
+                ]
+            ),
+            ApiResponse(
+                responseCode = "400",
+                description = "The test was not finished.",
+                content = [
+                    Content(
+                        mediaType = APPLICATION_JSON_VALUE,
+                        array = ArraySchema(
+                            schema = Schema(
+                                implementation = TestNotFinishedException::class
+                            )
+                        )
+                    )
+                ]
+            )
+        ]
+    )
+    fun getTestResult(
+        @PathVariable("id")
+        @Positive
+        id: Long
+    ): PatientTestResult = patientService.getTestResult(id)
 }

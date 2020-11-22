@@ -64,7 +64,7 @@ class Task(
     @JsonIgnore
     val results: Set<Result>? = null
 ) {
-    @Entity
+    @Entity(name = "Result")
     @Table(name = "task_results")
     class Result(
         @Id

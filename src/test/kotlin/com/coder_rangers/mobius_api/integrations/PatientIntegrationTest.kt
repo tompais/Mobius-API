@@ -1,5 +1,6 @@
 package com.coder_rangers.mobius_api.integrations
 
+import com.coder_rangers.mobius_api.database.repositories.ITaskResultRepository
 import com.coder_rangers.mobius_api.models.AnswerWithResult
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category.ATTENTION
@@ -18,12 +19,17 @@ import com.coder_rangers.mobius_api.requests.categories.NumericTestGameAnswersRe
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersWithResultsRequest
+import com.coder_rangers.mobius_api.utils.TestConstants.NON_EXISTENT_PATIENT_ID
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID_WITH_FINISHED_TEST
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_WITHOUT_TEST_PROGRESS
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_WITH_TEST_PROGRESS
+import com.ninjasquad.springmockk.SpykBean
+import io.mockk.clearMocks
+import io.mockk.every
 import io.restassured.http.ContentType.JSON
 import io.restassured.module.mockmvc.RestAssuredMockMvc.given
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -34,6 +40,9 @@ import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.HttpStatus.OK
 
 class PatientIntegrationTest : BaseIntegrationTest("/patients") {
+    @SpykBean
+    private lateinit var taskResultRepository: ITaskResultRepository
+
     companion object {
         @JvmStatic
         @Suppress("UNUSED")
@@ -45,7 +54,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
             ),
             Arguments.of(
                 ORIENTATION,
-                321L,
+                NON_EXISTENT_PATIENT_ID,
                 NOT_FOUND
             ),
             Arguments.of(
@@ -146,8 +155,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     category = CALCULATION,
                     gameId = 3,
                     patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(taskId = 10, listOf(93)),
-                        PatientTaskAnswersRequest(taskId = 11, listOf(86, 79, 72, 65))
+                        PatientTaskAnswersRequest(taskId = 10, listOf(93, 86, 79, 72, 65))
                     )
                 ),
                 NO_CONTENT
@@ -170,7 +178,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     category = ATTENTION,
                     gameId = 4,
                     patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(taskId = 12, listOf('o', 'd', 'n', 'u', 'm'))
+                        PatientTaskAnswersRequest(taskId = 11, listOf('o', 'd', 'n', 'u', 'm'))
                     )
                 ),
                 NO_CONTENT
@@ -193,7 +201,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     gameId = 5,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(
-                            taskId = 13,
+                            taskId = 12,
                             listOf(
                                 AnswerWithResult(true, "lala"),
                                 AnswerWithResult(false, "lala"),
@@ -210,7 +218,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     category = VISUALIZATION,
                     gameId = 6,
                     patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(taskId = 14, listOf("Tigre"))
+                        PatientTaskAnswersRequest(taskId = 13, listOf("Tigre"))
                     )
                 ),
                 NO_CONTENT
@@ -233,7 +241,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     category = REPETITION,
                     gameId = 7,
                     patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(taskId = 15, listOf("El flan tiene frutillas y frambuesas"))
+                        PatientTaskAnswersRequest(taskId = 14, listOf("El flan tiene frutillas y frambuesas"))
                     )
                 ),
                 NO_CONTENT
@@ -244,7 +252,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     category = COMPREHENSION,
                     gameId = 8,
                     patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(taskId = 16, listOf("triangulo", "cuadrado", "circulo"))
+                        PatientTaskAnswersRequest(taskId = 15, listOf("triangulo", "cuadrado", "circulo"))
                     )
                 ),
                 NO_CONTENT
@@ -255,7 +263,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     category = READING,
                     gameId = 9,
                     patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(taskId = 17, listOf(4))
+                        PatientTaskAnswersRequest(taskId = 16, listOf(4))
                     )
                 ),
                 NO_CONTENT
@@ -266,12 +274,34 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     category = WRITING,
                     gameId = 10,
                     patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(taskId = 18, listOf("Si llueve mucho, entra agua por el tejado"))
+                        PatientTaskAnswersRequest(taskId = 17, listOf("Si llueve mucho, entra agua por el tejado"))
                     )
                 ),
                 NO_CONTENT
             )
         )
+
+        @JvmStatic
+        @Suppress("UNUSED")
+        fun getTestResultCases() = listOf(
+            Arguments.of(
+                NON_EXISTENT_PATIENT_ID,
+                NOT_FOUND
+            ),
+            Arguments.of(
+                PATIENT_WITH_TEST_PROGRESS,
+                BAD_REQUEST
+            ),
+            Arguments.of(
+                PATIENT_ID_WITH_FINISHED_TEST,
+                OK
+            )
+        )
+    }
+
+    @BeforeEach
+    fun beforeEach() {
+        clearMocks(taskResultRepository)
     }
 
     @ParameterizedTest
@@ -301,6 +331,20 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
             )
             .`when`()
             .post("$baseUrl/$id/mental-test/game/answers")
+            .then()
+            .assertThat()
+            .status(expectedHttpStatus)
+    }
+
+    @ParameterizedTest
+    @MethodSource("getTestResultCases")
+    fun getTestResultTest(patientId: Long, expectedHttpStatus: HttpStatus) {
+        if (expectedHttpStatus == OK) {
+            every { taskResultRepository.getTestTotalScore(patientId) } returns 27
+        }
+        given()
+            .`when`()
+            .get("$baseUrl/$patientId/mental-test/result")
             .then()
             .assertThat()
             .status(expectedHttpStatus)
