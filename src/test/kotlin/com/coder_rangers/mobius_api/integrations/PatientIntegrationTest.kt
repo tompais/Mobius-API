@@ -1,5 +1,6 @@
 package com.coder_rangers.mobius_api.integrations
 
+import com.coder_rangers.mobius_api.database.repositories.ITaskResultRepository
 import com.coder_rangers.mobius_api.models.AnswerWithResult
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category.ATTENTION
@@ -18,12 +19,17 @@ import com.coder_rangers.mobius_api.requests.categories.NumericTestGameAnswersRe
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersWithResultsRequest
+import com.coder_rangers.mobius_api.utils.TestConstants.NON_EXISTENT_PATIENT_ID
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID_WITH_FINISHED_TEST
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_WITHOUT_TEST_PROGRESS
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_WITH_TEST_PROGRESS
+import com.ninjasquad.springmockk.SpykBean
+import io.mockk.clearMocks
+import io.mockk.every
 import io.restassured.http.ContentType.JSON
 import io.restassured.module.mockmvc.RestAssuredMockMvc.given
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -34,6 +40,9 @@ import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.HttpStatus.OK
 
 class PatientIntegrationTest : BaseIntegrationTest("/patients") {
+    @SpykBean
+    private lateinit var taskResultRepository: ITaskResultRepository
+
     companion object {
         @JvmStatic
         @Suppress("UNUSED")
@@ -45,7 +54,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
             ),
             Arguments.of(
                 ORIENTATION,
-                321L,
+                NON_EXISTENT_PATIENT_ID,
                 NOT_FOUND
             ),
             Arguments.of(
@@ -271,6 +280,28 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                 NO_CONTENT
             )
         )
+
+        @JvmStatic
+        @Suppress("UNUSED")
+        fun getTestResultCases() = listOf(
+            Arguments.of(
+                NON_EXISTENT_PATIENT_ID,
+                NOT_FOUND
+            ),
+            Arguments.of(
+                PATIENT_WITH_TEST_PROGRESS,
+                BAD_REQUEST
+            ),
+            Arguments.of(
+                PATIENT_ID_WITH_FINISHED_TEST,
+                OK
+            )
+        )
+    }
+
+    @BeforeEach
+    fun beforeEach() {
+        clearMocks(taskResultRepository)
     }
 
     @ParameterizedTest
@@ -300,6 +331,20 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
             )
             .`when`()
             .post("$baseUrl/$id/mental-test/game/answers")
+            .then()
+            .assertThat()
+            .status(expectedHttpStatus)
+    }
+
+    @ParameterizedTest
+    @MethodSource("getTestResultCases")
+    fun getTestResultTest(patientId: Long, expectedHttpStatus: HttpStatus) {
+        if (expectedHttpStatus == OK) {
+            every { taskResultRepository.getTestTotalScore(patientId) } returns 27
+        }
+        given()
+            .`when`()
+            .get("$baseUrl/$patientId/mental-test/result")
             .then()
             .assertThat()
             .status(expectedHttpStatus)

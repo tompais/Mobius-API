@@ -4,11 +4,13 @@ import com.coder_rangers.mobius_api.dao.interfaces.IPatientDAO
 import com.coder_rangers.mobius_api.enums.TestStatus.FINISHED
 import com.coder_rangers.mobius_api.enums.TestStatus.IN_PROGRESS
 import com.coder_rangers.mobius_api.error.exceptions.PatientNotFoundException
+import com.coder_rangers.mobius_api.error.exceptions.TestNotFinishedException
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category
 import com.coder_rangers.mobius_api.models.Game.Category.WRITING
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
+import com.coder_rangers.mobius_api.responses.PatientTestResult
 import com.coder_rangers.mobius_api.services.interfaces.IMentalTestService
 import com.coder_rangers.mobius_api.services.interfaces.IPatientService
 import org.springframework.beans.factory.annotation.Autowired
@@ -33,6 +35,15 @@ class PatientService @Autowired constructor(
         mentalTestService.processGameAnswers(patient, testGameAnswersRequest)
 
         updateTestStatus(patient, testGameAnswersRequest.category)
+    }
+
+    override fun getTestResult(id: Long): PatientTestResult {
+        val patient = getActivePatientById(id)
+
+        if (patient.testStatus != FINISHED)
+            throw TestNotFinishedException(id)
+
+        return mentalTestService.getPatientTestResult(id)
     }
 
     override fun cleanTestProgress(id: Long) {

@@ -18,8 +18,10 @@ import com.coder_rangers.mobius_api.requests.categories.NumericTestGameAnswersRe
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersWithResultsRequest
+import com.coder_rangers.mobius_api.responses.PatientTestResult
 import com.coder_rangers.mobius_api.services.interfaces.IGameService
 import com.coder_rangers.mobius_api.services.interfaces.IMentalTestService
+import com.coder_rangers.mobius_api.services.interfaces.ITaskResultService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
@@ -29,6 +31,8 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class MentalTestService @Autowired constructor(
     private val gameService: IGameService,
+
+    private val taskResultService: ITaskResultService,
 
     @Qualifier("textGameAnswersWithResultsResolver")
     private val textGameAnswersWithResultsResolver: IGameAnswersResolver<AnswerWithResult<String>>,
@@ -85,6 +89,9 @@ class MentalTestService @Autowired constructor(
         }
     }
 
-    private fun getSpecificOrRandomGame(nextGameCategory: Category): Game =
+    override fun getPatientTestResult(patientId: Long): PatientTestResult =
+        taskResultService.getPatientTestResult(patientId)
+
+    fun getSpecificOrRandomGame(nextGameCategory: Category): Game =
         gameService.getRandomGameByCategory(nextGameCategory)
 }
