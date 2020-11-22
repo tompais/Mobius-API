@@ -31,7 +31,7 @@ class InternalIntegrationTest : BaseIntegrationTest("/internal") {
     fun cleanPatientTestProgressTest(patientId: Long, expectedHttpStatus: HttpStatus) {
         given()
             .`when`()
-            .get("$baseUrl/patients/$patientId/test-progress/clean")
+            .post("$baseUrl/patients/$patientId/test-progress/clean")
             .then()
             .assertThat()
             .status(expectedHttpStatus)
