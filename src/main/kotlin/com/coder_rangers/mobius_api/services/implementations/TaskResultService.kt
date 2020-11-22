@@ -32,7 +32,7 @@ class TaskResultService @Autowired constructor(
     override fun getPatientTestResult(patientId: Long): PatientTestResult {
         val testTotalScore = taskResultDAO.getTestTotalScore(patientId)
 
-        val dementialLevel: DementiaLevel = when (testTotalScore) {
+        val dementiaLevel: DementiaLevel = when (testTotalScore) {
             in 27..30 -> NO_DEMENTIA
             25, 26 -> POSSIBLE_DEMENTIA
             in 10..24 -> MILD_TO_MODERATE_DEMENTIA
@@ -40,6 +40,6 @@ class TaskResultService @Autowired constructor(
             else -> SEVERE_DEMENTIA
         }
 
-        return PatientTestResult(testTotalScore, dementialLevel)
+        return PatientTestResult(testTotalScore, dementiaLevel)
     }
 }
