@@ -2,6 +2,7 @@ package com.coder_rangers.mobius_api.services.implementations
 
 import com.coder_rangers.mobius_api.dao.interfaces.IPatientDAO
 import com.coder_rangers.mobius_api.enums.TestStatus.FINISHED
+import com.coder_rangers.mobius_api.enums.TestStatus.IN_PROGRESS
 import com.coder_rangers.mobius_api.error.exceptions.PatientNotFoundException
 import com.coder_rangers.mobius_api.error.exceptions.TestNotFinishedException
 import com.coder_rangers.mobius_api.models.Game
@@ -43,6 +44,14 @@ class PatientService @Autowired constructor(
             throw TestNotFinishedException(id)
 
         return mentalTestService.getPatientTestResult(id)
+    }
+
+    override fun cleanTestProgress(id: Long) {
+        getActivePatientById(id).also { patient ->
+            patient.testStatus = IN_PROGRESS
+            patient.taskResults?.clear()
+            patientDAO.saveOrUpdate(patient)
+        }
     }
 
     private fun getActivePatientById(id: Long): Patient =
