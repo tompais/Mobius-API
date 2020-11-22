@@ -34,23 +34,63 @@ class TaskResultServiceTest {
         @Suppress("UNUSED")
         fun getTestResultCases() = listOf(
             Arguments.of(
+                30,
+                NO_DEMENTIA
+            ),
+            Arguments.of(
                 28,
                 NO_DEMENTIA
+            ),
+            Arguments.of(
+                26,
+                POSSIBLE_DEMENTIA
             ),
             Arguments.of(
                 25,
                 POSSIBLE_DEMENTIA
             ),
             Arguments.of(
+                24,
+                MILD_TO_MODERATE_DEMENTIA
+            ),
+            Arguments.of(
+                23,
+                MILD_TO_MODERATE_DEMENTIA
+            ),
+            Arguments.of(
+                22,
+                MILD_TO_MODERATE_DEMENTIA
+            ),
+            Arguments.of(
                 15,
                 MILD_TO_MODERATE_DEMENTIA
+            ),
+            Arguments.of(
+                9,
+                MODERATE_TO_SEVERE_DEMENTIA
+            ),
+            Arguments.of(
+                8,
+                MODERATE_TO_SEVERE_DEMENTIA
             ),
             Arguments.of(
                 7,
                 MODERATE_TO_SEVERE_DEMENTIA
             ),
             Arguments.of(
+                6,
+                MODERATE_TO_SEVERE_DEMENTIA
+            ),
+            Arguments.of(
                 4,
+                SEVERE_DEMENTIA
+            ),
+            Arguments.of(
+                3,
+                SEVERE_DEMENTIA
+            ),
+            Arguments.of(
+                2,
                 SEVERE_DEMENTIA
             )
         )
