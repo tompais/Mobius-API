@@ -34,4 +34,7 @@ class TaskResultDAO @Autowired constructor(
                 )
             }
         )
+
+    override fun getTestTotalScore(patientId: Long): Int =
+        taskResultRepository.getTestTotalScore(patientId)
 }
