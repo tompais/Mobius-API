@@ -47,13 +47,11 @@ class PatientService @Autowired constructor(
     }
 
     override fun cleanTestProgress(id: Long) {
-        val patient = getActivePatientById(id)
-
-        patient.testStatus = IN_PROGRESS
-
-        patient.taskResults?.clear()
-
-        patientDAO.saveOrUpdate(patient)
+        getActivePatientById(id).also { patient ->
+            patient.testStatus = IN_PROGRESS
+            patient.taskResults?.clear()
+            patientDAO.saveOrUpdate(patient)
+        }
     }
 
     private fun getActivePatientById(id: Long): Patient =
