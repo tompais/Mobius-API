@@ -1,7 +1,7 @@
+autosquash: [ backport/*, imgbot ]
 feature: feature/*
 fix: fix/*
 refactor: refactor/*
-enhancement: [enhancement/*, imgbot]
+enhancement: [ enhancement/*, imgbot ]
 hotfix: hotfix/*
-skip-changelog: [release/*, backport/*]
-autosquash: [backport/*, imgbot]
+skip-changelog: [ release/*, backport/* ]
