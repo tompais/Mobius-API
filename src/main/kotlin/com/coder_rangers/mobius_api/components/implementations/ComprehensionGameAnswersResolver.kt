@@ -17,7 +17,7 @@ class ComprehensionGameAnswersResolver @Autowired constructor(
         val textAnswers = answers!!.map { it as TextAnswer }
 
         return patientTaskAnswersRequest.patientAnswersRequest.mapIndexed { index, patientAnswer ->
-            (textAnswers[index].text.toLowerCase() == patientAnswer.toLowerCase()).toInt()
+            (textAnswers[index].text.equals(patientAnswer, ignoreCase = true)).toInt()
         }.sum()
     }
 

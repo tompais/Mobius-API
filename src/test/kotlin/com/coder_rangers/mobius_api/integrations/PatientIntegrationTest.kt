@@ -1,11 +1,13 @@
 package com.coder_rangers.mobius_api.integrations
 
+import com.amazonaws.services.s3.AmazonS3
 import com.coder_rangers.mobius_api.database.repositories.ITaskResultRepository
 import com.coder_rangers.mobius_api.models.AnswerWithResult
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category.ATTENTION
 import com.coder_rangers.mobius_api.models.Game.Category.CALCULATION
 import com.coder_rangers.mobius_api.models.Game.Category.COMPREHENSION
+import com.coder_rangers.mobius_api.models.Game.Category.DRAWING
 import com.coder_rangers.mobius_api.models.Game.Category.FIXATION
 import com.coder_rangers.mobius_api.models.Game.Category.MEMORY
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
@@ -24,9 +26,13 @@ import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID_WITH_FINISHED_TEST
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_WITHOUT_TEST_PROGRESS
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_WITH_TEST_PROGRESS
+import com.ninjasquad.springmockk.MockkBean
 import com.ninjasquad.springmockk.SpykBean
 import io.mockk.clearMocks
+import io.mockk.clearStaticMockk
 import io.mockk.every
+import io.mockk.mockk
+import io.mockk.mockkStatic
 import io.restassured.http.ContentType.JSON
 import io.restassured.module.mockmvc.RestAssuredMockMvc.given
 import org.junit.jupiter.api.BeforeEach
@@ -38,10 +44,16 @@ import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.HttpStatus.OK
+import org.springframework.util.ResourceUtils
+import java.io.InputStream
+import javax.imageio.ImageIO
 
 class PatientIntegrationTest : BaseIntegrationTest("/patients") {
     @SpykBean
     private lateinit var taskResultRepository: ITaskResultRepository
+
+    @MockkBean
+    private lateinit var amazonS3Client: AmazonS3
 
     companion object {
         @JvmStatic
@@ -278,6 +290,28 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     )
                 ),
                 NO_CONTENT
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                TextTestGameAnswersRequest(
+                    category = DRAWING,
+                    gameId = 11,
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(taskId = 18, listOf("dibujo-chico.png"))
+                    )
+                ),
+                BAD_REQUEST
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                TextTestGameAnswersRequest(
+                    category = DRAWING,
+                    gameId = 11,
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(taskId = 18, listOf("dibujo.png"))
+                    )
+                ),
+                NO_CONTENT
             )
         )
 
@@ -302,6 +336,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
     @BeforeEach
     fun beforeEach() {
         clearMocks(taskResultRepository)
+        clearStaticMockk(ImageIO::class)
     }
 
     @ParameterizedTest
@@ -323,6 +358,18 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
         testGameAnswersRequest: TestGameAnswersRequest<*>,
         expectedHttpStatus: HttpStatus
     ) {
+        if (testGameAnswersRequest.category == DRAWING) {
+            val imageName =
+                testGameAnswersRequest.patientTaskAnswersRequestList.first().patientAnswersRequest.first() as String
+            every { amazonS3Client.getObject(any<String>(), any<String>()) } returns mockk {
+                every { objectContent } returns mockk()
+            }
+
+            mockkStatic(ImageIO::class).also {
+                every { ImageIO.read(any<InputStream>()) } returns ImageIO.read(ResourceUtils.getFile("classpath:images/$imageName"))
+            }
+        }
+
         given()
             .accept(JSON)
             .contentType(JSON)
