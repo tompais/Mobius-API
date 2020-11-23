@@ -36,10 +36,7 @@ class Input(
         NUMBER,
         VOICE,
         CALENDAR,
-        COUNTRY,
-        STATE,
-        CITY,
-        STREET,
+        MAPS,
         DRAWING_PAD;
 
         @JsonValue
