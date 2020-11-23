@@ -3,6 +3,7 @@ package com.coder_rangers.mobius_api.config
 import com.coder_rangers.mobius_api.converters.GameCategoryConverter
 import org.springframework.context.annotation.Configuration
 import org.springframework.format.FormatterRegistry
+import org.springframework.web.cors.CorsConfiguration.ALL
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
@@ -12,6 +13,10 @@ class WebConfig(
 ) : WebMvcConfigurer {
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/**")
+            .allowedOrigins(ALL)
+            .allowedMethods(ALL)
+            .allowedHeaders(ALL)
+            .allowCredentials(true)
     }
 
     override fun addFormatters(registry: FormatterRegistry) {
