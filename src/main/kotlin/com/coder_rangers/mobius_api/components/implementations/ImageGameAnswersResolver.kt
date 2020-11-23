@@ -24,7 +24,8 @@ class ImageGameAnswersResolver @Autowired constructor(
 
         val originalImageName = task.game!!.resources!!.first().fileName
 
-        val originalImage = ImageIO.read(ResourceUtils.getFile("classpath:static/images/$originalImageName"))
+        val originalImage =
+            ImageIO.read(ResourceUtils.getURL("classpath:static/images/$originalImageName").openStream())
 
         val drawnImageName = patientTaskAnswersRequest.patientAnswersRequest.first()
 
