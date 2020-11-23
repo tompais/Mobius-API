@@ -37,7 +37,7 @@ class Input(
         VOICE,
         CALENDAR,
         MAPS,
-        CANVAS;
+        DRAWING_PAD;
 
         @JsonValue
         override fun toString() = name.toLowerCase()

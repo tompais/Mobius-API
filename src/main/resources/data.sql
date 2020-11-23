@@ -82,7 +82,7 @@ VALUES ('TEXT'),
        ('VOICE'),
        ('CALENDAR'),
        ('MAPS'),
-       ('CANVAS');
+       ('DRAWING_PAD');
 
 INSERT INTO public.input_task (task_id, input_id)
 VALUES (1, 2),
