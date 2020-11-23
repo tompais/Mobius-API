@@ -29,7 +29,7 @@ class ImageGameAnswersResolver @Autowired constructor(
 
         val drawnImageName = patientTaskAnswersRequest.patientAnswersRequest.first()
 
-        val drawnImage = ImageIO.read(amazonS3Service.downloadFileFromS3("/drawings/$drawnImageName").objectContent)
+        val drawnImage = ImageIO.read(amazonS3Service.downloadFileFromS3("drawings/$drawnImageName").objectContent)
 
         val differencePercentage = ImageUtils.getImageDifferenceInPercent(originalImage, drawnImage)
 
