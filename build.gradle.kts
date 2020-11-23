@@ -6,9 +6,9 @@ plugins {
     id("org.asciidoctor.convert") version "1.5.8"
     id("com.github.johnrengelman.processes") version "0.5.0"
     id("org.springdoc.openapi-gradle-plugin") version "1.3.0"
-    kotlin("jvm") version "1.4.10"
-    kotlin("plugin.spring") version "1.4.10"
-    kotlin("plugin.jpa") version "1.4.10"
+    kotlin("jvm") version "1.4.20"
+    kotlin("plugin.spring") version "1.4.20"
+    kotlin("plugin.jpa") version "1.4.20"
     jacoco
 }
 
@@ -27,7 +27,7 @@ repositories {
 }
 
 jacoco {
-    toolVersion = "0.8.5"
+    toolVersion = "0.8.6"
     reportsDir = file("$buildDir/customJacocoReportDir")
 }
 
