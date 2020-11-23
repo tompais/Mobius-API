@@ -53,7 +53,8 @@ VALUES ('ORIENTATION', 'Orientación', 'Responda las siguientes preguntas', true
        ('REPETITION', 'Repetición', null, true),
        ('COMPREHENSION', 'Comprensión', null, true),
        ('READING', 'Lectura', 'Lea la consigna atentamente', true),
-       ('WRITING', 'Escritura', null, true);
+       ('WRITING', 'Escritura', null, true),
+       ('DRAWING', 'Dibujo', null, true);
 
 INSERT INTO public.tasks (game_id, description)
 VALUES (1, '¿En qué año estamos?'),
@@ -72,14 +73,16 @@ VALUES (1, '¿En qué año estamos?'),
        (7, 'Escuche bien la frase y repítala'),
        (8, 'Escuche el audio atentamente y toque los botones en el orden correspondiente'),
        (9, 'Busque una persona que tenga barba de color castaño oscuro, vista unos pantalones de tono rojizo, la parte superior de su traje es de color negro y tanto su corbata como sus zapatos son de color azul'),
-       (10, 'Ordene sintácticamente la siguiente oración. Solo existe un orden correcto');
+       (10, 'Ordene sintácticamente la siguiente oración. Solo existe un orden correcto'),
+       (11, 'Dibuje la siguiente imagen, lo más exacta posible, incluyendo en tamaño');
 
 INSERT INTO public.inputs (type)
 VALUES ('TEXT'),
        ('NUMBER'),
        ('VOICE'),
        ('CALENDAR'),
-       ('MAPS');
+       ('MAPS'),
+       ('CANVAS');
 
 INSERT INTO public.input_task (task_id, input_id)
 VALUES (1, 2),
@@ -107,7 +110,8 @@ VALUES (1, 2),
        (15, 1),
        (15, 1),
        (15, 1),
-       (16, 2);
+       (16, 2),
+       (18, 6);
 
 INSERT INTO public.resources (game_id, type, file_name)
 VALUES (2, 'AUDIO', 'Bicicleta-Cuchara-Manzana.mp3'),
@@ -115,7 +119,8 @@ VALUES (2, 'AUDIO', 'Bicicleta-Cuchara-Manzana.mp3'),
        (7, 'AUDIO', 'Flan-Frutilla-Frambuesas.mp3'),
        (8, 'AUDIO', 'Triangulo-Cuadrado-Circulo.mp3'),
        (9, 'IMAGE', 'lectura-1.png'),
-       (10, 'TEXT', 'LluviaTejado.txt');
+       (10, 'TEXT', 'LluviaTejado.txt'),
+       (11, 'IMAGE', 'Casa.png');
 
 INSERT INTO public.answers (task_id)
 VALUES (9),

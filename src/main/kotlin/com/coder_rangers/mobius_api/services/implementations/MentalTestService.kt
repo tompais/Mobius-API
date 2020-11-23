@@ -9,6 +9,7 @@ import com.coder_rangers.mobius_api.models.Game.Category
 import com.coder_rangers.mobius_api.models.Game.Category.ATTENTION
 import com.coder_rangers.mobius_api.models.Game.Category.CALCULATION
 import com.coder_rangers.mobius_api.models.Game.Category.COMPREHENSION
+import com.coder_rangers.mobius_api.models.Game.Category.DRAWING
 import com.coder_rangers.mobius_api.models.Game.Category.MEMORY
 import com.coder_rangers.mobius_api.models.Game.Category.ORIENTATION
 import com.coder_rangers.mobius_api.models.Game.Category.READING
@@ -47,17 +48,20 @@ class MentalTestService @Autowired constructor(
     private val attentionGameAnswersResolver: IGameAnswersResolver<Char>,
 
     @Qualifier("comprehensionGameAnswersResolver")
-    private val comprehensionGameAnswersResolver: IGameAnswersResolver<String>
+    private val comprehensionGameAnswersResolver: IGameAnswersResolver<String>,
+
+    @Qualifier("imageGameAnswersResolver")
+    private val imageGameAnswersResolver: IGameAnswersResolver<String>
 ) : IMentalTestService {
     override fun getMentalTestGame(patient: Patient, nextCategoryType: Category): Game {
-        if (patient.testStatus == FINISHED) {
-            throw FinishedTestException(patient.id)
-        }
+        assertPatientIsNotFinished(patient)
 
         return getSpecificOrRandomGame(nextCategoryType)
     }
 
     override fun processGameAnswers(patient: Patient, testGameAnswersRequest: TestGameAnswersRequest<*>) {
+        assertPatientIsNotFinished(patient)
+
         val game = gameService.getGameById(testGameAnswersRequest.gameId)
 
         when (testGameAnswersRequest.category) {
@@ -81,6 +85,11 @@ class MentalTestService @Autowired constructor(
                 game,
                 (testGameAnswersRequest as TextTestGameAnswersRequest).patientTaskAnswersRequestList
             )
+            DRAWING -> imageGameAnswersResolver.resolveAnswers(
+                patient,
+                game,
+                (testGameAnswersRequest as TextTestGameAnswersRequest).patientTaskAnswersRequestList
+            )
             else -> textGameAnswersResolver.resolveAnswers(
                 patient,
                 game,
@@ -92,6 +101,12 @@ class MentalTestService @Autowired constructor(
     override fun getPatientTestResult(patientId: Long): PatientTestResult =
         taskResultService.getPatientTestResult(patientId)
 
-    fun getSpecificOrRandomGame(nextGameCategory: Category): Game =
+    private fun getSpecificOrRandomGame(nextGameCategory: Category): Game =
         gameService.getRandomGameByCategory(nextGameCategory)
+
+    private fun assertPatientIsNotFinished(patient: Patient) {
+        if (patient.testStatus == FINISHED) {
+            throw FinishedTestException(patient.id)
+        }
+    }
 }
