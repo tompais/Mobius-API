@@ -19,6 +19,7 @@ import org.springframework.mock.web.MockMultipartFile
 @ExtendWith(MockKExtension::class)
 class ImageServiceTest {
     @RelaxedMockK
+    @Suppress("UNUSED")
     private lateinit var amazonS3Service: IAmazonS3Service
 
     @InjectMockKs
