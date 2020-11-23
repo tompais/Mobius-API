@@ -21,8 +21,9 @@ import com.coder_rangers.mobius_api.requests.categories.NumericTestGameAnswersRe
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersWithResultsRequest
+import com.coder_rangers.mobius_api.utils.MockUtils.getMockBufferedImage
 import com.coder_rangers.mobius_api.utils.TestConstants.NON_EXISTENT_PATIENT_ID
-import com.coder_rangers.mobius_api.utils.TestConstants.ORIGINAL_IMAGE
+import com.coder_rangers.mobius_api.utils.TestConstants.ORIGINAL_IMAGE_NAME
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID_WITH_FINISHED_TEST
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_WITHOUT_TEST_PROGRESS
@@ -45,7 +46,6 @@ import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.HttpStatus.OK
-import org.springframework.util.ResourceUtils
 import java.io.InputStream
 import javax.imageio.ImageIO
 
@@ -336,7 +336,7 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
 
     @BeforeEach
     fun beforeEach() {
-        clearMocks(taskResultRepository)
+        clearMocks(taskResultRepository, amazonS3Client)
         clearStaticMockk(ImageIO::class)
     }
 
@@ -360,15 +360,15 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
         expectedHttpStatus: HttpStatus
     ) {
         if (testGameAnswersRequest.category == DRAWING) {
-            val imageName =
+            val imageToCompareName =
                 testGameAnswersRequest.patientTaskAnswersRequestList.first().patientAnswersRequest.first() as String
             every { amazonS3Client.getObject(any<String>(), any<String>()) } returns mockk {
                 every { objectContent } returns mockk()
             }
 
             mockkStatic(ImageIO::class).also {
-                every { ImageIO.read(any<InputStream>()) } returns ImageIO.read(ResourceUtils.getFile("classpath:images/$ORIGINAL_IMAGE")) andThen
-                    ImageIO.read(ResourceUtils.getFile("classpath:images/$imageName"))
+                every { ImageIO.read(any<InputStream>()) } returns getMockBufferedImage(ORIGINAL_IMAGE_NAME) andThen
+                    getMockBufferedImage(imageToCompareName)
             }
         }
 
