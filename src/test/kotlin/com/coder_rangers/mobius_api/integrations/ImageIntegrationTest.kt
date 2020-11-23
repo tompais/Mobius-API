@@ -42,7 +42,7 @@ class ImageIntegrationTest : BaseIntegrationTest("/images") {
             .accept(JSON)
             .multiPart("imageFile", ResourceUtils.getFile("classpath:images/$fileNameToUpload"))
             .`when`()
-            .post("$baseUrl")
+            .post(baseUrl)
             .then()
             .status(expectedHttpStatus)
     }
