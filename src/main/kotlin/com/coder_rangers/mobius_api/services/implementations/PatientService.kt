@@ -49,6 +49,9 @@ class PatientService @Autowired constructor(
     override fun cleanTestProgress(id: Long) {
         getActivePatientById(id).also { patient ->
             patient.testStatus = IN_PROGRESS
+            patient.taskResults?.forEach {
+                it.patient = null
+            }
             patient.taskResults?.clear()
             patientDAO.saveOrUpdate(patient)
         }

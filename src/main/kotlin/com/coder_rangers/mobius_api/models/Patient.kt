@@ -38,7 +38,7 @@ class Patient(
     var testStatus: TestStatus = IN_PROGRESS,
 
     @OneToMany(mappedBy = "patient", cascade = [ALL], orphanRemoval = true)
-    val taskResults: MutableSet<Task.Result>? = null
+    var taskResults: MutableSet<Task.Result>? = null
 ) : User(
     id,
     firstName,

@@ -22,6 +22,7 @@ import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersWithResultsRequest
 import com.coder_rangers.mobius_api.utils.TestConstants.NON_EXISTENT_PATIENT_ID
+import com.coder_rangers.mobius_api.utils.TestConstants.ORIGINAL_IMAGE
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID_WITH_FINISHED_TEST
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_WITHOUT_TEST_PROGRESS
@@ -366,7 +367,8 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
             }
 
             mockkStatic(ImageIO::class).also {
-                every { ImageIO.read(any<InputStream>()) } returns ImageIO.read(ResourceUtils.getFile("classpath:images/$imageName"))
+                every { ImageIO.read(any<InputStream>()) } returns ImageIO.read(ResourceUtils.getFile("classpath:images/$ORIGINAL_IMAGE")) andThen
+                    ImageIO.read(ResourceUtils.getFile("classpath:images/$imageName"))
             }
         }
 
