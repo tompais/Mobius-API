@@ -29,7 +29,7 @@ class ImageService @Autowired constructor(
     private fun isPng(imageFile: MultipartFile) =
         FilenameUtils.getExtension(imageFile.originalFilename) == "png"
 
-    private fun buildFilePath(fileName: String): String = "/drawings/$fileName"
+    private fun buildFilePath(fileName: String): String = "drawings/$fileName"
 
     private fun buildFileName(): String = "${UUID.randomUUID().toString().replace("-", "").toUpperCase()}.png"
 }
