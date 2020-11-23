@@ -14,7 +14,7 @@ import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.OK
 import org.springframework.util.ResourceUtils
 
-class ImageIntegrationTest : BaseIntegrationTest("/image") {
+class ImageIntegrationTest : BaseIntegrationTest("/images") {
     @MockkBean
     private lateinit var amazonS3Client: AmazonS3
 
@@ -42,7 +42,7 @@ class ImageIntegrationTest : BaseIntegrationTest("/image") {
             .accept(JSON)
             .multiPart("imageFile", ResourceUtils.getFile("classpath:images/$fileNameToUpload"))
             .`when`()
-            .post("$baseUrl/upload")
+            .post("$baseUrl")
             .then()
             .status(expectedHttpStatus)
     }
