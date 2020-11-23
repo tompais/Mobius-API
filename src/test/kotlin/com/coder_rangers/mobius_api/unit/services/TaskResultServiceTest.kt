@@ -29,7 +29,7 @@ class TaskResultServiceTest {
     @InjectMockKs
     private lateinit var taskResultService: TaskResultService
 
-    private companion object {
+    companion object {
         @JvmStatic
         @Suppress("UNUSED")
         fun getTestResultCases() = listOf(

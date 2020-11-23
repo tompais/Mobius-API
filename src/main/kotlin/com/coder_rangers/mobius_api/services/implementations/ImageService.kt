@@ -28,7 +28,7 @@ class ImageService @Autowired constructor(
     }
 
     private fun isPng(imageFile: MultipartFile) =
-        FilenameUtils.getExtension(imageFile.originalFilename)?.toLowerCase() == "png"
+        FilenameUtils.getExtension(imageFile.originalFilename).equals("png", ignoreCase = false)
 
     private fun buildFilePath(fileName: String): String = "drawings/$fileName"
 

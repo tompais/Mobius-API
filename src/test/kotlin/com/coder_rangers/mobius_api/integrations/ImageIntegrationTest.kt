@@ -18,7 +18,7 @@ class ImageIntegrationTest : BaseIntegrationTest("/images") {
     @MockkBean
     private lateinit var amazonS3Client: AmazonS3
 
-    private companion object {
+    companion object {
         @JvmStatic
         @Suppress("UNUSED")
         fun uploadImageCases() = listOf(
