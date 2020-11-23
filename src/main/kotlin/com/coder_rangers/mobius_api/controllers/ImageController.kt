@@ -23,11 +23,11 @@ import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @Validated
-@RequestMapping("/image", consumes = [MULTIPART_FORM_DATA_VALUE], produces = [APPLICATION_JSON_VALUE])
+@RequestMapping("/images", consumes = [MULTIPART_FORM_DATA_VALUE], produces = [APPLICATION_JSON_VALUE])
 class ImageController @Autowired constructor(
     private val imageService: IImageService
 ) {
-    @PostMapping("/upload")
+    @PostMapping
     @ResponseStatus(OK)
     @Operation(summary = "Endpoint to upload an image")
     @ApiResponses(
