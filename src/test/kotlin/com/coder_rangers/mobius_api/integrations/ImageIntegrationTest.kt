@@ -33,6 +33,10 @@ class ImageIntegrationTest : BaseIntegrationTest("/images") {
             Arguments.of(
                 "spiderman.png",
                 OK
+            ),
+            Arguments.of(
+                "spiderman-2.PNG",
+                OK
             )
         )
     }
