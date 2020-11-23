@@ -27,6 +27,10 @@ class ImageIntegrationTest : BaseIntegrationTest("/images") {
                 BAD_REQUEST
             ),
             Arguments.of(
+                "spiderman-2.JPG",
+                BAD_REQUEST
+            ),
+            Arguments.of(
                 "spiderman.png",
                 OK
             )
