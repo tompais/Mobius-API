@@ -75,13 +75,13 @@ class Task(
 
         @ManyToOne(cascade = [ALL])
         @JoinColumn(name = "patient_id", updatable = false, nullable = false)
-        val patient: Patient,
+        var patient: Patient?,
 
         @ManyToOne(cascade = [ALL])
         @JoinColumn(name = "task_id", updatable = false, nullable = false)
         val task: Task,
 
-        @OneToMany(mappedBy = "taskResult", cascade = [ALL])
+        @OneToMany(mappedBy = "taskResult", cascade = [ALL], orphanRemoval = true)
         val patientAnswers: MutableList<PatientAnswer> = mutableListOf(),
 
         @field:PositiveOrZero

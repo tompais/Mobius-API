@@ -17,7 +17,7 @@ class AttentionGameAnswersResolver @Autowired constructor(
         val charAnswers = answers!!.map { it as CharAnswer }
 
         return patientTaskAnswersRequest.patientAnswersRequest.mapIndexed { index, patientAnswer ->
-            (charAnswers[index].letter.toLowerCase() == patientAnswer.toLowerCase()).toInt()
+            (charAnswers[index].letter.equals(patientAnswer, ignoreCase = true)).toInt()
         }.sum()
     }
 

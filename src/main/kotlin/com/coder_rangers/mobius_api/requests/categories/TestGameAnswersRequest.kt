@@ -26,7 +26,8 @@ import javax.validation.constraints.Positive
     Type(value = TextTestGameAnswersRequest::class, name = "repetition"),
     Type(value = TextTestGameAnswersRequest::class, name = "comprehension"),
     Type(value = NumericTestGameAnswersRequest::class, name = "reading"),
-    Type(value = TextTestGameAnswersRequest::class, name = "writing")
+    Type(value = TextTestGameAnswersRequest::class, name = "writing"),
+    Type(value = TextTestGameAnswersRequest::class, name = "drawing")
 )
 open class TestGameAnswersRequest<T>(
     val category: Game.Category,
