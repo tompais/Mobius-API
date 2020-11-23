@@ -81,8 +81,11 @@ VALUES ('TEXT'),
        ('NUMBER'),
        ('VOICE'),
        ('CALENDAR'),
-       ('MAPS'),
-       ('CANVAS');
+       ('COUNTRY'),
+       ('STATE'),
+       ('CITY'),
+       ('STREET'),
+       ('DRAWING_PAD');
 
 INSERT INTO public.input_task (task_id, input_id)
 VALUES (1, 2),
@@ -90,9 +93,9 @@ VALUES (1, 2),
        (3, 2),
        (4, 1),
        (5, 2),
-       (6, 1),
-       (7, 1),
-       (8, 1),
+       (6, 5),
+       (7, 6),
+       (8, 7),
        (9, 3),
        (10, 2),
        (10, 2),
@@ -111,7 +114,7 @@ VALUES (1, 2),
        (15, 1),
        (15, 1),
        (16, 2),
-       (18, 6);
+       (18, 9);
 
 INSERT INTO public.resources (game_id, type, file_name)
 VALUES (2, 'AUDIO', 'Bicicleta-Cuchara-Manzana.mp3'),
