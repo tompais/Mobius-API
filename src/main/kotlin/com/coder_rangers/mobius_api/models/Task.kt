@@ -73,11 +73,11 @@ class Task(
         @Column(unique = true, nullable = false, updatable = false)
         val id: Long,
 
-        @ManyToOne(cascade = [ALL])
+        @ManyToOne
         @JoinColumn(name = "patient_id", updatable = false, nullable = false)
         var patient: Patient?,
 
-        @ManyToOne(cascade = [ALL])
+        @ManyToOne
         @JoinColumn(name = "task_id", updatable = false, nullable = false)
         val task: Task,
 
