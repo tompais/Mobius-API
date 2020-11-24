@@ -33,7 +33,7 @@ class ImageGameAnswersResolver @Autowired constructor(
 
         val differencePercentage = ImageUtils.getImageDifferenceInPercent(originalImage, drawnImage)
 
-        return (differencePercentage > 60.0).toInt()
+        return (differencePercentage > 70.0).toInt()
     }
 
     override fun transformToPatientAnswers(patientTaskAnswersRequest: PatientTaskAnswersRequest<String>): List<PatientAnswer> =
