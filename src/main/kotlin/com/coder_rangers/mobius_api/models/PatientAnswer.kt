@@ -1,6 +1,5 @@
 package com.coder_rangers.mobius_api.models
 
-import javax.persistence.CascadeType.ALL
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -23,7 +22,7 @@ open class PatientAnswer(
     @field:PositiveOrZero
     open val id: Long = 0,
 
-    @ManyToOne(cascade = [ALL])
+    @ManyToOne
     @JoinColumn(name = "task_result_id")
     open var taskResult: Task.Result? = null
 )
