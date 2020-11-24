@@ -1,7 +1,9 @@
 package com.coder_rangers.mobius_api.integrations
 
 import com.amazonaws.services.s3.AmazonS3
+import com.coder_rangers.mobius_api.database.repositories.IPatientRepository
 import com.coder_rangers.mobius_api.database.repositories.ITaskResultRepository
+import com.coder_rangers.mobius_api.enums.TestStatus.IN_PROGRESS
 import com.coder_rangers.mobius_api.models.AnswerWithResult
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category.ATTENTION
@@ -41,6 +43,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.NOT_FOUND
@@ -49,7 +53,9 @@ import org.springframework.http.HttpStatus.OK
 import java.io.InputStream
 import javax.imageio.ImageIO
 
-class PatientIntegrationTest : BaseIntegrationTest("/patients") {
+class PatientIntegrationTest @Autowired constructor(
+    private val patientRepository: IPatientRepository
+) : BaseIntegrationTest("/patients") {
     @SpykBean
     private lateinit var taskResultRepository: ITaskResultRepository
 
@@ -309,6 +315,17 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
                     category = DRAWING,
                     gameId = 11,
                     patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(taskId = 18, listOf("dibujo-menos70.png"))
+                    )
+                ),
+                NO_CONTENT
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                TextTestGameAnswersRequest(
+                    category = DRAWING,
+                    gameId = 11,
+                    patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 18, listOf("dibujo.png"))
                     )
                 ),
@@ -359,9 +376,15 @@ class PatientIntegrationTest : BaseIntegrationTest("/patients") {
         testGameAnswersRequest: TestGameAnswersRequest<*>,
         expectedHttpStatus: HttpStatus
     ) {
+        patientRepository.findByIdOrNull(id)?.let {
+            it.testStatus = IN_PROGRESS
+            patientRepository.saveAndFlush(it)
+        }
+
         if (testGameAnswersRequest.category == DRAWING) {
             val imageToCompareName =
                 testGameAnswersRequest.patientTaskAnswersRequestList.first().patientAnswersRequest.first() as String
+
             every { amazonS3Client.getObject(any<String>(), any<String>()) } returns mockk {
                 every { objectContent } returns mockk()
             }
