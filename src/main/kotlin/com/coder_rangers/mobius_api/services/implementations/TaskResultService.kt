@@ -33,10 +33,10 @@ class TaskResultService @Autowired constructor(
         val testTotalScore = taskResultDAO.getTestTotalScore(patientId)
 
         val dementiaLevel: DementiaLevel = when (testTotalScore) {
-            in 27..30 -> NO_DEMENTIA
-            25, 26 -> POSSIBLE_DEMENTIA
-            in 10..24 -> MILD_TO_MODERATE_DEMENTIA
-            in 6..9 -> MODERATE_TO_SEVERE_DEMENTIA
+            in 30..35 -> NO_DEMENTIA
+            in 25..29 -> POSSIBLE_DEMENTIA
+            in 20..24 -> MILD_TO_MODERATE_DEMENTIA
+            in 15..19 -> MODERATE_TO_SEVERE_DEMENTIA
             else -> SEVERE_DEMENTIA
         }
 
