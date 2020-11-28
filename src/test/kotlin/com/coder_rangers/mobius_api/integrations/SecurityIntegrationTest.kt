@@ -33,7 +33,7 @@ class SecurityIntegrationTest @Autowired constructor(
     private val userRegisteredSubscriber: MessageListener
 ) : BaseIntegrationTest("/security") {
 
-    @MockkBean(relaxed = true)
+    @MockkBean(name = "userRegisteredPublisher", relaxed = true)
     private lateinit var userRegisteredPublisher: MessagePublisher
 
     @MockkBean(relaxed = true)

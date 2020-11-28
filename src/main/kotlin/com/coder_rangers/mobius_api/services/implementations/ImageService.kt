@@ -1,16 +1,19 @@
 package com.coder_rangers.mobius_api.services.implementations
 
+import com.coder_rangers.mobius_api.notifications.redis.messages.UploadFileMessage
+import com.coder_rangers.mobius_api.notifications.redis.publishers.MessagePublisher
 import com.coder_rangers.mobius_api.responses.SaveImageResponse
-import com.coder_rangers.mobius_api.services.interfaces.IAmazonS3Service
 import com.coder_rangers.mobius_api.services.interfaces.IImageService
 import com.coder_rangers.mobius_api.utils.ImageUtils
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 import java.util.UUID
 
 @Service
 class ImageService @Autowired constructor(
-    private val amazonS3Service: IAmazonS3Service
+    @Qualifier("uploadFileToS3Publisher")
+    private val uploadFileToS3Publisher: MessagePublisher
 ) : IImageService {
     override fun saveImage(bytes: ByteArray): SaveImageResponse {
         ImageUtils.assertThatIsAPNG(bytes)
@@ -18,7 +21,12 @@ class ImageService @Autowired constructor(
         val fileName = buildFileName()
         val filePath = buildFilePath(fileName)
 
-        amazonS3Service.uploadFileToS3(filePath, bytes)
+        uploadFileToS3Publisher.publish(
+            UploadFileMessage(
+                filePath,
+                bytes
+            )
+        )
 
         return SaveImageResponse(fileName)
     }

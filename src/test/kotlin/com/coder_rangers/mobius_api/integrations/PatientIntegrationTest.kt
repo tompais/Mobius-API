@@ -17,6 +17,8 @@ import com.coder_rangers.mobius_api.models.Game.Category.READING
 import com.coder_rangers.mobius_api.models.Game.Category.REPETITION
 import com.coder_rangers.mobius_api.models.Game.Category.VISUALIZATION
 import com.coder_rangers.mobius_api.models.Game.Category.WRITING
+import com.coder_rangers.mobius_api.notifications.redis.messages.UploadFileMessage
+import com.coder_rangers.mobius_api.notifications.redis.publishers.MessagePublisher
 import com.coder_rangers.mobius_api.requests.PatientTaskAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.AttentionTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.NumericTestGameAnswersRequest
@@ -34,6 +36,7 @@ import com.ninjasquad.springmockk.SpykBean
 import io.mockk.clearMocks
 import io.mockk.clearStaticMockk
 import io.mockk.every
+import io.mockk.mockk
 import io.restassured.http.ContentType.JSON
 import io.restassured.module.mockmvc.RestAssuredMockMvc.given
 import org.junit.jupiter.api.BeforeEach
@@ -41,6 +44,9 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.data.redis.connection.Message
+import org.springframework.data.redis.connection.MessageListener
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.BAD_REQUEST
@@ -50,12 +56,19 @@ import org.springframework.http.HttpStatus.OK
 import javax.imageio.ImageIO
 
 class PatientIntegrationTest @Autowired constructor(
-    private val patientRepository: IPatientRepository
+    private val patientRepository: IPatientRepository,
+
+    @Qualifier("uploadFileToS3Subscriber")
+    private val uploadFileToS3Subscriber: MessageListener
 ) : BaseIntegrationTest("/patients") {
     @SpykBean
     private lateinit var taskResultRepository: ITaskResultRepository
 
+    @MockkBean(name = "uploadFileToS3Publisher", relaxed = true)
+    private lateinit var uploadFileToS3Publisher: MessagePublisher
+
     @MockkBean(relaxed = true)
+    @Suppress("UNUSED")
     private lateinit var amazonS3Client: AmazonS3
 
     companion object {
@@ -380,7 +393,7 @@ class PatientIntegrationTest @Autowired constructor(
 
     @BeforeEach
     fun beforeEach() {
-        clearMocks(taskResultRepository, amazonS3Client)
+        clearMocks(taskResultRepository)
         clearStaticMockk(ImageIO::class)
     }
 
@@ -406,6 +419,21 @@ class PatientIntegrationTest @Autowired constructor(
         patientRepository.findByIdOrNull(id)?.let {
             it.testStatus = IN_PROGRESS
             patientRepository.saveAndFlush(it)
+        }
+
+        if (testGameAnswersRequest.category == DRAWING) {
+            every { uploadFileToS3Publisher.publish(any()) } answers {
+                val message = mockk<Message>()
+
+                every { message.toString() } returns mapper.writeValueAsString(
+                    mockk<UploadFileMessage>(relaxed = true)
+                )
+
+                uploadFileToS3Subscriber.onMessage(
+                    message,
+                    null
+                )
+            }
         }
 
         given()
