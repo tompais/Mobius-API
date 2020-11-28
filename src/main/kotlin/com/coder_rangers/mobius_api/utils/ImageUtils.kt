@@ -1,7 +1,9 @@
 package com.coder_rangers.mobius_api.utils
 
+import com.coder_rangers.mobius_api.error.exceptions.IllegalImageExtensionException
 import com.coder_rangers.mobius_api.error.exceptions.IncompatibleImageDimensionsException
 import java.awt.image.BufferedImage
+import java.net.URLConnection
 import kotlin.math.abs
 
 object ImageUtils {
@@ -12,9 +14,12 @@ object ImageUtils {
         val drawnImageHeight = drawnImage.height
 
         if (originalImageWidth != drawnImageWidth || originalImageHeight != drawnImageHeight) {
-            val dimensionsDifference =
-                "(%d,%d) vs. (%d,%d)".format(originalImageWidth, originalImageHeight, drawnImageWidth, drawnImageHeight)
-            throw IncompatibleImageDimensionsException(dimensionsDifference)
+            throw IncompatibleImageDimensionsException(
+                originalImageWidth,
+                originalImageHeight,
+                drawnImageWidth,
+                drawnImageHeight
+            )
         }
         var difference = 0L
         for (y in 0 until originalImageHeight) {
@@ -34,5 +39,17 @@ object ImageUtils {
         val drawnImageGreen = (imageDrawnRGB shr 8) and 0xff
         val drawnImageBlue = imageDrawnRGB and 0xff
         return abs(originalImageRed - drawnImageRed) + abs(originalImageGreen - drawnImageGreen) + abs(originalImageBlue - drawnImageBlue)
+    }
+
+    private fun isPng(bytes: ByteArray): Boolean {
+        val extension = URLConnection.guessContentTypeFromStream(bytes.inputStream()).split("/")[1]
+
+        return "png".equals(extension, ignoreCase = true)
+    }
+
+    fun assertThatIsAPNG(bytes: ByteArray) {
+        if (!isPng(bytes)) {
+            throw IllegalImageExtensionException()
+        }
     }
 }

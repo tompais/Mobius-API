@@ -23,9 +23,8 @@ import com.coder_rangers.mobius_api.requests.categories.NumericTestGameAnswersRe
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersWithResultsRequest
-import com.coder_rangers.mobius_api.utils.MockUtils.getMockBufferedImage
+import com.coder_rangers.mobius_api.utils.MockUtils.getImageFromClasspathInBase64
 import com.coder_rangers.mobius_api.utils.TestConstants.NON_EXISTENT_PATIENT_ID
-import com.coder_rangers.mobius_api.utils.TestConstants.ORIGINAL_IMAGE_NAME
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID_WITH_FINISHED_TEST
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_WITHOUT_TEST_PROGRESS
@@ -35,8 +34,6 @@ import com.ninjasquad.springmockk.SpykBean
 import io.mockk.clearMocks
 import io.mockk.clearStaticMockk
 import io.mockk.every
-import io.mockk.mockk
-import io.mockk.mockkStatic
 import io.restassured.http.ContentType.JSON
 import io.restassured.module.mockmvc.RestAssuredMockMvc.given
 import org.junit.jupiter.api.BeforeEach
@@ -50,7 +47,6 @@ import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.HttpStatus.OK
-import java.io.InputStream
 import javax.imageio.ImageIO
 
 class PatientIntegrationTest @Autowired constructor(
@@ -59,7 +55,7 @@ class PatientIntegrationTest @Autowired constructor(
     @SpykBean
     private lateinit var taskResultRepository: ITaskResultRepository
 
-    @MockkBean
+    @MockkBean(relaxed = true)
     private lateinit var amazonS3Client: AmazonS3
 
     companion object {
@@ -304,7 +300,12 @@ class PatientIntegrationTest @Autowired constructor(
                     category = DRAWING,
                     gameId = 11,
                     patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(taskId = 18, listOf("dibujo-chico.png"))
+                        PatientTaskAnswersRequest(
+                            taskId = 18,
+                            listOf(
+                                getImageFromClasspathInBase64("dibujo-chico.png")
+                            )
+                        )
                     )
                 ),
                 BAD_REQUEST
@@ -315,7 +316,28 @@ class PatientIntegrationTest @Autowired constructor(
                     category = DRAWING,
                     gameId = 11,
                     patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(taskId = 18, listOf("dibujo-menos70.png"))
+                        PatientTaskAnswersRequest(
+                            taskId = 18,
+                            listOf(
+                                getImageFromClasspathInBase64("spiderman.jpg")
+                            )
+                        )
+                    )
+                ),
+                BAD_REQUEST
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                TextTestGameAnswersRequest(
+                    category = DRAWING,
+                    gameId = 11,
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(
+                            taskId = 18,
+                            listOf(
+                                getImageFromClasspathInBase64("dibujo-menos70.png")
+                            )
+                        )
                     )
                 ),
                 NO_CONTENT
@@ -326,7 +348,12 @@ class PatientIntegrationTest @Autowired constructor(
                     category = DRAWING,
                     gameId = 11,
                     patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(taskId = 18, listOf("dibujo.png"))
+                        PatientTaskAnswersRequest(
+                            taskId = 18,
+                            listOf(
+                                getImageFromClasspathInBase64("dibujo.png")
+                            )
+                        )
                     )
                 ),
                 NO_CONTENT
@@ -379,20 +406,6 @@ class PatientIntegrationTest @Autowired constructor(
         patientRepository.findByIdOrNull(id)?.let {
             it.testStatus = IN_PROGRESS
             patientRepository.saveAndFlush(it)
-        }
-
-        if (testGameAnswersRequest.category == DRAWING) {
-            val imageToCompareName =
-                testGameAnswersRequest.patientTaskAnswersRequestList.first().patientAnswersRequest.first() as String
-
-            every { amazonS3Client.getObject(any<String>(), any<String>()) } returns mockk {
-                every { objectContent } returns mockk()
-            }
-
-            mockkStatic(ImageIO::class).also {
-                every { ImageIO.read(any<InputStream>()) } returns getMockBufferedImage(ORIGINAL_IMAGE_NAME) andThen
-                    getMockBufferedImage(imageToCompareName)
-            }
         }
 
         given()
