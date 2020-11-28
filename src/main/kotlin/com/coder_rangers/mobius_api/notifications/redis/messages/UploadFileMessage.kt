@@ -8,12 +8,15 @@ data class UploadFileMessage(
         if (this === other) return true
         if (other !is UploadFileMessage) return false
 
+        if (filePath != other.filePath) return false
         if (!bytes.contentEquals(other.bytes)) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        return bytes.contentHashCode()
+        var result = filePath.hashCode()
+        result = 31 * result + bytes.contentHashCode()
+        return result
     }
 }
