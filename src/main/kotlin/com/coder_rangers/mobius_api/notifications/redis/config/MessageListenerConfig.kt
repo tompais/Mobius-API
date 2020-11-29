@@ -19,13 +19,6 @@ class MessageListenerConfig @Autowired constructor(
 
     @Bean
     @Autowired
-    fun userRegisteredListener(
-        @Qualifier("userRegisteredSubscriber")
-        userRegisteredSubscriber: MessageListener
-    ) = buildMessageListener(userRegisteredSubscriber)
-
-    @Bean
-    @Autowired
     fun uploadFileToS3Listener(
         @Qualifier("uploadFileToS3Subscriber")
         uploadFileToS3Subscriber: UploadFileToS3Subscriber

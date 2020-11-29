@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
+import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.web.context.WebApplicationContext
 
@@ -33,6 +34,10 @@ class BaseIntegrationTest(
     @MockkBean(relaxed = true)
     @Suppress("UNUSED")
     private lateinit var redisTemplate: RedisTemplate<String, Any>
+
+    @MockkBean(relaxed = true)
+    @Suppress("UNUSED")
+    private lateinit var mailSender: JavaMailSender
 
     @Autowired
     @Qualifier("camelCase")

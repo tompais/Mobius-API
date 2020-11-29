@@ -3,6 +3,7 @@ package com.coder_rangers.mobius_api.services.implementations
 import com.coder_rangers.mobius_api.dao.interfaces.IPatientDAO
 import com.coder_rangers.mobius_api.enums.TestStatus.FINISHED
 import com.coder_rangers.mobius_api.enums.TestStatus.IN_PROGRESS
+import com.coder_rangers.mobius_api.error.exceptions.DuplicatedPatientException
 import com.coder_rangers.mobius_api.error.exceptions.PatientNotFoundException
 import com.coder_rangers.mobius_api.error.exceptions.TestNotFinishedException
 import com.coder_rangers.mobius_api.models.Game
@@ -14,6 +15,7 @@ import com.coder_rangers.mobius_api.responses.PatientTestResult
 import com.coder_rangers.mobius_api.services.interfaces.IMentalTestService
 import com.coder_rangers.mobius_api.services.interfaces.IPatientService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -46,6 +48,15 @@ class PatientService @Autowired constructor(
         return mentalTestService.getPatientTestResult(id)
     }
 
+    override fun getActivePatientByEmailAndPassword(email: String, password: String): Patient =
+        patientDAO.getActivePatientByEmailAndPassword(email, password) ?: throw PatientNotFoundException()
+
+    override fun createOrUpdatePatient(patient: Patient): Patient = try {
+        patientDAO.createOrUpdatePatient(patient)
+    } catch (dive: DataIntegrityViolationException) {
+        throw DuplicatedPatientException(patient.email, dive)
+    }
+
     override fun cleanTestProgress(id: Long) {
         getActivePatientById(id).also { patient ->
             patient.testStatus = IN_PROGRESS
@@ -53,7 +64,7 @@ class PatientService @Autowired constructor(
                 it.patient = null
             }
             patient.taskResults?.clear()
-            patientDAO.saveOrUpdate(patient)
+            patientDAO.createOrUpdatePatient(patient)
         }
     }
 
@@ -65,7 +76,7 @@ class PatientService @Autowired constructor(
     private fun updateTestStatus(patient: Patient, category: Category) {
         if (isLastTestCategory(category)) {
             patient.testStatus = FINISHED
-            patientDAO.saveOrUpdate(patient)
+            patientDAO.createOrUpdatePatient(patient)
         }
     }
 }

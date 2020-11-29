@@ -1,41 +1,48 @@
 package com.coder_rangers.mobius_api.services.implementations
 
-import com.coder_rangers.mobius_api.dao.interfaces.IPatientDAO
-import com.coder_rangers.mobius_api.error.exceptions.PatientNotFoundException
-import com.coder_rangers.mobius_api.notifications.redis.publishers.MessagePublisher
+import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.requests.SignInRequest
 import com.coder_rangers.mobius_api.requests.SignUpRequest
 import com.coder_rangers.mobius_api.responses.SignInResponse
+import com.coder_rangers.mobius_api.services.interfaces.IGuardianService
+import com.coder_rangers.mobius_api.services.interfaces.IPatientService
 import com.coder_rangers.mobius_api.services.interfaces.ISecurityService
-import org.slf4j.LoggerFactory
+import com.coder_rangers.mobius_api.utils.fromBase64ToSHA256
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
 class SecurityService @Autowired constructor(
-    private val patientDAO: IPatientDAO,
-
-    @Qualifier("userRegisteredPublisher")
-    private val userRegisteredPublisher: MessagePublisher
+    private val patientService: IPatientService,
+    private val guardianService: IGuardianService
 ) : ISecurityService {
-    private val logger = LoggerFactory.getLogger(this::class.java)
-
     override fun signUp(signUpRequest: SignUpRequest) {
-        logger.info(signUpRequest.toString())
-        userRegisteredPublisher.publish(signUpRequest.patientEmail)
-    }
-
-    override fun signIn(signInRequest: SignInRequest): SignInResponse {
-        val patient = patientDAO.findActivePatientByEmailAndPassword(signInRequest.email, signInRequest.password)
-            ?: throw PatientNotFoundException()
-
-        return SignInResponse(
-            patient.id,
-            patient.firstName,
-            patient.lastName
+        patientService.createOrUpdatePatient(
+            Patient(
+                firstName = signUpRequest.firstName,
+                lastName = signUpRequest.lastName,
+                email = signUpRequest.patientEmail,
+                birthday = signUpRequest.birthday,
+                password = signUpRequest.password.fromBase64ToSHA256(),
+                guardians = setOf(
+                    guardianService.getOrCreateGuardian(signUpRequest.guardianEmail)
+                ),
+                genre = signUpRequest.genre
+            )
         )
     }
+
+    override fun signIn(signInRequest: SignInRequest): SignInResponse =
+        patientService.getActivePatientByEmailAndPassword(
+            signInRequest.email,
+            signInRequest.password.fromBase64ToSHA256()
+        ).let { patient ->
+            SignInResponse(
+                patient.id,
+                patient.firstName,
+                patient.lastName
+            )
+        }
 }

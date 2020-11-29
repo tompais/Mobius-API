@@ -58,6 +58,7 @@ dependencies {
     implementation("org.liquibase:liquibase-core")
     implementation("org.apache.commons:commons-lang3:3.11")
     implementation("commons-io:commons-io:2.8.0")
+    implementation("commons-codec:commons-codec:1.15")
     implementation("org.springdoc:springdoc-openapi-ui:1.4.8")
     implementation("org.springdoc:springdoc-openapi-data-rest:1.4.8")
     implementation("org.springdoc:springdoc-openapi-kotlin:1.4.8")
@@ -165,7 +166,8 @@ tasks.jacocoTestCoverageVerification {
                 "*.enums.*",
                 "*.responses.*",
                 "*.publishers.*",
-                "*.IGameAnswersResolver*"
+                "*.IGameAnswersResolver*",
+                "*.messages.*"
             )
             limit {
                 minimum = "0.8".toBigDecimal()

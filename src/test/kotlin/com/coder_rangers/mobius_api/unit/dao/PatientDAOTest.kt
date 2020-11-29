@@ -27,7 +27,7 @@ class PatientDAOTest {
         every { patientRepository.saveAndFlush(any()) } returns patient
 
         // WHEN
-        patientDAO.saveOrUpdate(patient)
+        patientDAO.createOrUpdatePatient(patient)
 
         // THEN
         verify { patientRepository.saveAndFlush(any()) }

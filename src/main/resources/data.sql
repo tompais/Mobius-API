@@ -1,26 +1,26 @@
-INSERT INTO public.guardians (birthday, email, first_name, last_name, password, status, genre)
-VALUES ('2000-10-10', 'jaimito@gmail.com', 'Jaimito', 'Rodríguez', 'lala1234', 'ACTIVE', 'OTHER');
+INSERT INTO public.guardians (email)
+VALUES ('jaimito@gmail.com');
 
 INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre, test_status)
-VALUES ('2000-10-10', 'fulanito@gmail.com', 'Fulanito', 'De Tal', 'lala1234', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
+VALUES ('2000-10-10', 'fulanito@gmail.com', 'Fulanito', 'De Tal', 'c9fe26d11b5fd337fdde5fea13b18865faff10f4f775cb05682437ce34d69222', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
 
 INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre, test_status)
-VALUES ('2000-10-10', 'toto@gmail.com', 'Toto', 'Toto', 'lala1234', 'ACTIVE', 'OTHER', 'FINISHED');
+VALUES ('2000-10-10', 'toto@gmail.com', 'Toto', 'Toto', 'c9fe26d11b5fd337fdde5fea13b18865faff10f4f775cb05682437ce34d69222', 'ACTIVE', 'OTHER', 'FINISHED');
 
 INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre, test_status)
-VALUES ('2000-10-10', 'tomas.j.pais@gmail.com', 'Tomás', 'Pais', 'lala1234', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
+VALUES ('2000-10-10', 'tomas.j.pais@gmail.com', 'Tomás', 'Pais', 'c9fe26d11b5fd337fdde5fea13b18865faff10f4f775cb05682437ce34d69222', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
 
 INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre, test_status)
-VALUES ('2000-10-10', 'ezequiel.allio@gmail.com', 'Ezequiel', 'Allio', 'lala1234', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
+VALUES ('2000-10-10', 'ezequiel.allio@gmail.com', 'Ezequiel', 'Allio', 'c9fe26d11b5fd337fdde5fea13b18865faff10f4f775cb05682437ce34d69222', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
 
 INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre, test_status)
-VALUES ('2000-10-10', 'ferezecarr@gmail.com', 'Fernando', 'Carreño', 'lala1234', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
+VALUES ('2000-10-10', 'ferezecarr@gmail.com', 'Fernando', 'Carreño', 'c9fe26d11b5fd337fdde5fea13b18865faff10f4f775cb05682437ce34d69222', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
 
 INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre, test_status)
-VALUES ('2000-10-10', 'ezeq.quevedo@gmail.com', 'Ezequiel', 'Quevedo', 'lala1234', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
+VALUES ('2000-10-10', 'ezeq.quevedo@gmail.com', 'Ezequiel', 'Quevedo', 'c9fe26d11b5fd337fdde5fea13b18865faff10f4f775cb05682437ce34d69222', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
 
 INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre, test_status)
-VALUES ('2000-10-10', 'damiangayoso@gmail.com', 'Damián', 'Gayoso', 'lala1234', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
+VALUES ('2000-10-10', 'damiangayoso@gmail.com', 'Damián', 'Gayoso', 'c9fe26d11b5fd337fdde5fea13b18865faff10f4f775cb05682437ce34d69222', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
 
 INSERT INTO public.patient_guardian (patient_id, guardian_id)
 VALUES (1, 1);
