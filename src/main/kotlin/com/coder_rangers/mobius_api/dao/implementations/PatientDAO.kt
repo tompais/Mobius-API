@@ -15,4 +15,6 @@ class PatientDAO(
 
     override fun findActivePatientById(id: Long): Patient? = patientRepository.findByIdAndStatus(id, ACTIVE)
     override fun createOrUpdatePatient(patient: Patient): Patient = patientRepository.saveAndFlush(patient)
+    override fun getActivePatientByEmail(email: String): Patient? =
+        patientRepository.findByEmailAndStatus(email, ACTIVE)
 }

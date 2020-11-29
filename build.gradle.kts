@@ -167,7 +167,8 @@ tasks.jacocoTestCoverageVerification {
                 "*.responses.*",
                 "*.publishers.*",
                 "*.IGameAnswersResolver*",
-                "*.messages.*"
+                "*.messages.*",
+                "*.subscribers.*"
             )
             limit {
                 minimum = "0.8".toBigDecimal()

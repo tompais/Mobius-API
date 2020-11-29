@@ -3,6 +3,7 @@ package com.coder_rangers.mobius_api.integrations
 import com.coder_rangers.mobius_api.requests.SignUpRequest
 import com.coder_rangers.mobius_api.utils.MockUtils.mockSignInRequest
 import com.coder_rangers.mobius_api.utils.MockUtils.mockSignUpRequest
+import com.coder_rangers.mobius_api.utils.TestConstant.PATIENT_EMAIL
 import io.restassured.http.ContentType.JSON
 import io.restassured.module.mockmvc.RestAssuredMockMvc.given
 import org.junit.jupiter.api.Test
@@ -38,6 +39,10 @@ class SecurityIntegrationTest : BaseIntegrationTest("/security") {
             ),
             Arguments.of(
                 mockSignUpRequest(birthday = LocalDate.now()),
+                BAD_REQUEST
+            ),
+            Arguments.of(
+                mockSignUpRequest(guardianEmail = PATIENT_EMAIL),
                 BAD_REQUEST
             ),
             Arguments.of(

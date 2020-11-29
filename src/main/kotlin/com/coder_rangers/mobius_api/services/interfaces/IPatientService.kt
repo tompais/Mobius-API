@@ -12,4 +12,5 @@ interface IPatientService {
     fun getTestResult(id: Long): PatientTestResult
     fun getActivePatientByEmailAndPassword(email: String, password: String): Patient
     fun createOrUpdatePatient(patient: Patient): Patient
+    fun getActivePatientByEmail(email: String): Patient?
 }

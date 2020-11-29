@@ -11,4 +11,5 @@ import org.springframework.transaction.annotation.Transactional
 interface IPatientRepository : JpaRepository<Patient, Long> {
     fun findByEmailAndPasswordAndStatus(email: String, password: String, status: Status): Patient?
     fun findByIdAndStatus(id: Long, status: Status): Patient?
+    fun findByEmailAndStatus(email: String, status: Status): Patient?
 }

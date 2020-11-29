@@ -57,6 +57,8 @@ class PatientService @Autowired constructor(
         throw DuplicatedPatientException(patient.email, dive)
     }
 
+    override fun getActivePatientByEmail(email: String): Patient? = patientDAO.getActivePatientByEmail(email)
+
     override fun cleanTestProgress(id: Long) {
         getActivePatientById(id).also { patient ->
             patient.testStatus = IN_PROGRESS
