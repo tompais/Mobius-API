@@ -6,9 +6,8 @@ import com.coder_rangers.mobius_api.utils.TestConstants.GUARDIAN_EMAIL
 import com.coder_rangers.mobius_api.utils.TestConstants.PASSWORD
 import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_EMAIL
 import org.springframework.util.ResourceUtils
-import java.awt.image.BufferedImage
 import java.time.LocalDate
-import javax.imageio.ImageIO
+import java.util.Base64
 
 object MockUtils {
     fun mockSignUpRequest(
@@ -33,6 +32,8 @@ object MockUtils {
         password
     )
 
-    fun getMockBufferedImage(imageName: String): BufferedImage =
-        ImageIO.read(ResourceUtils.getFile("classpath:images/$imageName"))
+    fun getImageFromClasspathInBase64(imageName: String): String =
+        ResourceUtils.getURL("classpath:images/$imageName").readBytes().let {
+            Base64.getEncoder().encodeToString(it)
+        }
 }
