@@ -1,27 +1,33 @@
 package com.coder_rangers.mobius_api.utils
 
+import com.coder_rangers.mobius_api.enums.Genre
+import com.coder_rangers.mobius_api.enums.Genre.OTHER
 import com.coder_rangers.mobius_api.requests.SignInRequest
 import com.coder_rangers.mobius_api.requests.SignUpRequest
-import com.coder_rangers.mobius_api.utils.TestConstants.GUARDIAN_EMAIL
-import com.coder_rangers.mobius_api.utils.TestConstants.PASSWORD
-import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_EMAIL
+import com.coder_rangers.mobius_api.utils.TestConstant.GUARDIAN_EMAIL
+import com.coder_rangers.mobius_api.utils.TestConstant.NEW_PATIENT_EMAIL
+import com.coder_rangers.mobius_api.utils.TestConstant.PASSWORD
+import com.coder_rangers.mobius_api.utils.TestConstant.PATIENT_EMAIL
 import org.springframework.util.ResourceUtils
-import java.awt.image.BufferedImage
 import java.time.LocalDate
-import javax.imageio.ImageIO
+import java.util.Base64
 
 object MockUtils {
     fun mockSignUpRequest(
         firstName: String = "Fulanito",
         lastName: String = "De Tal",
-        patientEmail: String = PATIENT_EMAIL,
+        patientEmail: String = NEW_PATIENT_EMAIL,
         guardianEmail: String = GUARDIAN_EMAIL,
+        password: String = PASSWORD,
+        genre: Genre = OTHER,
         birthday: LocalDate = LocalDate.now().minusYears(20)
     ) = SignUpRequest(
         firstName,
         lastName,
         patientEmail,
         guardianEmail,
+        Base64.getEncoder().encodeToString(password.toByteArray()),
+        genre,
         birthday
     )
 
@@ -30,9 +36,11 @@ object MockUtils {
         password: String = PASSWORD
     ) = SignInRequest(
         email,
-        password
+        Base64.getEncoder().encodeToString(password.toByteArray())
     )
 
-    fun getMockBufferedImage(imageName: String): BufferedImage =
-        ImageIO.read(ResourceUtils.getFile("classpath:images/$imageName"))
+    fun getImageFromClasspathInBase64(imageName: String): String =
+        ResourceUtils.getURL("classpath:images/$imageName").readBytes().let {
+            Base64.getEncoder().encodeToString(it)
+        }
 }

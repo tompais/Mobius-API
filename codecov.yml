@@ -43,6 +43,4 @@ ignore:
   - "**/request*/**"
   - "**/publisher*/**"
   - "**/IGameAnswersResolver*"
-  - "**/FixationGameAnswersResolver.kt"
-  - "**/CalculationGameAnswersResolver.kt"
   - "**/response*/**"

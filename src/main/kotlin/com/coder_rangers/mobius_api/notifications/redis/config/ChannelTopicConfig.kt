@@ -7,5 +7,5 @@ import org.springframework.data.redis.listener.ChannelTopic
 @Configuration
 class ChannelTopicConfig {
     @Bean
-    fun userRegisteredChannelTopic() = ChannelTopic("user-registered-topic")
+    fun uploadFileToS3ChannelTopic() = ChannelTopic("upload-file-to-s3-topic")
 }

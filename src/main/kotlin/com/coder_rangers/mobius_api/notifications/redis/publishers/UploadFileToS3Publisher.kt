@@ -7,10 +7,10 @@ import org.springframework.data.redis.listener.ChannelTopic
 import org.springframework.stereotype.Service
 
 @Service
-class UserRegisteredPublisher @Autowired constructor(
+class UploadFileToS3Publisher @Autowired constructor(
     redisTemplate: RedisTemplate<String, Any>,
 
-    @Qualifier("userRegisteredChannelTopic")
+    @Qualifier("uploadFileToS3ChannelTopic")
     channelTopic: ChannelTopic
 ) : RedisMessagePublisher(
     redisTemplate,

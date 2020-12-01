@@ -27,16 +27,16 @@ class RedisConfig @Autowired constructor(
     @Bean
     @Autowired
     fun redisContainer(
-        @Qualifier("userRegisteredListener")
-        userRegisteredListener: MessageListener,
+        @Qualifier("uploadFileToS3Listener")
+        uploadFileToS3Listener: MessageListener,
 
-        @Qualifier("userRegisteredChannelTopic")
-        userRegisteredChannelTopic: ChannelTopic
+        @Qualifier("uploadFileToS3ChannelTopic")
+        uploadFileToS3ChannelTopic: ChannelTopic
     ) = RedisMessageListenerContainer().apply {
         setConnectionFactory(jedisConnectionFactory)
         addMessageListener(
-            userRegisteredListener,
-            userRegisteredChannelTopic
+            uploadFileToS3Listener,
+            uploadFileToS3ChannelTopic
         )
     }
 }

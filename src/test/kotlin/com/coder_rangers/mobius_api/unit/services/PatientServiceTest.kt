@@ -1,6 +1,10 @@
 package com.coder_rangers.mobius_api.unit.services
 
+import assertk.assertThat
+import assertk.assertions.isFailure
+import assertk.assertions.isInstanceOf
 import com.coder_rangers.mobius_api.dao.interfaces.IPatientDAO
+import com.coder_rangers.mobius_api.error.exceptions.DuplicatedPatientException
 import com.coder_rangers.mobius_api.models.Game.Category.DRAWING
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
@@ -14,6 +18,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.dao.DataIntegrityViolationException
 
 @ExtendWith(MockKExtension::class)
 class PatientServiceTest {
@@ -40,6 +45,17 @@ class PatientServiceTest {
         patientService.processTestGameAnswers(1L, testGameAnswersRequest)
 
         // THEN
-        verify { patientDAO.saveOrUpdate(any()) }
+        verify { patientDAO.createOrUpdatePatient(any()) }
+    }
+
+    @Test
+    fun duplicatedPatientTest() {
+        // GIVEN
+        every { patientDAO.createOrUpdatePatient(any()) } throws DataIntegrityViolationException("Duplicated patient")
+
+        // THEN
+        assertThat {
+            patientService.createOrUpdatePatient(mockk(relaxed = true))
+        }.isFailure().isInstanceOf(DuplicatedPatientException::class)
     }
 }

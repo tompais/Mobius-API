@@ -50,8 +50,8 @@ class MentalTestService @Autowired constructor(
     @Qualifier("comprehensionGameAnswersResolver")
     private val comprehensionGameAnswersResolver: IGameAnswersResolver<String>,
 
-    @Qualifier("imageGameAnswersResolver")
-    private val imageGameAnswersResolver: IGameAnswersResolver<String>
+    @Qualifier("drawingGameAnswersResolver")
+    private val drawingGameAnswersResolver: IGameAnswersResolver<String>
 ) : IMentalTestService {
     override fun getMentalTestGame(patient: Patient, nextCategoryType: Category): Game {
         assertPatientIsNotFinished(patient)
@@ -85,7 +85,7 @@ class MentalTestService @Autowired constructor(
                 game,
                 (testGameAnswersRequest as TextTestGameAnswersRequest).patientTaskAnswersRequestList
             )
-            DRAWING -> imageGameAnswersResolver.resolveAnswers(
+            DRAWING -> drawingGameAnswersResolver.resolveAnswers(
                 patient,
                 game,
                 (testGameAnswersRequest as TextTestGameAnswersRequest).patientTaskAnswersRequestList

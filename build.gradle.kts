@@ -45,6 +45,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    implementation("org.springframework.retry:spring-retry")
+    implementation("org.springframework:spring-aspects")
     implementation("redis.clients:jedis:3.3.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
@@ -56,10 +58,11 @@ dependencies {
     implementation("org.liquibase:liquibase-core")
     implementation("org.apache.commons:commons-lang3:3.11")
     implementation("commons-io:commons-io:2.8.0")
+    implementation("commons-codec:commons-codec:1.15")
     implementation("org.springdoc:springdoc-openapi-ui:1.4.8")
     implementation("org.springdoc:springdoc-openapi-data-rest:1.4.8")
     implementation("org.springdoc:springdoc-openapi-kotlin:1.4.8")
-    implementation("com.amazonaws:aws-java-sdk:1.11.905")
+    implementation("com.amazonaws:aws-java-sdk-s3:1.11.908")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.postgresql:postgresql")
@@ -163,7 +166,9 @@ tasks.jacocoTestCoverageVerification {
                 "*.enums.*",
                 "*.responses.*",
                 "*.publishers.*",
-                "*.IGameAnswersResolver*"
+                "*.IGameAnswersResolver*",
+                "*.messages.*",
+                "*.subscribers.*"
             )
             limit {
                 minimum = "0.8".toBigDecimal()
