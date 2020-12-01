@@ -10,7 +10,7 @@ import com.coder_rangers.mobius_api.enums.DementiaLevel.NO_DEMENTIA
 import com.coder_rangers.mobius_api.enums.DementiaLevel.POSSIBLE_DEMENTIA
 import com.coder_rangers.mobius_api.enums.DementiaLevel.SEVERE_DEMENTIA
 import com.coder_rangers.mobius_api.services.implementations.TaskResultService
-import com.coder_rangers.mobius_api.utils.TestConstants.PATIENT_ID
+import com.coder_rangers.mobius_api.utils.TestConstant.PATIENT_ID
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
