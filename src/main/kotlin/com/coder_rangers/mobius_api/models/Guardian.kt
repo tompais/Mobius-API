@@ -1,29 +1,30 @@
 package com.coder_rangers.mobius_api.models
 
-import com.coder_rangers.mobius_api.enums.Genre
-import com.coder_rangers.mobius_api.enums.Genre.OTHER
-import com.coder_rangers.mobius_api.models.User.Status.ACTIVE
-import java.time.LocalDate
-import java.time.LocalDateTime
 import javax.persistence.CascadeType.ALL
+import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType.IDENTITY
+import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.JoinTable
 import javax.persistence.ManyToMany
 import javax.persistence.Table
+import javax.validation.constraints.Email
+import javax.validation.constraints.PositiveOrZero
 
 @Entity
 @Table(name = "guardians")
 class Guardian(
-    id: Long,
-    firstName: String,
-    lastName: String,
-    email: String,
-    password: String,
-    birthday: LocalDate,
-    genre: Genre = OTHER,
-    status: Status = ACTIVE,
-    lastUpdate: LocalDateTime = LocalDateTime.now(),
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @field:PositiveOrZero
+    @Column(unique = true, nullable = false, updatable = false)
+    val id: Long,
+
+    @field:Email
+    @Column(nullable = false, updatable = false, unique = true)
+    val email: String,
 
     @ManyToMany(cascade = [ALL])
     @JoinTable(
@@ -43,14 +44,4 @@ class Guardian(
         ]
     )
     val patients: Set<Patient>? = null
-) : User(
-    id,
-    firstName,
-    lastName,
-    email,
-    password,
-    birthday,
-    genre,
-    status,
-    lastUpdate
 )
