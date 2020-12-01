@@ -7,6 +7,7 @@ import com.coder_rangers.mobius_api.enums.DementiaLevel.MODERATE_TO_SEVERE_DEMEN
 import com.coder_rangers.mobius_api.enums.DementiaLevel.NO_DEMENTIA
 import com.coder_rangers.mobius_api.enums.DementiaLevel.POSSIBLE_DEMENTIA
 import com.coder_rangers.mobius_api.enums.DementiaLevel.SEVERE_DEMENTIA
+import com.coder_rangers.mobius_api.models.Game.Category
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.models.PatientAnswer
 import com.coder_rangers.mobius_api.models.Task
@@ -41,5 +42,18 @@ class TaskResultService @Autowired constructor(
         }
 
         return PatientTestResult(testTotalScore, dementiaLevel)
+    }
+
+    override fun getRecommendedCategory(patientId: Long, gameCategories: List<Category>): Category {
+        val patientResults = taskResultDAO.getResultsByPatientAndGameCategories(patientId, gameCategories)
+            .groupBy { it.task.game!!.category }
+
+        val categoriesWithAVG =
+            patientResults.map {
+                it.key to it.value.sumBy { result -> result.score } * 100 / it.value.map { result -> result.task.inputs.count() }
+                    .sum()
+            }.sortedBy { it.second }
+
+        return categoriesWithAVG.first().first
     }
 }

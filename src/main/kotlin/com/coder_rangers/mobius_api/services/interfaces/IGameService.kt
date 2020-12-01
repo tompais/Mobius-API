@@ -6,4 +6,5 @@ import com.coder_rangers.mobius_api.models.Game.Category
 interface IGameService {
     fun getRandomGameByCategory(category: Category): Game
     fun getGameById(id: Long): Game
+    fun getGameCategories(): List<Category>
 }

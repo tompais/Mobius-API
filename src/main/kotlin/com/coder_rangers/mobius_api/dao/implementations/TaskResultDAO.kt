@@ -2,6 +2,7 @@ package com.coder_rangers.mobius_api.dao.implementations
 
 import com.coder_rangers.mobius_api.dao.interfaces.ITaskResultDAO
 import com.coder_rangers.mobius_api.database.repositories.ITaskResultRepository
+import com.coder_rangers.mobius_api.models.Game.Category
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.models.PatientAnswer
 import com.coder_rangers.mobius_api.models.Task
@@ -37,4 +38,10 @@ class TaskResultDAO @Autowired constructor(
 
     override fun getTestTotalScore(patientId: Long): Int =
         taskResultRepository.getTestTotalScore(patientId)
+
+    override fun getResultsByPatientAndGameCategories(
+        patientId: Long,
+        gameCategories: List<Category>
+    ): List<Task.Result> =
+        taskResultRepository.getResultsByPatientAndGameCategories(patientId, gameCategories)
 }
