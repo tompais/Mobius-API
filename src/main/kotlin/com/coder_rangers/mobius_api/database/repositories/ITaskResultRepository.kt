@@ -17,5 +17,5 @@ interface ITaskResultRepository : JpaRepository<Task.Result, Long> {
 
     @Query("FROM Result tr WHERE tr.patient.id = ?1 AND tr.task.game.category IN ?2")
     @RestResource(exported = false)
-    fun getResultsByPatientAndGameCategories(patientId: Long, gameCategories: List<Category>): List<Task.Result>
+    fun getPatientResults(patientId: Long, gameCategories: List<Category>): List<Task.Result>
 }

@@ -55,8 +55,7 @@ VALUES ('ORIENTATION', 'Orientación', 'Responda las siguientes preguntas', true
        ('READING', 'Lectura', 'Lea la consigna atentamente', true),
        ('WRITING', 'Escritura', null, true),
        ('DRAWING', 'Dibujo', null, true),
-       ('CALCULATION', 'Cálculo2', null, false),
-       ('VISUALIZATION', 'Visualización2', null, false);
+       ('ATTENTION', 'Atención', null, false);
 
 INSERT INTO public.tasks (game_id, description)
 VALUES (1, '¿En qué año estamos?'),
@@ -77,8 +76,7 @@ VALUES (1, '¿En qué año estamos?'),
        (9, 'Busque una persona que tenga barba de color castaño oscuro, vista unos pantalones de tono rojizo, la parte superior de su traje es de color negro y tanto su corbata como sus zapatos son de color azul'),
        (10, 'Ordene sintácticamente la siguiente oración. Solo existe un orden correcto'),
        (11, 'Dibuje la siguiente imagen, lo más exacta posible, incluyendo en tamaño'),
-       (12, 'Cuente de 5 en 5 hacia atrás, partiendo del número 80, 5 veces'),
-       (13, 'Identifique qué es lo que se ve en la siguiente imagen');
+       (12, 'Deletree la palabra DISCO al revés');
 
 INSERT INTO public.inputs (type)
 VALUES ('TEXT'),
@@ -116,8 +114,7 @@ VALUES (1, 2),
        (15, 1),
        (16, 2),
        (18, 6),
-       (19, 2),
-       (20, 1);
+       (19, 1);
 
 INSERT INTO public.resources (game_id, type, file_name)
 VALUES (2, 'AUDIO', 'Bicicleta-Cuchara-Manzana.mp3'),
@@ -148,7 +145,12 @@ VALUES (9),
        (15),
        (15),
        (16),
-       (17);
+       (17),
+       (19),
+       (19),
+       (19),
+       (19),
+       (19);
 
 INSERT INTO public.text_answers (id, text)
 VALUES (1, 'Bicicleta'),
@@ -174,4 +176,9 @@ VALUES (9, 'O'),
        (10, 'D'),
        (11, 'N'),
        (12, 'U'),
-       (13, 'M');
+       (13, 'M'),
+       (21, 'O'),
+       (22, 'C'),
+       (23, 'S'),
+       (24, 'I'),
+       (25, 'D');
