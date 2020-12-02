@@ -1,8 +1,8 @@
 package com.coder_rangers.mobius_api.components.implementations
 
 import com.coder_rangers.mobius_api.models.Answer
-import com.coder_rangers.mobius_api.models.ImagePatientAnswer
-import com.coder_rangers.mobius_api.models.PatientAnswer
+import com.coder_rangers.mobius_api.models.Answer.Type.PATIENT
+import com.coder_rangers.mobius_api.models.ImageAnswer
 import com.coder_rangers.mobius_api.requests.PatientTaskAnswersRequest
 import com.coder_rangers.mobius_api.services.interfaces.IImageService
 import com.coder_rangers.mobius_api.services.interfaces.ITaskResultService
@@ -41,10 +41,11 @@ class DrawingGameAnswersResolver @Autowired constructor(
         return (differencePercentage > 70.0).toInt()
     }
 
-    override fun transformToPatientAnswers(patientTaskAnswersRequest: PatientTaskAnswersRequest<String>): List<PatientAnswer> =
+    override fun transformToPatientAnswers(patientTaskAnswersRequest: PatientTaskAnswersRequest<String>): List<Answer> =
         patientTaskAnswersRequest.patientAnswersRequest.map { patientAnswerRequest ->
-            ImagePatientAnswer(
-                imageName = imageService.saveImage(Base64.getDecoder().decode(patientAnswerRequest)).fileName
+            ImageAnswer(
+                imageName = imageService.saveImage(Base64.getDecoder().decode(patientAnswerRequest)).fileName,
+                type = PATIENT
             )
         }
 }

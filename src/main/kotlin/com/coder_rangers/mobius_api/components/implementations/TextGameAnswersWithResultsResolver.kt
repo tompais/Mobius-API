@@ -1,9 +1,9 @@
 package com.coder_rangers.mobius_api.components.implementations
 
 import com.coder_rangers.mobius_api.models.Answer
+import com.coder_rangers.mobius_api.models.Answer.Type.PATIENT
 import com.coder_rangers.mobius_api.models.AnswerWithResult
-import com.coder_rangers.mobius_api.models.PatientAnswer
-import com.coder_rangers.mobius_api.models.TextPatientAnswer
+import com.coder_rangers.mobius_api.models.TextAnswer
 import com.coder_rangers.mobius_api.requests.PatientTaskAnswersRequest
 import com.coder_rangers.mobius_api.services.interfaces.ITaskResultService
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,14 +16,15 @@ class TextGameAnswersWithResultsResolver @Autowired constructor(
     override fun getScore(
         patientTaskAnswersRequest: PatientTaskAnswersRequest<AnswerWithResult<String>>,
         answers: Set<Answer>?
-    ): Int = patientTaskAnswersRequest.patientAnswersRequest.map {
+    ): Int = patientTaskAnswersRequest.patientAnswersRequest.sumBy {
         it.isCorrect.toInt()
-    }.sum()
+    }
 
-    override fun transformToPatientAnswers(patientTaskAnswersRequest: PatientTaskAnswersRequest<AnswerWithResult<String>>): List<PatientAnswer> =
+    override fun transformToPatientAnswers(patientTaskAnswersRequest: PatientTaskAnswersRequest<AnswerWithResult<String>>): List<Answer> =
         patientTaskAnswersRequest.patientAnswersRequest.map {
-            TextPatientAnswer(
-                text = it.answer
+            TextAnswer(
+                text = it.answer,
+                type = PATIENT
             )
         }
 }
