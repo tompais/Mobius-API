@@ -35,7 +35,7 @@ open class GameAnswersRequest<T>(
     @field:Positive
     val gameId: Long,
 
-    val isTestGame: Boolean,
+    val areTestGameAnswers: Boolean,
 
     @field:NotEmpty
     val patientTaskAnswersRequestList: List<PatientTaskAnswersRequest<T>>

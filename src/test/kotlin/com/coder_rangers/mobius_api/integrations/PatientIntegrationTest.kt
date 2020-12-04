@@ -21,8 +21,8 @@ import com.coder_rangers.mobius_api.notifications.redis.messages.UploadFileMessa
 import com.coder_rangers.mobius_api.notifications.redis.publishers.MessagePublisher
 import com.coder_rangers.mobius_api.requests.PatientTaskAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.AttentionGameAnswersRequest
-import com.coder_rangers.mobius_api.requests.categories.NumericGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.GameAnswersRequest
+import com.coder_rangers.mobius_api.requests.categories.NumericGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextGameAnswersWithResultsRequest
 import com.coder_rangers.mobius_api.utils.MockUtils.getImageFromClasspathInBase64
@@ -105,6 +105,7 @@ class PatientIntegrationTest @Autowired constructor(
                 TextGameAnswersWithResultsRequest(
                     category = ORIENTATION,
                     gameId = 1,
+                    isTestGame = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 1, listOf(AnswerWithResult(true, "lala"))),
                         PatientTaskAnswersRequest(taskId = 2, listOf(AnswerWithResult(false, "lala"))),
@@ -123,6 +124,7 @@ class PatientIntegrationTest @Autowired constructor(
                 TextGameAnswersWithResultsRequest(
                     category = ORIENTATION,
                     gameId = 1,
+                    isTestGame = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 1, listOf(AnswerWithResult(true, "lala"))),
                         PatientTaskAnswersRequest(taskId = 2, listOf(AnswerWithResult(false, "lala"))),
@@ -137,6 +139,7 @@ class PatientIntegrationTest @Autowired constructor(
                 TextGameAnswersRequest(
                     category = FIXATION,
                     gameId = 2,
+                    isTestGame = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 9, listOf("Bicicleta", "Cuchara", "Manzana")),
                     )
@@ -148,6 +151,7 @@ class PatientIntegrationTest @Autowired constructor(
                 TextGameAnswersRequest(
                     category = FIXATION,
                     gameId = 2,
+                    isTestGame = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 9, listOf("Bicicleta", "Cuchara", "Manzana")),
                         PatientTaskAnswersRequest(taskId = 1, listOf("Bicicleta", "Cuchara", "Manzana")),
@@ -160,6 +164,7 @@ class PatientIntegrationTest @Autowired constructor(
                 TextGameAnswersRequest(
                     category = FIXATION,
                     gameId = 2,
+                    isTestGame = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 1, listOf("bicicleta", "Cuchara", "Manzana")),
                     )
@@ -171,6 +176,7 @@ class PatientIntegrationTest @Autowired constructor(
                 TextGameAnswersRequest(
                     category = FIXATION,
                     gameId = 2,
+                    isTestGame = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 9, listOf("Bicicleta", "Cuchara", "Coca")),
                     )
@@ -182,6 +188,7 @@ class PatientIntegrationTest @Autowired constructor(
                 NumericGameAnswersRequest(
                     category = CALCULATION,
                     gameId = 3,
+                    isTestGame = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 10, listOf(93, 86, 79, 72, 65))
                     )
@@ -193,6 +200,7 @@ class PatientIntegrationTest @Autowired constructor(
                 NumericGameAnswersRequest(
                     category = CALCULATION,
                     gameId = 3,
+                    isTestGame = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 10, listOf(93)),
                         PatientTaskAnswersRequest(taskId = 1, listOf(86, 74))
@@ -205,6 +213,7 @@ class PatientIntegrationTest @Autowired constructor(
                 AttentionGameAnswersRequest(
                     category = ATTENTION,
                     gameId = 4,
+                    isTestGame = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 11, listOf('o', 'd', 'n', 'u', 'm'))
                     )
@@ -216,6 +225,7 @@ class PatientIntegrationTest @Autowired constructor(
                 AttentionGameAnswersRequest(
                     category = ATTENTION,
                     gameId = 4,
+                    isTestGame = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 1, listOf('b', 'a', 'M')),
                     )
@@ -227,6 +237,7 @@ class PatientIntegrationTest @Autowired constructor(
                 TextGameAnswersWithResultsRequest(
                     category = MEMORY,
                     gameId = 5,
+                    isTestGame = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(
                             taskId = 12,
@@ -245,6 +256,7 @@ class PatientIntegrationTest @Autowired constructor(
                 TextGameAnswersRequest(
                     category = VISUALIZATION,
                     gameId = 6,
+                    isTestGame = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 13, listOf("Tigre"))
                     )
@@ -256,6 +268,7 @@ class PatientIntegrationTest @Autowired constructor(
                 TextGameAnswersRequest(
                     category = VISUALIZATION,
                     gameId = 6,
+                    isTestGame = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 9, listOf("Manzana")),
                         PatientTaskAnswersRequest(taskId = 1, listOf("Bicicleta"))
@@ -268,6 +281,7 @@ class PatientIntegrationTest @Autowired constructor(
                 TextGameAnswersRequest(
                     category = REPETITION,
                     gameId = 7,
+                    isTestGame = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 14, listOf("El flan tiene frutillas y frambuesas"))
                     )
@@ -279,6 +293,7 @@ class PatientIntegrationTest @Autowired constructor(
                 TextGameAnswersRequest(
                     category = COMPREHENSION,
                     gameId = 8,
+                    isTestGame = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 15, listOf("triangulo", "cuadrado", "circulo"))
                     )
@@ -290,6 +305,7 @@ class PatientIntegrationTest @Autowired constructor(
                 NumericGameAnswersRequest(
                     category = READING,
                     gameId = 9,
+                    isTestGame = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 16, listOf(4))
                     )
@@ -301,6 +317,7 @@ class PatientIntegrationTest @Autowired constructor(
                 TextGameAnswersRequest(
                     category = WRITING,
                     gameId = 10,
+                    isTestGame = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 17, listOf("Si llueve mucho, entra agua por el tejado"))
                     )
@@ -312,6 +329,7 @@ class PatientIntegrationTest @Autowired constructor(
                 TextGameAnswersRequest(
                     category = DRAWING,
                     gameId = 11,
+                    isTestGame = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(
                             taskId = 18,
@@ -328,6 +346,7 @@ class PatientIntegrationTest @Autowired constructor(
                 TextGameAnswersRequest(
                     category = DRAWING,
                     gameId = 11,
+                    isTestGame = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(
                             taskId = 18,
@@ -344,6 +363,7 @@ class PatientIntegrationTest @Autowired constructor(
                 TextGameAnswersRequest(
                     category = DRAWING,
                     gameId = 11,
+                    isTestGame = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(
                             taskId = 18,
@@ -360,6 +380,7 @@ class PatientIntegrationTest @Autowired constructor(
                 TextGameAnswersRequest(
                     category = DRAWING,
                     gameId = 11,
+                    isTestGame = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(
                             taskId = 18,

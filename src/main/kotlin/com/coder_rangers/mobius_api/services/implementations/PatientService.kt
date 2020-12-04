@@ -42,7 +42,7 @@ class PatientService @Autowired constructor(
     override fun processGameAnswers(id: Long, gameAnswersRequest: GameAnswersRequest<*>) {
         val patient = getActivePatientById(id)
 
-        if (gameAnswersRequest.isTestGame) {
+        if (gameAnswersRequest.areTestGameAnswers) {
             mentalTestService.processTestGameAnswers(patient, gameAnswersRequest)
             updateTestStatus(patient, gameAnswersRequest.category)
         } else {

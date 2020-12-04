@@ -3,6 +3,7 @@ package com.coder_rangers.mobius_api.controllers
 import com.coder_rangers.mobius_api.error.exceptions.ExclusiveTestCategoryException
 import com.coder_rangers.mobius_api.error.exceptions.FinishedTestException
 import com.coder_rangers.mobius_api.error.exceptions.GameNotFoundException
+import com.coder_rangers.mobius_api.error.exceptions.NotAllTasksProvidedException
 import com.coder_rangers.mobius_api.error.exceptions.PatientNotFoundException
 import com.coder_rangers.mobius_api.error.exceptions.TestNotFinishedException
 import com.coder_rangers.mobius_api.models.Game
@@ -123,13 +124,67 @@ class PatientController @Autowired constructor(
         isTestGame: Boolean
     ): Game = patientService.getGame(id, nextGameCategory, isTestGame)
 
-    @PostMapping("/{id}/mental-test/game/answers", consumes = [APPLICATION_JSON_VALUE])
+    @PostMapping("/{id}/game/answers", consumes = [APPLICATION_JSON_VALUE])
     @ResponseStatus(NO_CONTENT)
     @Operation(summary = "Endpoint to process and save the answers of the game")
     @ApiResponses(
         value = [
-            ApiResponse(responseCode = "204", description = "Game answers processed and registered successfully."),
-            ApiResponse(responseCode = "400", description = "The game answers information that was provided is wrong.")
+            ApiResponse(
+                responseCode = "204",
+                description = "Game answers processed and registered successfully."
+            ),
+            ApiResponse(
+                responseCode = "400",
+                description = "The game answers information that was provided is wrong or the patient may or may not have finished the test.",
+                content = [
+                    Content(
+                        mediaType = APPLICATION_JSON_VALUE,
+                        array = ArraySchema(
+                            schema = Schema(
+                                implementation = NotAllTasksProvidedException::class
+                            )
+                        )
+                    ),
+                    Content(
+                        mediaType = APPLICATION_JSON_VALUE,
+                        array = ArraySchema(
+                            schema = Schema(
+                                implementation = FinishedTestException::class
+                            )
+                        )
+                    ),
+                    Content(
+                        mediaType = APPLICATION_JSON_VALUE,
+                        array = ArraySchema(
+                            schema = Schema(
+                                implementation = TestNotFinishedException::class
+                            )
+                        )
+                    )
+                ]
+            ),
+            ApiResponse(
+                responseCode = "404",
+                description = "The patient or the game were not found.",
+                content = [
+                    Content(
+                        mediaType = APPLICATION_JSON_VALUE,
+                        array = ArraySchema(
+                            schema = Schema(
+                                implementation = PatientNotFoundException::class
+                            )
+                        )
+                    ),
+                    Content(
+                        mediaType = APPLICATION_JSON_VALUE,
+                        array = ArraySchema(
+                            schema = Schema(
+                                implementation = GameNotFoundException::class
+                            )
+                        )
+                    )
+                ]
+            )
         ]
     )
     fun processTestGameAnswers(

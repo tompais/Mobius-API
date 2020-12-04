@@ -66,6 +66,9 @@ class GameService @Autowired constructor(
     }
 
     override fun processGameAnswers(patient: Patient, gameAnswersRequest: GameAnswersRequest<*>) {
+        if (!gameAnswersRequest.areTestGameAnswers)
+            assertThatTestIsFinished(patient)
+
         val game = getGameById(gameAnswersRequest.gameId)
 
         when (gameAnswersRequest.category) {
