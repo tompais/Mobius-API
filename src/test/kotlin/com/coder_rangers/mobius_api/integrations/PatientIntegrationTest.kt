@@ -389,6 +389,19 @@ class PatientIntegrationTest @Autowired constructor(
                 OK
             )
         )
+
+        @JvmStatic
+        @Suppress("UNUSED")
+        fun getHomeCases() = listOf(
+            Arguments.of(
+                NON_EXISTENT_PATIENT_ID,
+                NOT_FOUND
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                OK
+            )
+        )
     }
 
     @BeforeEach
@@ -458,6 +471,17 @@ class PatientIntegrationTest @Autowired constructor(
         given()
             .`when`()
             .get("$baseUrl/$patientId/mental-test/result")
+            .then()
+            .assertThat()
+            .status(expectedHttpStatus)
+    }
+
+    @ParameterizedTest
+    @MethodSource("getHomeCases")
+    fun getHomeTest(patientId: Long, expectedHttpStatus: HttpStatus) {
+        given()
+            .`when`()
+            .get("$baseUrl/$patientId/home")
             .then()
             .assertThat()
             .status(expectedHttpStatus)

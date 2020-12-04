@@ -7,4 +7,5 @@ interface IGameDAO {
     fun getMaxIdByCategory(category: Category): Long
     fun getMinIdByCategory(category: Category): Long
     fun getGameById(id: Long): Game?
+    fun getNotTestCategories(): List<Category>
 }
