@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.HttpStatus.OK
@@ -38,7 +39,14 @@ class PatientController @Autowired constructor(
 ) {
     @GetMapping("/{id}/mental-test/game")
     @ResponseStatus(OK)
-    @Operation(summary = "Endpoint to get the mental test game that user has to do.")
+    @Operation(
+        summary = "Endpoint to get the mental test game that user has to do.",
+        security = [
+            SecurityRequirement(
+                name = "token"
+            )
+        ]
+    )
     @ApiResponses(
         value = [
             ApiResponse(
@@ -104,7 +112,14 @@ class PatientController @Autowired constructor(
 
     @PostMapping("/{id}/mental-test/game/answers", consumes = [APPLICATION_JSON_VALUE])
     @ResponseStatus(NO_CONTENT)
-    @Operation(summary = "Endpoint to process and save the answers of the game")
+    @Operation(
+        summary = "Endpoint to process and save the answers of the game",
+        security = [
+            SecurityRequirement(
+                name = "token"
+            )
+        ]
+    )
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "204", description = "Game answers processed and registered successfully."),
@@ -123,7 +138,14 @@ class PatientController @Autowired constructor(
 
     @GetMapping("/{id}/mental-test/result")
     @ResponseStatus(OK)
-    @Operation(summary = "Endpoint to get the test result")
+    @Operation(
+        summary = "Endpoint to get the test result",
+        security = [
+            SecurityRequirement(
+                name = "token"
+            )
+        ]
+    )
     @ApiResponses(
         value = [
             ApiResponse(

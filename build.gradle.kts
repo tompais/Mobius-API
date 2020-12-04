@@ -36,7 +36,12 @@ val ktlint: Configuration by configurations.creating
 extra["springCloudVersion"] = "Hoxton.SR8"
 
 dependencies {
+    // Ktlint
     ktlint("com.pinterest:ktlint:0.39.0")
+
+    // Spring Boot
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-data-rest")
@@ -47,26 +52,44 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.retry:spring-retry")
     implementation("org.springframework:spring-aspects")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+
+    // Redis
     implementation("redis.clients:jedis:3.3.0")
+
+    // Jackson
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+
+    // Kotlin
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-    implementation("org.liquibase:liquibase-core")
+
+    // Apache
     implementation("org.apache.commons:commons-lang3:3.11")
     implementation("commons-io:commons-io:2.8.0")
     implementation("commons-codec:commons-codec:1.15")
+
+    // Swagger
     implementation("org.springdoc:springdoc-openapi-ui:1.4.8")
     implementation("org.springdoc:springdoc-openapi-data-rest:1.4.8")
     implementation("org.springdoc:springdoc-openapi-kotlin:1.4.8")
+    implementation("org.springdoc:springdoc-openapi-security:1.4.8")
+
+    // Amazon
     implementation("com.amazonaws:aws-java-sdk-s3:1.11.908")
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    // Database
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.postgresql:postgresql")
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
+    // JWT
+    implementation("io.jsonwebtoken:jjwt:0.9.1")
+
+    // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
         exclude(module = "mockito-core")

@@ -10,4 +10,5 @@ object TestConstant {
     const val PATIENT_EMAIL = "fulanito@gmail.com"
     const val GUARDIAN_EMAIL = "jaimito@gmail.com"
     const val PASSWORD = "lala1234"
+    const val TOKEN = "asd1234"
 }

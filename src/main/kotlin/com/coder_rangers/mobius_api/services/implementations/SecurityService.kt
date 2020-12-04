@@ -1,5 +1,6 @@
 package com.coder_rangers.mobius_api.services.implementations
 
+import com.coder_rangers.mobius_api.components.interfaces.IJWTGenerator
 import com.coder_rangers.mobius_api.error.exceptions.PatientIsAGuardianException
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.requests.SignInRequest
@@ -17,7 +18,8 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class SecurityService @Autowired constructor(
     private val patientService: IPatientService,
-    private val guardianService: IGuardianService
+    private val guardianService: IGuardianService,
+    private val jwtGenerator: IJWTGenerator
 ) : ISecurityService {
     override fun signUp(signUpRequest: SignUpRequest) {
         val guardianEmail = signUpRequest.guardianEmail
@@ -50,9 +52,10 @@ class SecurityService @Autowired constructor(
             signInRequest.password.fromBase64ToSHA256()
         ).let { patient ->
             SignInResponse(
-                patient.id,
-                patient.firstName,
-                patient.lastName
+                id = patient.id,
+                firstName = patient.firstName,
+                lastName = patient.lastName,
+                token = jwtGenerator.generateJWT(patient.email)
             )
         }
 }
