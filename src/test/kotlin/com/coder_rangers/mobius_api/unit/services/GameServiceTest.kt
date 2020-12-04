@@ -25,13 +25,13 @@ class GameServiceTest {
     @Test
     fun getRandomGameByCategoryTypeThrowsNotFoundTest() {
         // GIVEN
-        every { gameDAO.getMaxIdByCategory(any()) } returns 2L
-        every { gameDAO.getMinIdByCategory(any()) } returns 1L
+        every { gameDAO.getMaxIdByCategory(any(), isTestGame) } returns 2L
+        every { gameDAO.getMinIdByCategory(any(), isTestGame) } returns 1L
         every { gameDAO.getGameById(any()) } returns null
 
         // THEN
         assertThat {
-            gameService.getRandomGameByCategory(ATTENTION)
+            gameService.getRandomGameByCategory(ATTENTION, isTestGame)
         }.isFailure().isInstanceOf(GameNotFoundException::class)
     }
 }

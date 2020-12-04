@@ -1,11 +1,12 @@
 package com.coder_rangers.mobius_api.controllers
 
+import com.coder_rangers.mobius_api.error.exceptions.ExclusiveTestCategoryException
 import com.coder_rangers.mobius_api.error.exceptions.FinishedTestException
 import com.coder_rangers.mobius_api.error.exceptions.GameNotFoundException
 import com.coder_rangers.mobius_api.error.exceptions.PatientNotFoundException
 import com.coder_rangers.mobius_api.error.exceptions.TestNotFinishedException
 import com.coder_rangers.mobius_api.models.Game
-import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
+import com.coder_rangers.mobius_api.requests.categories.GameAnswersRequest
 import com.coder_rangers.mobius_api.responses.PatientTestResult
 import com.coder_rangers.mobius_api.services.interfaces.IPatientService
 import com.coder_rangers.mobius_api.view.models.HomeViewModel
@@ -37,14 +38,14 @@ import javax.validation.constraints.Positive
 class PatientController @Autowired constructor(
     private val patientService: IPatientService
 ) {
-    @GetMapping("/{id}/mental-test/game")
+    @GetMapping("/{id}/game")
     @ResponseStatus(OK)
-    @Operation(summary = "Endpoint to get the mental test game that user has to do.")
+    @Operation(summary = "Endpoint to get the game that user has to do.")
     @ApiResponses(
         value = [
             ApiResponse(
                 responseCode = "200",
-                description = "There's a game that the user should do to finish the test.",
+                description = "The game was retrieved successfully.",
                 content = [
                     Content(
                         mediaType = APPLICATION_JSON_VALUE,
@@ -80,7 +81,7 @@ class PatientController @Autowired constructor(
             ),
             ApiResponse(
                 responseCode = "400",
-                description = "The patient may have finished the test.",
+                description = "The patient may or may not have finished the test or the category provided is exclusive for the test.",
                 content = [
                     Content(
                         mediaType = APPLICATION_JSON_VALUE,
@@ -89,19 +90,38 @@ class PatientController @Autowired constructor(
                                 implementation = FinishedTestException::class
                             )
                         )
+                    ),
+                    Content(
+                        mediaType = APPLICATION_JSON_VALUE,
+                        array = ArraySchema(
+                            schema = Schema(
+                                implementation = TestNotFinishedException::class
+                            )
+                        )
+                    ),
+                    Content(
+                        mediaType = APPLICATION_JSON_VALUE,
+                        array = ArraySchema(
+                            schema = Schema(
+                                implementation = ExclusiveTestCategoryException::class
+                            )
+                        )
                     )
                 ]
             )
         ]
     )
-    fun getMentalTestGame(
+    fun getGame(
         @Positive
         @PathVariable("id")
         id: Long,
 
         @RequestParam("next-game-category")
-        nextGameCategory: Game.Category
-    ): Game = patientService.getMentalTestGame(id, nextGameCategory)
+        nextGameCategory: Game.Category,
+
+        @RequestParam("is-test-game")
+        isTestGame: Boolean
+    ): Game = patientService.getGame(id, nextGameCategory, isTestGame)
 
     @PostMapping("/{id}/mental-test/game/answers", consumes = [APPLICATION_JSON_VALUE])
     @ResponseStatus(NO_CONTENT)
@@ -119,8 +139,8 @@ class PatientController @Autowired constructor(
 
         @RequestBody
         @Valid
-        testGameAnswersRequest: TestGameAnswersRequest<*>
-    ) = patientService.processTestGameAnswers(id, testGameAnswersRequest)
+        gameAnswersRequest: GameAnswersRequest<*>
+    ) = patientService.processGameAnswers(id, gameAnswersRequest)
 
     @GetMapping("/{id}/mental-test/result")
     @ResponseStatus(OK)

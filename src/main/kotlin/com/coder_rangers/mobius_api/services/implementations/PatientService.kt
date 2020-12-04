@@ -10,7 +10,7 @@ import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category
 import com.coder_rangers.mobius_api.models.Game.Category.DRAWING
 import com.coder_rangers.mobius_api.models.Patient
-import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
+import com.coder_rangers.mobius_api.requests.categories.GameAnswersRequest
 import com.coder_rangers.mobius_api.responses.PatientTestResult
 import com.coder_rangers.mobius_api.services.interfaces.IGameService
 import com.coder_rangers.mobius_api.services.interfaces.IMentalTestService
@@ -30,18 +30,24 @@ class PatientService @Autowired constructor(
     private val gameService: IGameService,
     private val taskResultService: ITaskResultService
 ) : IPatientService {
-    override fun getMentalTestGame(id: Long, nextGameCategory: Category): Game {
+    override fun getGame(id: Long, nextGameCategory: Category, isTestGame: Boolean): Game {
         val patient = getActivePatientById(id)
 
-        return mentalTestService.getMentalTestGame(patient, nextGameCategory)
+        return if (isTestGame)
+            mentalTestService.getMentalTestGame(patient, nextGameCategory, isTestGame)
+        else
+            gameService.getNotTestGame(patient, nextGameCategory, isTestGame)
     }
 
-    override fun processTestGameAnswers(id: Long, testGameAnswersRequest: TestGameAnswersRequest<*>) {
+    override fun processGameAnswers(id: Long, gameAnswersRequest: GameAnswersRequest<*>) {
         val patient = getActivePatientById(id)
 
-        mentalTestService.processGameAnswers(patient, testGameAnswersRequest)
-
-        updateTestStatus(patient, testGameAnswersRequest.category)
+        if (gameAnswersRequest.isTestGame) {
+            mentalTestService.processTestGameAnswers(patient, gameAnswersRequest)
+            updateTestStatus(patient, gameAnswersRequest.category)
+        } else {
+            gameService.processGameAnswers(patient, gameAnswersRequest)
+        }
     }
 
     override fun getTestResult(id: Long): PatientTestResult {
