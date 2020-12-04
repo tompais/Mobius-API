@@ -3,6 +3,7 @@ package com.coder_rangers.mobius_api.dao.implementations
 import com.coder_rangers.mobius_api.dao.interfaces.ITaskResultDAO
 import com.coder_rangers.mobius_api.database.repositories.ITaskResultRepository
 import com.coder_rangers.mobius_api.models.Answer
+import com.coder_rangers.mobius_api.models.Game.Category
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.models.Task
 import org.springframework.beans.factory.annotation.Autowired
@@ -37,4 +38,10 @@ class TaskResultDAO @Autowired constructor(
 
     override fun getTestTotalScore(patientId: Long): Int =
         taskResultRepository.getTestTotalScore(patientId)
+
+    override fun getPatientResults(
+        patientId: Long,
+        gameCategories: List<Category>
+    ): List<Task.Result> =
+        taskResultRepository.getPatientResults(patientId, gameCategories)
 }
