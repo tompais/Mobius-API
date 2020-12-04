@@ -45,15 +45,15 @@ class TaskResultService @Autowired constructor(
     }
 
     override fun getRecommendedCategory(patientId: Long, gameCategories: List<Category>): Category {
-        val patientResults = taskResultDAO.getPatientResults(patientId, gameCategories)
+        val patientResultsGroupedByCategory = taskResultDAO.getPatientResults(patientId, gameCategories)
             .groupBy { it.task.game!!.category }
 
         val categoriesWithAverage =
-            patientResults.map { patientResult ->
+            patientResultsGroupedByCategory.map { patientResult ->
                 patientResult.key to patientResult.value.sumBy { result -> result.score } * 100 / patientResult.value.map { result -> result.task.inputs.count() }
                     .sum()
-            }.sortedBy { categoriesWithAverage -> categoriesWithAverage.second }
+            }
 
-        return categoriesWithAverage.first().first
+        return categoriesWithAverage.minByOrNull { it.second }!!.first
     }
 }

@@ -60,7 +60,7 @@ class PatientService @Autowired constructor(
 
         val recommendedCategory = taskResultService.getRecommendedCategory(id, categories)
 
-        return HomeViewModel(recommendedCategory, categories)
+        return HomeViewModel(recommendedCategory, categories.filterNot { it == recommendedCategory })
     }
 
     override fun getActivePatientByEmailAndPassword(email: String, password: String): Patient =
