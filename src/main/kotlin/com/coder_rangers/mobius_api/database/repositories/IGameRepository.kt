@@ -20,6 +20,5 @@ interface IGameRepository : JpaRepository<Game, Long>, JpaSpecificationExecutor<
     fun getMinTestIdByCategory(category: Category): Long
 
     @Query("SELECT DISTINCT g.category FROM Game g WHERE g.isTestGame = false")
-    @RestResource(exported = false)
     fun getNotTestCategories(): List<Category>
 }
