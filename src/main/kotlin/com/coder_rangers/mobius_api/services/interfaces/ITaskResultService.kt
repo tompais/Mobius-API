@@ -1,7 +1,7 @@
 package com.coder_rangers.mobius_api.services.interfaces
 
-import com.coder_rangers.mobius_api.models.Game.Category
 import com.coder_rangers.mobius_api.models.Answer
+import com.coder_rangers.mobius_api.models.Game.Category
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.models.Task
 import com.coder_rangers.mobius_api.responses.PatientTestResult

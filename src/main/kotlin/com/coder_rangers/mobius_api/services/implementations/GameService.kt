@@ -25,5 +25,5 @@ class GameService @Autowired constructor(
 
     override fun getGameById(id: Long): Game = gameDAO.getGameById(id) ?: throw GameNotFoundException(id)
 
-    override fun getGameCategories(): List<Category> = gameDAO.getCategories()
+    override fun getNotTestCategories(): List<Category> = gameDAO.getNotTestCategories()
 }

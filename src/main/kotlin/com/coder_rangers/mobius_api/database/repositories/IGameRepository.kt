@@ -22,5 +22,5 @@ interface IGameRepository : JpaRepository<Game, Long>, JpaSpecificationExecutor<
 
     @Query("SELECT DISTINCT g.category FROM Game g WHERE g.isTestGame = false")
     @RestResource(exported = false)
-    fun getCategories(): List<Category>
+    fun getNotTestCategories(): List<Category>
 }

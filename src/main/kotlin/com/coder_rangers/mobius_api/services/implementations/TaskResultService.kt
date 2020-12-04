@@ -7,8 +7,9 @@ import com.coder_rangers.mobius_api.enums.DementiaLevel.MODERATE_TO_SEVERE_DEMEN
 import com.coder_rangers.mobius_api.enums.DementiaLevel.NO_DEMENTIA
 import com.coder_rangers.mobius_api.enums.DementiaLevel.POSSIBLE_DEMENTIA
 import com.coder_rangers.mobius_api.enums.DementiaLevel.SEVERE_DEMENTIA
-import com.coder_rangers.mobius_api.models.Game.Category
 import com.coder_rangers.mobius_api.models.Answer
+import com.coder_rangers.mobius_api.models.Answer.Type.EXPECTED
+import com.coder_rangers.mobius_api.models.Game.Category
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.models.Task
 import com.coder_rangers.mobius_api.responses.PatientTestResult
@@ -50,7 +51,7 @@ class TaskResultService @Autowired constructor(
 
         val categoriesWithAverage =
             patientResultsGroupedByCategory.map { patientResult ->
-                patientResult.key to patientResult.value.sumBy { result -> result.score } * 100 / patientResult.value.map { result -> result.task.inputs.count() }
+                patientResult.key to patientResult.value.sumBy { result -> result.score } * 100 / patientResult.value.map { result -> result.task.answers!!.count { answer -> answer.type == EXPECTED } }
                     .sum()
             }
 

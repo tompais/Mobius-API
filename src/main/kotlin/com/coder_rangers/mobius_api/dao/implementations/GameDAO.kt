@@ -20,5 +20,5 @@ class GameDAO @Autowired constructor(
 
     override fun getGameById(id: Long): Game? = gameRepository.findByIdOrNull(id)
 
-    override fun getCategories(): List<Category> = gameRepository.getCategories()
+    override fun getNotTestCategories(): List<Category> = gameRepository.getNotTestCategories()
 }

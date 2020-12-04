@@ -56,7 +56,7 @@ class PatientService @Autowired constructor(
     override fun getHome(id: Long): HomeViewModel {
         getActivePatientById(id)
 
-        val categories = gameService.getGameCategories()
+        val categories = gameService.getNotTestCategories()
 
         val recommendedCategory = taskResultService.getRecommendedCategory(id, categories)
 

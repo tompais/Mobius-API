@@ -2,25 +2,32 @@ INSERT INTO public.guardians (email)
 VALUES ('jaimito@gmail.com');
 
 INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre, test_status)
-VALUES ('2000-10-10', 'fulanito@gmail.com', 'Fulanito', 'De Tal', 'c9fe26d11b5fd337fdde5fea13b18865faff10f4f775cb05682437ce34d69222', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
+VALUES ('2000-10-10', 'fulanito@gmail.com', 'Fulanito', 'De Tal',
+        'c9fe26d11b5fd337fdde5fea13b18865faff10f4f775cb05682437ce34d69222', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
 
 INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre, test_status)
-VALUES ('2000-10-10', 'toto@gmail.com', 'Toto', 'Toto', 'c9fe26d11b5fd337fdde5fea13b18865faff10f4f775cb05682437ce34d69222', 'ACTIVE', 'OTHER', 'FINISHED');
+VALUES ('2000-10-10', 'toto@gmail.com', 'Toto', 'Toto',
+        'c9fe26d11b5fd337fdde5fea13b18865faff10f4f775cb05682437ce34d69222', 'ACTIVE', 'OTHER', 'FINISHED');
 
 INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre, test_status)
-VALUES ('2000-10-10', 'tomas.j.pais@gmail.com', 'Tomás', 'Pais', 'c9fe26d11b5fd337fdde5fea13b18865faff10f4f775cb05682437ce34d69222', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
+VALUES ('2000-10-10', 'tomas.j.pais@gmail.com', 'Tomás', 'Pais',
+        'c9fe26d11b5fd337fdde5fea13b18865faff10f4f775cb05682437ce34d69222', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
 
 INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre, test_status)
-VALUES ('2000-10-10', 'ezequiel.allio@gmail.com', 'Ezequiel', 'Allio', 'c9fe26d11b5fd337fdde5fea13b18865faff10f4f775cb05682437ce34d69222', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
+VALUES ('2000-10-10', 'ezequiel.allio@gmail.com', 'Ezequiel', 'Allio',
+        'c9fe26d11b5fd337fdde5fea13b18865faff10f4f775cb05682437ce34d69222', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
 
 INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre, test_status)
-VALUES ('2000-10-10', 'ferezecarr@gmail.com', 'Fernando', 'Carreño', 'c9fe26d11b5fd337fdde5fea13b18865faff10f4f775cb05682437ce34d69222', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
+VALUES ('2000-10-10', 'ferezecarr@gmail.com', 'Fernando', 'Carreño',
+        'c9fe26d11b5fd337fdde5fea13b18865faff10f4f775cb05682437ce34d69222', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
 
 INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre, test_status)
-VALUES ('2000-10-10', 'ezeq.quevedo@gmail.com', 'Ezequiel', 'Quevedo', 'c9fe26d11b5fd337fdde5fea13b18865faff10f4f775cb05682437ce34d69222', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
+VALUES ('2000-10-10', 'ezeq.quevedo@gmail.com', 'Ezequiel', 'Quevedo',
+        'c9fe26d11b5fd337fdde5fea13b18865faff10f4f775cb05682437ce34d69222', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
 
 INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre, test_status)
-VALUES ('2000-10-10', 'damiangayoso@gmail.com', 'Damián', 'Gayoso', 'c9fe26d11b5fd337fdde5fea13b18865faff10f4f775cb05682437ce34d69222', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
+VALUES ('2000-10-10', 'damiangayoso@gmail.com', 'Damián', 'Gayoso',
+        'c9fe26d11b5fd337fdde5fea13b18865faff10f4f775cb05682437ce34d69222', 'ACTIVE', 'OTHER', 'IN_PROGRESS');
 
 INSERT INTO public.patient_guardian (patient_id, guardian_id)
 VALUES (1, 1);
@@ -55,7 +62,8 @@ VALUES ('ORIENTATION', 'Orientación', 'Responda las siguientes preguntas', true
        ('READING', 'Lectura', 'Lea la consigna atentamente', true),
        ('WRITING', 'Escritura', null, true),
        ('DRAWING', 'Dibujo', null, true),
-       ('ATTENTION', 'Atención', null, false);
+       ('ATTENTION', 'Atención', null, false),
+       ('FIXATION', 'Fijación', null, false);
 
 INSERT INTO public.tasks (game_id, description)
 VALUES (1, '¿En qué año estamos?'),
@@ -76,7 +84,8 @@ VALUES (1, '¿En qué año estamos?'),
        (9, 'Busque una persona que tenga barba de color castaño oscuro, vista unos pantalones de tono rojizo, la parte superior de su traje es de color negro y tanto su corbata como sus zapatos son de color azul'),
        (10, 'Ordene sintácticamente la siguiente oración. Solo existe un orden correcto'),
        (11, 'Dibuje la siguiente imagen, lo más exacta posible, incluyendo en tamaño'),
-       (12, 'Deletree la palabra DISCO al revés');
+       (12, 'Deletree la palabra DISCO al revés'),
+       (13, 'Escuche atentamente el siguiente audio y repita las palabras por el micrófono. Solo podrá reproducirlo 3 veces. Utilice el botón izquierdo para reproducir y el derecho para hablar');
 
 INSERT INTO public.inputs (type, task_id)
 VALUES ('NUMBER', 1),
@@ -102,7 +111,13 @@ VALUES ('NUMBER', 1),
        ('SELECT', 13),
        ('VOICE', 14),
        ('SELECT', 16),
-       ('DRAWING_PAD', 18); -- 24
+       ('DRAWING_PAD', 18),
+       ('TEXT', 19),
+       ('TEXT', 19),
+       ('TEXT', 19),
+       ('TEXT', 19),
+       ('TEXT', 19),
+       ('VOICE', 20); -- 24
 
 INSERT INTO public.resources (game_id, type, file_name)
 VALUES (2, 'AUDIO', 'Bicicleta-Cuchara-Manzana.mp3'),
@@ -111,7 +126,8 @@ VALUES (2, 'AUDIO', 'Bicicleta-Cuchara-Manzana.mp3'),
        (8, 'AUDIO', 'Triangulo-Cuadrado-Circulo.mp3'),
        (9, 'IMAGE', 'lectura-1.png'),
        (10, 'TEXT', 'LluviaTejado.txt'),
-       (11, 'IMAGE', 'Casa.png');
+       (11, 'IMAGE', 'Casa.png'),
+       (13, 'AUDIO', 'Casa-Mesa-Pato.mp3');
 
 -- Expected answers
 INSERT INTO public.answers (task_id, type)
@@ -135,7 +151,16 @@ VALUES (9, 'EXPECTED'),
        (15, 'EXPECTED'),
        (16, 'EXPECTED'),
        (17, 'EXPECTED'),
-       (18, 'EXPECTED'); -- 21
+       (18, 'EXPECTED'),
+       (19, 'EXPECTED'),
+       (19, 'EXPECTED'),
+       (19, 'EXPECTED'),
+       (19, 'EXPECTED'),
+       (19, 'EXPECTED'),
+       (20, 'EXPECTED'),
+       (20, 'EXPECTED'),
+       (20, 'EXPECTED');
+-- 21
 
 -- Possible answers
 INSERT INTO public.answers (input_id, type)
@@ -238,7 +263,10 @@ VALUES (1, 'Bicicleta'),
        (76, 'Gato'),
        (77, 'Tigre'),
        (78, 'León'),
-       (79, 'Puma');
+       (79, 'Puma'),
+       (89, 'Casa'),
+       (90, 'Mesa'),
+       (91, 'Pato');
 
 INSERT INTO public.numeric_answers (id, number)
 VALUES (4, 93),
@@ -288,7 +316,12 @@ VALUES (9, 'O'),
        (10, 'D'),
        (11, 'N'),
        (12, 'U'),
-       (13, 'M');
+       (13, 'M'),
+       (84, 'O'),
+       (85, 'C'),
+       (86, 'S'),
+       (87, 'I'),
+       (88, 'D');
 
 INSERT INTO public.image_answers (id, image_name)
 VALUES (21, 'Casa.png')
