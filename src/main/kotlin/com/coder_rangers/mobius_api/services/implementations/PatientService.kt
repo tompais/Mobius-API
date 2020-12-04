@@ -12,8 +12,11 @@ import com.coder_rangers.mobius_api.models.Game.Category.DRAWING
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
 import com.coder_rangers.mobius_api.responses.PatientTestResult
+import com.coder_rangers.mobius_api.services.interfaces.IGameService
 import com.coder_rangers.mobius_api.services.interfaces.IMentalTestService
 import com.coder_rangers.mobius_api.services.interfaces.IPatientService
+import com.coder_rangers.mobius_api.services.interfaces.ITaskResultService
+import com.coder_rangers.mobius_api.view.models.HomeViewModel
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
@@ -23,7 +26,9 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class PatientService @Autowired constructor(
     private val patientDAO: IPatientDAO,
-    private val mentalTestService: IMentalTestService
+    private val mentalTestService: IMentalTestService,
+    private val gameService: IGameService,
+    private val taskResultService: ITaskResultService
 ) : IPatientService {
     override fun getMentalTestGame(id: Long, nextGameCategory: Category): Game {
         val patient = getActivePatientById(id)
@@ -46,6 +51,16 @@ class PatientService @Autowired constructor(
             throw TestNotFinishedException(id)
 
         return mentalTestService.getPatientTestResult(id)
+    }
+
+    override fun getHome(id: Long): HomeViewModel {
+        getActivePatientById(id)
+
+        val categories = gameService.getNotTestCategories()
+
+        val recommendedCategory = taskResultService.getRecommendedCategory(id, categories)
+
+        return HomeViewModel(recommendedCategory, categories.filterNot { it == recommendedCategory })
     }
 
     override fun getActivePatientByEmailAndPassword(email: String, password: String): Patient =

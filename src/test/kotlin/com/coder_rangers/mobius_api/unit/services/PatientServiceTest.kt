@@ -9,7 +9,9 @@ import com.coder_rangers.mobius_api.models.Game.Category.DRAWING
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
 import com.coder_rangers.mobius_api.services.implementations.PatientService
+import com.coder_rangers.mobius_api.services.interfaces.IGameService
 import com.coder_rangers.mobius_api.services.interfaces.IMentalTestService
+import com.coder_rangers.mobius_api.services.interfaces.ITaskResultService
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -28,6 +30,14 @@ class PatientServiceTest {
     @MockK(relaxed = true)
     @Suppress("UNUSED")
     private lateinit var mentalTestService: IMentalTestService
+
+    @MockK(relaxed = true)
+    @Suppress("UNUSED")
+    private lateinit var gameService: IGameService
+
+    @MockK(relaxed = true)
+    @Suppress("UNUSED")
+    private lateinit var taskResultService: ITaskResultService
 
     @InjectMockKs
     private lateinit var patientService: PatientService

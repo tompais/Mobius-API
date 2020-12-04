@@ -8,6 +8,7 @@ import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
 import com.coder_rangers.mobius_api.responses.PatientTestResult
 import com.coder_rangers.mobius_api.services.interfaces.IPatientService
+import com.coder_rangers.mobius_api.view.models.HomeViewModel
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
@@ -174,4 +175,45 @@ class PatientController @Autowired constructor(
         @Positive
         id: Long
     ): PatientTestResult = patientService.getTestResult(id)
+
+    @GetMapping("{id}/home")
+    @ResponseStatus(OK)
+    @Operation(summary = "Endpoint to get the list of categories and the recommended category")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "List of categories and recommended category were retrieved successfully.",
+                content = [
+                    Content(
+                        mediaType = APPLICATION_JSON_VALUE,
+                        array = ArraySchema(
+                            schema = Schema(
+                                implementation = HomeViewModel::class
+                            )
+                        )
+                    )
+                ]
+            ),
+            ApiResponse(
+                responseCode = "404",
+                description = "The patient was not found.",
+                content = [
+                    Content(
+                        mediaType = APPLICATION_JSON_VALUE,
+                        array = ArraySchema(
+                            schema = Schema(
+                                implementation = PatientNotFoundException::class
+                            )
+                        )
+                    )
+                ]
+            )
+        ]
+    )
+    fun getHome(
+        @Positive
+        @PathVariable("id")
+        id: Long
+    ) = patientService.getHome(id)
 }

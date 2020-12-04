@@ -25,7 +25,7 @@ class Game(
     val id: Long,
 
     @field:NotBlank
-    @Column(nullable = false, unique = true, length = 50)
+    @Column(nullable = false, length = 50)
     val name: String,
 
     @Column(length = 255)
