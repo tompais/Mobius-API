@@ -7,9 +7,16 @@ import javax.persistence.Table
 @Entity
 @Table(name = "numeric_answers")
 class NumericAnswer(
-    id: Long,
-    task: Task,
+    id: Long = 0,
+    type: Type,
+    task: Task? = null,
+    taskResult: Task.Result? = null,
 
     @Column(nullable = false, updatable = false)
     val number: Int
-) : Answer(id, task)
+) : Answer(
+    id,
+    type,
+    task,
+    taskResult
+)
