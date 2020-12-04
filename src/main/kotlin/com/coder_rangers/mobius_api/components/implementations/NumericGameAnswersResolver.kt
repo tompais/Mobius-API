@@ -1,9 +1,8 @@
 package com.coder_rangers.mobius_api.components.implementations
 
 import com.coder_rangers.mobius_api.models.Answer
+import com.coder_rangers.mobius_api.models.Answer.Type.PATIENT
 import com.coder_rangers.mobius_api.models.NumericAnswer
-import com.coder_rangers.mobius_api.models.NumericPatientAnswer
-import com.coder_rangers.mobius_api.models.PatientAnswer
 import com.coder_rangers.mobius_api.requests.PatientTaskAnswersRequest
 import com.coder_rangers.mobius_api.services.interfaces.ITaskResultService
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,10 +20,11 @@ class NumericGameAnswersResolver @Autowired constructor(
         }.sum()
     }
 
-    override fun transformToPatientAnswers(patientTaskAnswersRequest: PatientTaskAnswersRequest<Int>): List<PatientAnswer> =
+    override fun transformToPatientAnswers(patientTaskAnswersRequest: PatientTaskAnswersRequest<Int>): List<Answer> =
         patientTaskAnswersRequest.patientAnswersRequest.map {
-            NumericPatientAnswer(
-                number = it
+            NumericAnswer(
+                number = it,
+                type = PATIENT
             )
         }
 }

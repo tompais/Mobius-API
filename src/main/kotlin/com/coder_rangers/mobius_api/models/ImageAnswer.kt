@@ -6,16 +6,16 @@ import javax.persistence.Table
 import javax.validation.constraints.NotBlank
 
 @Entity
-@Table(name = "text_answers")
-class TextAnswer(
+@Table(name = "image_answers")
+class ImageAnswer(
     id: Long = 0,
     type: Type,
     task: Task? = null,
     taskResult: Task.Result? = null,
 
-    @Column(nullable = false, updatable = false)
     @field:NotBlank
-    val text: String
+    @Column(nullable = false, updatable = false, unique = true)
+    val imageName: String,
 ) : Answer(
     id,
     type,
