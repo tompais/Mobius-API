@@ -8,8 +8,8 @@ import com.coder_rangers.mobius_api.enums.DementiaLevel.NO_DEMENTIA
 import com.coder_rangers.mobius_api.enums.DementiaLevel.POSSIBLE_DEMENTIA
 import com.coder_rangers.mobius_api.enums.DementiaLevel.SEVERE_DEMENTIA
 import com.coder_rangers.mobius_api.models.Game.Category
+import com.coder_rangers.mobius_api.models.Answer
 import com.coder_rangers.mobius_api.models.Patient
-import com.coder_rangers.mobius_api.models.PatientAnswer
 import com.coder_rangers.mobius_api.models.Task
 import com.coder_rangers.mobius_api.responses.PatientTestResult
 import com.coder_rangers.mobius_api.services.interfaces.ITaskResultService
@@ -26,7 +26,7 @@ class TaskResultService @Autowired constructor(
         patient: Patient,
         task: Task,
         score: Int,
-        patientAnswers: List<PatientAnswer>
+        patientAnswers: List<Answer>
     ): Task.Result =
         taskResultDAO.createTaskResult(patient, task, score, patientAnswers)
 

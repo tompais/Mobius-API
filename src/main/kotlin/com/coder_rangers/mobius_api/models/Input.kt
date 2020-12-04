@@ -10,7 +10,9 @@ import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType.IDENTITY
 import javax.persistence.Id
-import javax.persistence.ManyToMany
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
+import javax.persistence.OneToMany
 import javax.persistence.Table
 import javax.validation.constraints.PositiveOrZero
 
@@ -27,17 +29,24 @@ class Input(
     @Column(nullable = false, updatable = false)
     val type: Type,
 
-    @ManyToMany(mappedBy = "inputs", cascade = [ALL])
     @JsonIgnore
-    val tasks: Set<Task> = emptySet()
+    @ManyToOne(cascade = [ALL])
+    @JoinColumn(name = "task_id")
+    val task: Task,
+
+    @OneToMany(mappedBy = "input")
+    val possibleAnswers: Set<Answer> = emptySet()
 ) {
     enum class Type {
         TEXT,
         NUMBER,
         VOICE,
         CALENDAR,
-        MAPS,
-        DRAWING_PAD;
+        COUNTRY,
+        STATE,
+        CITY,
+        DRAWING_PAD,
+        SELECT;
 
         @JsonValue
         override fun toString() = name.toLowerCase()
