@@ -200,7 +200,14 @@ class PatientController @Autowired constructor(
 
     @GetMapping("{id}/home")
     @ResponseStatus(OK)
-    @Operation(summary = "Endpoint to get the list of categories and the recommended category")
+    @Operation(
+        summary = "Endpoint to get the list of categories and the recommended category",
+        security = [
+            SecurityRequirement(
+                name = "token"
+            )
+        ]
+    )
     @ApiResponses(
         value = [
             ApiResponse(
