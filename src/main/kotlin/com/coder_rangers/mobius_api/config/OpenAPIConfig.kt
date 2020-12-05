@@ -11,13 +11,11 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class OpenAPIConfig {
     @Bean
-    fun customOpenAPI(): OpenAPI? {
-        return OpenAPI()
-            .components(
-                Components().addSecuritySchemes(
-                    "token",
-                    SecurityScheme().type(APIKEY).`in`(HEADER).name("Authorization")
-                )
+    fun customOpenAPI(): OpenAPI = OpenAPI()
+        .components(
+            Components().addSecuritySchemes(
+                "token",
+                SecurityScheme().type(APIKEY).`in`(HEADER).name("Authorization")
             )
-    }
+        )
 }
