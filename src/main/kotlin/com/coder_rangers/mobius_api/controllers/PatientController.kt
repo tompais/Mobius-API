@@ -7,6 +7,7 @@ import com.coder_rangers.mobius_api.error.exceptions.NotAllTasksProvidedExceptio
 import com.coder_rangers.mobius_api.error.exceptions.PatientNotFoundException
 import com.coder_rangers.mobius_api.error.exceptions.TestNotFinishedException
 import com.coder_rangers.mobius_api.models.Game
+import com.coder_rangers.mobius_api.models.Game.Category
 import com.coder_rangers.mobius_api.requests.categories.GameAnswersRequest
 import com.coder_rangers.mobius_api.responses.PatientTestResult
 import com.coder_rangers.mobius_api.services.interfaces.IPatientService
@@ -118,7 +119,7 @@ class PatientController @Autowired constructor(
         id: Long,
 
         @RequestParam("next-game-category")
-        nextGameCategory: Game.Category,
+        nextGameCategory: Category,
 
         @RequestParam("is-test-game")
         isTestGame: Boolean

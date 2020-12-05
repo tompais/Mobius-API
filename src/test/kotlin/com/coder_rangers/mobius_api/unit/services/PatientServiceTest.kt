@@ -48,6 +48,7 @@ class PatientServiceTest {
         val patient = mockk<Patient>(relaxed = true)
         val testGameAnswersRequest = mockk<GameAnswersRequest<*>>(relaxed = true) {
             every { category } returns DRAWING
+            every { areTestGameAnswers } returns true
         }
         every { patientDAO.findActivePatientById(any()) } returns patient
 
