@@ -2,7 +2,7 @@ package com.coder_rangers.mobius_api.services.implementations
 
 import com.coder_rangers.mobius_api.components.interfaces.IGameAnswersResolver
 import com.coder_rangers.mobius_api.dao.interfaces.IGameDAO
-import com.coder_rangers.mobius_api.enums.TestStatus
+import com.coder_rangers.mobius_api.enums.TestStatus.FINISHED
 import com.coder_rangers.mobius_api.error.exceptions.ExclusiveTestCategoryException
 import com.coder_rangers.mobius_api.error.exceptions.GameNotFoundException
 import com.coder_rangers.mobius_api.error.exceptions.TestNotFinishedException
@@ -44,9 +44,9 @@ class GameService @Autowired constructor(
     @Qualifier("drawingGameAnswersResolver")
     private val drawingGameAnswersResolver: IGameAnswersResolver<String>
 ) : IGameService {
-    override fun getRandomGameByCategory(category: Category, isTestGame: Boolean): Game {
-        val minId = gameDAO.getMinIdByCategory(category, isTestGame)
-        val maxId = gameDAO.getMaxIdByCategory(category, isTestGame)
+    override fun getRandomGameByCategory(category: Category, test: Boolean): Game {
+        val minId = gameDAO.getMinIdByCategory(category, test)
+        val maxId = gameDAO.getMaxIdByCategory(category, test)
 
         val randomId = (minId..maxId).random()
 
@@ -57,17 +57,19 @@ class GameService @Autowired constructor(
 
     override fun getNotTestCategories(): List<Category> = gameDAO.getNotTestCategories()
 
-    override fun getNotTestGame(patient: Patient, nextGameCategory: Category, isTestGame: Boolean): Game {
+    override fun getNotTestGame(patient: Patient, gameCategory: Category, test: Boolean): Game {
         assertThatTestIsFinished(patient)
 
-        assertThatIsNotTestCategory(nextGameCategory)
+        assertThatIsNotTestCategory(gameCategory)
 
-        return getRandomGameByCategory(nextGameCategory, isTestGame)
+        return getRandomGameByCategory(gameCategory, test)
     }
 
     override fun processGameAnswers(patient: Patient, gameAnswersRequest: GameAnswersRequest<*>) {
-        if (!gameAnswersRequest.areTestGameAnswers)
+        if (!gameAnswersRequest.areTestGameAnswers) {
             assertThatTestIsFinished(patient)
+            assertThatIsNotTestCategory(gameAnswersRequest.category)
+        }
 
         val game = getGameById(gameAnswersRequest.gameId)
 
@@ -106,7 +108,7 @@ class GameService @Autowired constructor(
     }
 
     private fun assertThatTestIsFinished(patient: Patient) {
-        if (patient.testStatus != TestStatus.FINISHED) {
+        if (patient.testStatus != FINISHED) {
             throw TestNotFinishedException(patient.id)
         }
     }

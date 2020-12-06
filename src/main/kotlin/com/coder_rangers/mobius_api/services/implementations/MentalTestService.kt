@@ -21,10 +21,10 @@ class MentalTestService @Autowired constructor(
 
     private val taskResultService: ITaskResultService
 ) : IMentalTestService {
-    override fun getMentalTestGame(patient: Patient, nextCategoryType: Category, isTestGame: Boolean): Game {
+    override fun getMentalTestGame(patient: Patient, gameCategory: Category, test: Boolean): Game {
         assertThatTestIsNotFinished(patient)
 
-        return getSpecificOrRandomGame(nextCategoryType, isTestGame)
+        return getRandomGameByCategory(gameCategory, test)
     }
 
     override fun processTestGameAnswers(patient: Patient, testGameAnswersRequest: GameAnswersRequest<*>) {
@@ -36,8 +36,8 @@ class MentalTestService @Autowired constructor(
     override fun getPatientTestResult(patientId: Long): PatientTestResult =
         taskResultService.getPatientTestResult(patientId)
 
-    private fun getSpecificOrRandomGame(nextGameCategory: Category, isTestGame: Boolean): Game =
-        gameService.getRandomGameByCategory(nextGameCategory, isTestGame)
+    private fun getRandomGameByCategory(gameCategory: Category, test: Boolean): Game =
+        gameService.getRandomGameByCategory(gameCategory, test)
 
     private fun assertThatTestIsNotFinished(patient: Patient) {
         if (patient.testStatus == FINISHED) {

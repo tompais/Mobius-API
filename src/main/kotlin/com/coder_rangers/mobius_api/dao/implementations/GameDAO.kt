@@ -12,11 +12,11 @@ import org.springframework.stereotype.Repository
 class GameDAO @Autowired constructor(
     private val gameRepository: IGameRepository
 ) : IGameDAO {
-    override fun getMaxIdByCategory(category: Category, isTestGame: Boolean): Long =
-        gameRepository.getMaxIdByCategory(category, isTestGame)
+    override fun getMaxIdByCategory(category: Category, test: Boolean): Long =
+        gameRepository.getMaxIdByCategory(category, test)
 
-    override fun getMinIdByCategory(category: Category, isTestGame: Boolean): Long =
-        gameRepository.getMinIdByCategory(category, isTestGame)
+    override fun getMinIdByCategory(category: Category, test: Boolean): Long =
+        gameRepository.getMinIdByCategory(category, test)
 
     override fun getGameById(id: Long): Game? = gameRepository.findByIdOrNull(id)
 

@@ -118,12 +118,12 @@ class PatientController @Autowired constructor(
         @PathVariable("id")
         id: Long,
 
-        @RequestParam("next-game-category")
-        nextGameCategory: Category,
+        @RequestParam("game-category")
+        gameCategory: Category,
 
-        @RequestParam("is-test-game")
-        isTestGame: Boolean
-    ): Game = patientService.getGame(id, nextGameCategory, isTestGame)
+        @RequestParam("test")
+        test: Boolean
+    ): Game = patientService.getGame(id, gameCategory, test)
 
     @PostMapping("/{id}/game/answers", consumes = [APPLICATION_JSON_VALUE])
     @ResponseStatus(NO_CONTENT)

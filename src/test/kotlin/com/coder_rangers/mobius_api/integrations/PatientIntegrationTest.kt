@@ -443,10 +443,10 @@ class PatientIntegrationTest @Autowired constructor(
 
     @ParameterizedTest
     @MethodSource("getGameCases")
-    fun getGameTest(nextGameCategory: Category, patientId: Long, isTestGame: Boolean, expectedHttpStatus: HttpStatus) {
+    fun getGameTest(gameCategory: Category, patientId: Long, test: Boolean, expectedHttpStatus: HttpStatus) {
         given()
-            .queryParam("next-game-category", nextGameCategory)
-            .queryParam("is-test-game", isTestGame)
+            .queryParam("game-category", gameCategory)
+            .queryParam("test", test)
             .`when`()
             .get("$baseUrl/$patientId/game")
             .then()

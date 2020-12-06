@@ -7,7 +7,7 @@ import com.coder_rangers.mobius_api.responses.PatientTestResult
 import com.coder_rangers.mobius_api.view.models.HomeViewModel
 
 interface IPatientService {
-    fun getGame(id: Long, nextGameCategory: Game.Category, isTestGame: Boolean): Game
+    fun getGame(id: Long, gameCategory: Game.Category, test: Boolean): Game
     fun processGameAnswers(id: Long, gameAnswersRequest: GameAnswersRequest<*>)
     fun cleanTestProgress(id: Long)
     fun getTestResult(id: Long): PatientTestResult

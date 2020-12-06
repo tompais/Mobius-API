@@ -30,13 +30,13 @@ class PatientService @Autowired constructor(
     private val gameService: IGameService,
     private val taskResultService: ITaskResultService
 ) : IPatientService {
-    override fun getGame(id: Long, nextGameCategory: Category, isTestGame: Boolean): Game {
+    override fun getGame(id: Long, gameCategory: Category, test: Boolean): Game {
         val patient = getActivePatientById(id)
 
-        return if (isTestGame)
-            mentalTestService.getMentalTestGame(patient, nextGameCategory, isTestGame)
+        return if (test)
+            mentalTestService.getMentalTestGame(patient, gameCategory, test)
         else
-            gameService.getNotTestGame(patient, nextGameCategory, isTestGame)
+            gameService.getNotTestGame(patient, gameCategory, test)
     }
 
     override fun processGameAnswers(id: Long, gameAnswersRequest: GameAnswersRequest<*>) {
