@@ -7,7 +7,7 @@ import com.coder_rangers.mobius_api.dao.interfaces.IPatientDAO
 import com.coder_rangers.mobius_api.error.exceptions.DuplicatedPatientException
 import com.coder_rangers.mobius_api.models.Game.Category.DRAWING
 import com.coder_rangers.mobius_api.models.Patient
-import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
+import com.coder_rangers.mobius_api.requests.categories.GameAnswersRequest
 import com.coder_rangers.mobius_api.services.implementations.PatientService
 import com.coder_rangers.mobius_api.services.interfaces.IGameService
 import com.coder_rangers.mobius_api.services.interfaces.IMentalTestService
@@ -46,13 +46,14 @@ class PatientServiceTest {
     fun playsLastCategoryTest() {
         // GIVEN
         val patient = mockk<Patient>(relaxed = true)
-        val testGameAnswersRequest = mockk<TestGameAnswersRequest<*>>(relaxed = true) {
+        val testGameAnswersRequest = mockk<GameAnswersRequest<*>>(relaxed = true) {
             every { category } returns DRAWING
+            every { areTestGameAnswers } returns true
         }
         every { patientDAO.findActivePatientById(any()) } returns patient
 
         // WHEN
-        patientService.processTestGameAnswers(1L, testGameAnswersRequest)
+        patientService.processGameAnswers(1L, testGameAnswersRequest)
 
         // THEN
         verify { patientDAO.createOrUpdatePatient(any()) }

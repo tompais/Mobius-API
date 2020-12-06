@@ -5,7 +5,7 @@ import com.coder_rangers.mobius_api.database.repositories.IPatientRepository
 import com.coder_rangers.mobius_api.database.repositories.ITaskResultRepository
 import com.coder_rangers.mobius_api.enums.TestStatus.IN_PROGRESS
 import com.coder_rangers.mobius_api.models.AnswerWithResult
-import com.coder_rangers.mobius_api.models.Game
+import com.coder_rangers.mobius_api.models.Game.Category
 import com.coder_rangers.mobius_api.models.Game.Category.ATTENTION
 import com.coder_rangers.mobius_api.models.Game.Category.CALCULATION
 import com.coder_rangers.mobius_api.models.Game.Category.COMPREHENSION
@@ -20,11 +20,11 @@ import com.coder_rangers.mobius_api.models.Game.Category.WRITING
 import com.coder_rangers.mobius_api.notifications.redis.messages.UploadFileMessage
 import com.coder_rangers.mobius_api.notifications.redis.publishers.MessagePublisher
 import com.coder_rangers.mobius_api.requests.PatientTaskAnswersRequest
-import com.coder_rangers.mobius_api.requests.categories.AttentionTestGameAnswersRequest
-import com.coder_rangers.mobius_api.requests.categories.NumericTestGameAnswersRequest
-import com.coder_rangers.mobius_api.requests.categories.TestGameAnswersRequest
-import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersRequest
-import com.coder_rangers.mobius_api.requests.categories.TextTestGameAnswersWithResultsRequest
+import com.coder_rangers.mobius_api.requests.categories.AttentionGameAnswersRequest
+import com.coder_rangers.mobius_api.requests.categories.GameAnswersRequest
+import com.coder_rangers.mobius_api.requests.categories.NumericGameAnswersRequest
+import com.coder_rangers.mobius_api.requests.categories.TextGameAnswersRequest
+import com.coder_rangers.mobius_api.requests.categories.TextGameAnswersWithResultsRequest
 import com.coder_rangers.mobius_api.utils.MockUtils.getImageFromClasspathInBase64
 import com.coder_rangers.mobius_api.utils.TestConstant.NON_EXISTENT_PATIENT_ID
 import com.coder_rangers.mobius_api.utils.TestConstant.PATIENT_ID
@@ -74,26 +74,36 @@ class PatientIntegrationTest @Autowired constructor(
     companion object {
         @JvmStatic
         @Suppress("UNUSED")
-        fun getMentalTestCases() = listOf(
+        fun getGameCases() = listOf(
             Arguments.of(
                 ORIENTATION,
                 PATIENT_WITHOUT_TEST_PROGRESS,
+                true,
                 OK
             ),
             Arguments.of(
                 ORIENTATION,
                 NON_EXISTENT_PATIENT_ID,
+                true,
                 NOT_FOUND
             ),
             Arguments.of(
                 ORIENTATION,
                 PATIENT_ID_WITH_FINISHED_TEST,
+                false,
                 BAD_REQUEST
             ),
             Arguments.of(
                 FIXATION,
                 PATIENT_WITH_TEST_PROGRESS,
-                OK
+                false,
+                BAD_REQUEST
+            ),
+            Arguments.of(
+                ORIENTATION,
+                PATIENT_ID_WITH_FINISHED_TEST,
+                false,
+                BAD_REQUEST
             )
         )
 
@@ -102,9 +112,10 @@ class PatientIntegrationTest @Autowired constructor(
         fun processGameAnswersCases() = listOf(
             Arguments.of(
                 PATIENT_WITHOUT_TEST_PROGRESS,
-                TextTestGameAnswersWithResultsRequest(
+                TextGameAnswersWithResultsRequest(
                     category = ORIENTATION,
                     gameId = 1,
+                    areTestGameAnswers = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 1, listOf(AnswerWithResult(true, "lala"))),
                         PatientTaskAnswersRequest(taskId = 2, listOf(AnswerWithResult(false, "lala"))),
@@ -120,9 +131,10 @@ class PatientIntegrationTest @Autowired constructor(
             ),
             Arguments.of(
                 PATIENT_WITHOUT_TEST_PROGRESS,
-                TextTestGameAnswersWithResultsRequest(
+                TextGameAnswersWithResultsRequest(
                     category = ORIENTATION,
                     gameId = 1,
+                    areTestGameAnswers = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 1, listOf(AnswerWithResult(true, "lala"))),
                         PatientTaskAnswersRequest(taskId = 2, listOf(AnswerWithResult(false, "lala"))),
@@ -134,9 +146,10 @@ class PatientIntegrationTest @Autowired constructor(
             ),
             Arguments.of(
                 PATIENT_ID,
-                TextTestGameAnswersRequest(
+                TextGameAnswersRequest(
                     category = FIXATION,
                     gameId = 2,
+                    areTestGameAnswers = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 9, listOf("Bicicleta", "Cuchara", "Manzana")),
                     )
@@ -145,9 +158,10 @@ class PatientIntegrationTest @Autowired constructor(
             ),
             Arguments.of(
                 PATIENT_ID,
-                TextTestGameAnswersRequest(
+                TextGameAnswersRequest(
                     category = FIXATION,
                     gameId = 2,
+                    areTestGameAnswers = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 9, listOf("Bicicleta", "Cuchara", "Manzana")),
                         PatientTaskAnswersRequest(taskId = 1, listOf("Bicicleta", "Cuchara", "Manzana")),
@@ -157,9 +171,10 @@ class PatientIntegrationTest @Autowired constructor(
             ),
             Arguments.of(
                 PATIENT_ID,
-                TextTestGameAnswersRequest(
+                TextGameAnswersRequest(
                     category = FIXATION,
                     gameId = 2,
+                    areTestGameAnswers = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 1, listOf("bicicleta", "Cuchara", "Manzana")),
                     )
@@ -168,9 +183,10 @@ class PatientIntegrationTest @Autowired constructor(
             ),
             Arguments.of(
                 PATIENT_WITHOUT_TEST_PROGRESS,
-                TextTestGameAnswersRequest(
+                TextGameAnswersRequest(
                     category = FIXATION,
                     gameId = 2,
+                    areTestGameAnswers = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 9, listOf("Bicicleta", "Cuchara", "Coca")),
                     )
@@ -179,9 +195,10 @@ class PatientIntegrationTest @Autowired constructor(
             ),
             Arguments.of(
                 PATIENT_ID,
-                NumericTestGameAnswersRequest(
+                NumericGameAnswersRequest(
                     category = CALCULATION,
                     gameId = 3,
+                    areTestGameAnswers = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 10, listOf(93, 86, 79, 72, 65))
                     )
@@ -190,9 +207,10 @@ class PatientIntegrationTest @Autowired constructor(
             ),
             Arguments.of(
                 PATIENT_ID,
-                NumericTestGameAnswersRequest(
+                NumericGameAnswersRequest(
                     category = CALCULATION,
                     gameId = 3,
+                    areTestGameAnswers = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 10, listOf(93)),
                         PatientTaskAnswersRequest(taskId = 1, listOf(86, 74))
@@ -202,9 +220,10 @@ class PatientIntegrationTest @Autowired constructor(
             ),
             Arguments.of(
                 PATIENT_ID,
-                AttentionTestGameAnswersRequest(
+                AttentionGameAnswersRequest(
                     category = ATTENTION,
                     gameId = 4,
+                    areTestGameAnswers = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 11, listOf('o', 'd', 'n', 'u', 'm'))
                     )
@@ -213,9 +232,10 @@ class PatientIntegrationTest @Autowired constructor(
             ),
             Arguments.of(
                 PATIENT_ID,
-                AttentionTestGameAnswersRequest(
+                AttentionGameAnswersRequest(
                     category = ATTENTION,
                     gameId = 4,
+                    areTestGameAnswers = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 1, listOf('b', 'a', 'M')),
                     )
@@ -224,9 +244,10 @@ class PatientIntegrationTest @Autowired constructor(
             ),
             Arguments.of(
                 PATIENT_ID,
-                TextTestGameAnswersWithResultsRequest(
+                TextGameAnswersWithResultsRequest(
                     category = MEMORY,
                     gameId = 5,
+                    areTestGameAnswers = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(
                             taskId = 12,
@@ -242,9 +263,10 @@ class PatientIntegrationTest @Autowired constructor(
             ),
             Arguments.of(
                 PATIENT_ID,
-                TextTestGameAnswersRequest(
+                TextGameAnswersRequest(
                     category = VISUALIZATION,
                     gameId = 6,
+                    areTestGameAnswers = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 13, listOf("Tigre"))
                     )
@@ -253,9 +275,10 @@ class PatientIntegrationTest @Autowired constructor(
             ),
             Arguments.of(
                 PATIENT_ID,
-                TextTestGameAnswersRequest(
+                TextGameAnswersRequest(
                     category = VISUALIZATION,
                     gameId = 6,
+                    areTestGameAnswers = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 9, listOf("Manzana")),
                         PatientTaskAnswersRequest(taskId = 1, listOf("Bicicleta"))
@@ -265,9 +288,10 @@ class PatientIntegrationTest @Autowired constructor(
             ),
             Arguments.of(
                 PATIENT_ID,
-                TextTestGameAnswersRequest(
+                TextGameAnswersRequest(
                     category = REPETITION,
                     gameId = 7,
+                    areTestGameAnswers = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 14, listOf("El flan tiene frutillas y frambuesas"))
                     )
@@ -276,9 +300,10 @@ class PatientIntegrationTest @Autowired constructor(
             ),
             Arguments.of(
                 PATIENT_ID,
-                TextTestGameAnswersRequest(
+                TextGameAnswersRequest(
                     category = COMPREHENSION,
                     gameId = 8,
+                    areTestGameAnswers = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 15, listOf("triangulo", "cuadrado", "circulo"))
                     )
@@ -287,9 +312,10 @@ class PatientIntegrationTest @Autowired constructor(
             ),
             Arguments.of(
                 PATIENT_ID,
-                NumericTestGameAnswersRequest(
+                NumericGameAnswersRequest(
                     category = READING,
                     gameId = 9,
+                    areTestGameAnswers = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 16, listOf(4))
                     )
@@ -298,9 +324,10 @@ class PatientIntegrationTest @Autowired constructor(
             ),
             Arguments.of(
                 PATIENT_ID,
-                TextTestGameAnswersRequest(
+                TextGameAnswersRequest(
                     category = WRITING,
                     gameId = 10,
+                    areTestGameAnswers = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(taskId = 17, listOf("Si llueve mucho, entra agua por el tejado"))
                     )
@@ -309,9 +336,10 @@ class PatientIntegrationTest @Autowired constructor(
             ),
             Arguments.of(
                 PATIENT_ID,
-                TextTestGameAnswersRequest(
+                TextGameAnswersRequest(
                     category = DRAWING,
                     gameId = 11,
+                    areTestGameAnswers = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(
                             taskId = 18,
@@ -325,9 +353,10 @@ class PatientIntegrationTest @Autowired constructor(
             ),
             Arguments.of(
                 PATIENT_ID,
-                TextTestGameAnswersRequest(
+                TextGameAnswersRequest(
                     category = DRAWING,
                     gameId = 11,
+                    areTestGameAnswers = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(
                             taskId = 18,
@@ -341,9 +370,10 @@ class PatientIntegrationTest @Autowired constructor(
             ),
             Arguments.of(
                 PATIENT_ID,
-                TextTestGameAnswersRequest(
+                TextGameAnswersRequest(
                     category = DRAWING,
                     gameId = 11,
+                    areTestGameAnswers = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(
                             taskId = 18,
@@ -357,9 +387,10 @@ class PatientIntegrationTest @Autowired constructor(
             ),
             Arguments.of(
                 PATIENT_ID,
-                TextTestGameAnswersRequest(
+                TextGameAnswersRequest(
                     category = DRAWING,
                     gameId = 11,
+                    areTestGameAnswers = true,
                     patientTaskAnswersRequestList = listOf(
                         PatientTaskAnswersRequest(
                             taskId = 18,
@@ -411,12 +442,13 @@ class PatientIntegrationTest @Autowired constructor(
     }
 
     @ParameterizedTest
-    @MethodSource("getMentalTestCases")
-    fun getMentalTestGameTest(nextGameCategory: Game.Category, patientId: Long, expectedHttpStatus: HttpStatus) {
+    @MethodSource("getGameCases")
+    fun getGameTest(gameCategory: Category, patientId: Long, test: Boolean, expectedHttpStatus: HttpStatus) {
         given()
-            .queryParam("next-game-category", nextGameCategory)
+            .queryParam("game-category", gameCategory)
+            .queryParam("test", test)
             .`when`()
-            .get("$baseUrl/$patientId/mental-test/game")
+            .get("$baseUrl/$patientId/game")
             .then()
             .assertThat()
             .status(expectedHttpStatus)
@@ -426,7 +458,7 @@ class PatientIntegrationTest @Autowired constructor(
     @MethodSource("processGameAnswersCases")
     fun processGameAnswersTest(
         id: Long,
-        testGameAnswersRequest: TestGameAnswersRequest<*>,
+        testGameAnswersRequest: GameAnswersRequest<*>,
         expectedHttpStatus: HttpStatus
     ) {
         patientRepository.findByIdOrNull(id)?.let {
@@ -456,7 +488,7 @@ class PatientIntegrationTest @Autowired constructor(
                 mapper.writeValueAsBytes(testGameAnswersRequest)
             )
             .`when`()
-            .post("$baseUrl/$id/mental-test/game/answers")
+            .post("$baseUrl/$id/game/answers")
             .then()
             .assertThat()
             .status(expectedHttpStatus)

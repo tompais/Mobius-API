@@ -3,8 +3,10 @@ package com.coder_rangers.mobius_api.unit.services
 import assertk.assertThat
 import assertk.assertions.isFailure
 import assertk.assertions.isInstanceOf
+import com.coder_rangers.mobius_api.components.interfaces.IGameAnswersResolver
 import com.coder_rangers.mobius_api.dao.interfaces.IGameDAO
 import com.coder_rangers.mobius_api.error.exceptions.GameNotFoundException
+import com.coder_rangers.mobius_api.models.AnswerWithResult
 import com.coder_rangers.mobius_api.models.Game.Category.ATTENTION
 import com.coder_rangers.mobius_api.services.implementations.GameService
 import io.mockk.every
@@ -19,19 +21,43 @@ class GameServiceTest {
     @MockK
     private lateinit var gameDAO: IGameDAO
 
+    @MockK
+    @Suppress("UNUSED")
+    private lateinit var textGameAnswersWithResultsResolver: IGameAnswersResolver<AnswerWithResult<String>>
+
+    @MockK
+    @Suppress("UNUSED")
+    private lateinit var textGameAnswersResolver: IGameAnswersResolver<String>
+
+    @MockK
+    @Suppress("UNUSED")
+    private lateinit var numericGameAnswersResolver: IGameAnswersResolver<Int>
+
+    @MockK
+    @Suppress("UNUSED")
+    private lateinit var attentionGameAnswersResolver: IGameAnswersResolver<Char>
+
+    @MockK
+    @Suppress("UNUSED")
+    private lateinit var comprehensionGameAnswersResolver: IGameAnswersResolver<String>
+
+    @MockK
+    @Suppress("UNUSED")
+    private lateinit var drawingGameAnswersResolver: IGameAnswersResolver<String>
+
     @InjectMockKs
     private lateinit var gameService: GameService
 
     @Test
     fun getRandomGameByCategoryTypeThrowsNotFoundTest() {
         // GIVEN
-        every { gameDAO.getMaxIdByCategory(any()) } returns 2L
-        every { gameDAO.getMinIdByCategory(any()) } returns 1L
+        every { gameDAO.getMaxIdByCategory(any(), any()) } returns 2L
+        every { gameDAO.getMinIdByCategory(any(), any()) } returns 1L
         every { gameDAO.getGameById(any()) } returns null
 
         // THEN
         assertThat {
-            gameService.getRandomGameByCategory(ATTENTION)
+            gameService.getRandomGameByCategory(ATTENTION, false)
         }.isFailure().isInstanceOf(GameNotFoundException::class)
     }
 }
