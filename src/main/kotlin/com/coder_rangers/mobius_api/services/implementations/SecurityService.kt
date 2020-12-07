@@ -52,7 +52,8 @@ class SecurityService @Autowired constructor(
             SignInResponse(
                 patient.id,
                 patient.firstName,
-                patient.lastName
+                patient.lastName,
+                patient.testStatus
             )
         }
 }
