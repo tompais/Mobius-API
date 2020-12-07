@@ -7,14 +7,17 @@ import com.coder_rangers.mobius_api.dao.interfaces.IPatientDAO
 import com.coder_rangers.mobius_api.error.exceptions.DuplicatedPatientException
 import com.coder_rangers.mobius_api.models.Game.Category.DRAWING
 import com.coder_rangers.mobius_api.models.Patient
+import com.coder_rangers.mobius_api.notifications.redis.messages.TestFinishedMessage
+import com.coder_rangers.mobius_api.notifications.redis.publishers.MessagePublisher
 import com.coder_rangers.mobius_api.requests.categories.GameAnswersRequest
 import com.coder_rangers.mobius_api.services.implementations.PatientService
 import com.coder_rangers.mobius_api.services.interfaces.IGameService
+import com.coder_rangers.mobius_api.services.interfaces.IImageService
 import com.coder_rangers.mobius_api.services.interfaces.IMentalTestService
 import com.coder_rangers.mobius_api.services.interfaces.ITaskResultService
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
-import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import io.mockk.verify
@@ -24,20 +27,28 @@ import org.springframework.dao.DataIntegrityViolationException
 
 @ExtendWith(MockKExtension::class)
 class PatientServiceTest {
-    @MockK(relaxed = true)
+    @RelaxedMockK
     private lateinit var patientDAO: IPatientDAO
 
-    @MockK(relaxed = true)
+    @RelaxedMockK
     @Suppress("UNUSED")
     private lateinit var mentalTestService: IMentalTestService
 
-    @MockK(relaxed = true)
+    @RelaxedMockK
     @Suppress("UNUSED")
     private lateinit var gameService: IGameService
 
-    @MockK(relaxed = true)
+    @RelaxedMockK
     @Suppress("UNUSED")
     private lateinit var taskResultService: ITaskResultService
+
+    @RelaxedMockK
+    @Suppress("UNUSED")
+    private lateinit var testFinishedPublisher: MessagePublisher<TestFinishedMessage>
+
+    @RelaxedMockK
+    @Suppress("UNUSED")
+    private lateinit var imageService: IImageService
 
     @InjectMockKs
     private lateinit var patientService: PatientService

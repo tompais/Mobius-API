@@ -1,4 +1,4 @@
-package com.coder_rangers.mobius_api.notifications.redis.suscribers
+package com.coder_rangers.mobius_api.notifications.redis.subscribers
 
 import com.coder_rangers.mobius_api.notifications.redis.messages.UploadFileMessage
 import com.coder_rangers.mobius_api.services.interfaces.IAmazonS3Service

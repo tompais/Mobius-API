@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @ConfigurationProperties(prefix = "config.slf4jfilter")
-class Slf4jMDCFilterConfiguration {
+class Slf4jMDCFilterConfig {
     companion object {
         private const val DEFAULT_RESPONSE_TOKEN_HEADER = "Response_Token"
         const val DEFAULT_MDC_UUID_TOKEN_KEY = "Slf4jMDCFilter.UUID"

@@ -2,10 +2,8 @@ package com.coder_rangers.mobius_api.services.implementations
 
 import com.coder_rangers.mobius_api.components.interfaces.IGameAnswersResolver
 import com.coder_rangers.mobius_api.dao.interfaces.IGameDAO
-import com.coder_rangers.mobius_api.enums.TestStatus.FINISHED
 import com.coder_rangers.mobius_api.error.exceptions.ExclusiveTestCategoryException
 import com.coder_rangers.mobius_api.error.exceptions.GameNotFoundException
-import com.coder_rangers.mobius_api.error.exceptions.TestNotFinishedException
 import com.coder_rangers.mobius_api.models.AnswerWithResult
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category
@@ -58,8 +56,6 @@ class GameService @Autowired constructor(
     override fun getNotTestCategories(): List<Category> = gameDAO.getNotTestCategories()
 
     override fun getNotTestGame(patient: Patient, gameCategory: Category, test: Boolean): Game {
-        assertThatTestIsFinished(patient)
-
         assertThatIsNotTestCategory(gameCategory)
 
         return getRandomGameByCategory(gameCategory, test)
@@ -67,7 +63,6 @@ class GameService @Autowired constructor(
 
     override fun processGameAnswers(patient: Patient, gameAnswersRequest: GameAnswersRequest<*>) {
         if (!gameAnswersRequest.areTestGameAnswers) {
-            assertThatTestIsFinished(patient)
             assertThatIsNotTestCategory(gameAnswersRequest.category)
         }
 
@@ -104,12 +99,6 @@ class GameService @Autowired constructor(
                 game,
                 (gameAnswersRequest as TextGameAnswersRequest).patientTaskAnswersRequestList
             )
-        }
-    }
-
-    private fun assertThatTestIsFinished(patient: Patient) {
-        if (patient.testStatus != FINISHED) {
-            throw TestNotFinishedException(patient.id)
         }
     }
 

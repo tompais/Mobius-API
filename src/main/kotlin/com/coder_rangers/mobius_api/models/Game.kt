@@ -13,6 +13,7 @@ import javax.persistence.OneToMany
 import javax.persistence.Table
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotEmpty
+import javax.validation.constraints.Positive
 import javax.validation.constraints.PositiveOrZero
 
 @Entity
@@ -44,18 +45,24 @@ class Game(
     @OneToMany(mappedBy = "game", cascade = [ALL])
     val resources: List<Resource>? = null
 ) {
-    enum class Category {
-        ORIENTATION,
-        FIXATION,
-        CALCULATION,
-        ATTENTION,
-        MEMORY,
-        VISUALIZATION,
-        REPETITION,
-        COMPREHENSION,
-        READING,
-        WRITING,
-        DRAWING;
+    enum class Category(
+        @field:NotBlank
+        val displayName: String,
+
+        @field:Positive
+        val maxTestScore: Int
+    ) {
+        ORIENTATION("Orientación", 8),
+        FIXATION("Fijación", 3),
+        CALCULATION("Cálculo", 5),
+        ATTENTION("Atención", 5),
+        MEMORY("Memoria", 3),
+        VISUALIZATION("Visualización", 1),
+        REPETITION("Repetición", 1),
+        COMPREHENSION("Comprensión", 3),
+        READING("Lectura", 1),
+        WRITING("Escritura", 1),
+        DRAWING("Dibujo", 1);
 
         @JsonValue
         override fun toString() = name.toLowerCase()

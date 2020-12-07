@@ -17,6 +17,7 @@ import com.coder_rangers.mobius_api.models.Game.Category.READING
 import com.coder_rangers.mobius_api.models.Game.Category.REPETITION
 import com.coder_rangers.mobius_api.models.Game.Category.VISUALIZATION
 import com.coder_rangers.mobius_api.models.Game.Category.WRITING
+import com.coder_rangers.mobius_api.notifications.redis.messages.TestFinishedMessage
 import com.coder_rangers.mobius_api.notifications.redis.messages.UploadFileMessage
 import com.coder_rangers.mobius_api.notifications.redis.publishers.MessagePublisher
 import com.coder_rangers.mobius_api.requests.PatientTaskAnswersRequest
@@ -26,6 +27,7 @@ import com.coder_rangers.mobius_api.requests.categories.NumericGameAnswersReques
 import com.coder_rangers.mobius_api.requests.categories.TextGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextGameAnswersWithResultsRequest
 import com.coder_rangers.mobius_api.utils.MockUtils.getImageFromClasspathInBase64
+import com.coder_rangers.mobius_api.utils.TestConstant.GUARDIAN_EMAIL
 import com.coder_rangers.mobius_api.utils.TestConstant.NON_EXISTENT_PATIENT_ID
 import com.coder_rangers.mobius_api.utils.TestConstant.PATIENT_ID
 import com.coder_rangers.mobius_api.utils.TestConstant.PATIENT_ID_WITH_FINISHED_TEST
@@ -37,8 +39,10 @@ import io.mockk.clearMocks
 import io.mockk.clearStaticMockk
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkStatic
 import io.restassured.http.ContentType.JSON
 import io.restassured.module.mockmvc.RestAssuredMockMvc.given
+import org.apache.commons.io.IOUtils
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -53,19 +57,27 @@ import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.HttpStatus.OK
+import java.io.InputStream
+import java.util.Base64
 import javax.imageio.ImageIO
 
 class PatientIntegrationTest @Autowired constructor(
     private val patientRepository: IPatientRepository,
 
     @Qualifier("uploadFileToS3Subscriber")
-    private val uploadFileToS3Subscriber: MessageListener
+    private val uploadFileToS3Subscriber: MessageListener,
+
+    @Qualifier("testFinishedSubscriber")
+    private val testFinishedSubscriber: MessageListener
 ) : BaseIntegrationTest("/patients") {
     @SpykBean
     private lateinit var taskResultRepository: ITaskResultRepository
 
     @MockkBean(name = "uploadFileToS3Publisher", relaxed = true)
-    private lateinit var uploadFileToS3Publisher: MessagePublisher
+    private lateinit var uploadFileToS3Publisher: MessagePublisher<UploadFileMessage>
+
+    @MockkBean(name = "testFinishedPublisher", relaxed = true)
+    private lateinit var testFinishedPublisher: MessagePublisher<TestFinishedMessage>
 
     @MockkBean(relaxed = true)
     @Suppress("UNUSED")
@@ -438,7 +450,7 @@ class PatientIntegrationTest @Autowired constructor(
     @BeforeEach
     fun beforeEach() {
         clearMocks(taskResultRepository)
-        clearStaticMockk(ImageIO::class)
+        clearStaticMockk(ImageIO::class, IOUtils::class)
     }
 
     @ParameterizedTest
@@ -479,6 +491,35 @@ class PatientIntegrationTest @Autowired constructor(
                     null
                 )
             }
+
+            every { amazonS3Client.getObject(any<String>(), any()) } returns mockk {
+                every { objectContent } returns mockk(relaxed = true)
+            }
+
+            mockkStatic(IOUtils::class).also {
+                every { IOUtils.toByteArray(any<InputStream>()) } returns (testGameAnswersRequest as TextGameAnswersRequest).patientTaskAnswersRequestList.first().patientAnswersRequest.first()
+                    .let {
+                        Base64.getDecoder().decode(it)
+                    }
+            }
+
+            every { testFinishedPublisher.publish(any()) } answers {
+                val message = mockk<Message>()
+
+                every { message.toString() } returns mapper.writeValueAsString(
+                    TestFinishedMessage(
+                        patientId = id,
+                        guardianEmails = setOf(
+                            GUARDIAN_EMAIL
+                        )
+                    )
+                )
+
+                testFinishedSubscriber.onMessage(
+                    message,
+                    null
+                )
+            }
         }
 
         given()
@@ -497,9 +538,6 @@ class PatientIntegrationTest @Autowired constructor(
     @ParameterizedTest
     @MethodSource("getTestResultCases")
     fun getTestResultTest(patientId: Long, expectedHttpStatus: HttpStatus) {
-        if (expectedHttpStatus == OK) {
-            every { taskResultRepository.getTestTotalScore(patientId) } returns 27
-        }
         given()
             .`when`()
             .get("$baseUrl/$patientId/mental-test/result")
