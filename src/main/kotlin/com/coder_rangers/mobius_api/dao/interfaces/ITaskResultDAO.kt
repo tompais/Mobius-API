@@ -7,6 +7,5 @@ import com.coder_rangers.mobius_api.models.Task
 
 interface ITaskResultDAO {
     fun createTaskResult(patient: Patient, task: Task, score: Int, patientAnswers: List<Answer>): Task.Result
-    fun getTestTotalScore(patientId: Long): Int
     fun getPatientResults(patientId: Long, gameCategories: List<Category>): List<Task.Result>
 }

@@ -89,4 +89,8 @@ class Patient(
         @JsonValue
         override fun toString() = name.toLowerCase()
     }
+
+    fun getTestTaskResults(): List<Task.Result> = taskResults!!.filter { taskResult ->
+        taskResult.task.game!!.isTestGame
+    }
 }

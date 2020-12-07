@@ -10,6 +10,7 @@ import com.coder_rangers.mobius_api.utils.ImageUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.util.ResourceUtils
+import org.springframework.util.ResourceUtils.CLASSPATH_URL_PREFIX
 import java.util.Base64
 import javax.imageio.ImageIO
 
@@ -22,7 +23,7 @@ class DrawingGameAnswersResolver @Autowired constructor(
         val originalImageName = answers!!.map { it as ImageAnswer }.first().imageName
 
         val originalImage =
-            ImageIO.read(ResourceUtils.getURL("classpath:static/images/$originalImageName").openStream())
+            ImageIO.read(ResourceUtils.getURL("${CLASSPATH_URL_PREFIX}static/images/$originalImageName").openStream())
 
         val drawnImageInBytes = patientTaskAnswersRequest.patientAnswersRequest.first().let {
             Base64.getDecoder().decode(it)

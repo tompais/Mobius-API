@@ -1,5 +1,6 @@
 package com.coder_rangers.mobius_api.notifications.redis.publishers
 
+import com.coder_rangers.mobius_api.notifications.redis.messages.UploadFileMessage
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.data.redis.core.RedisTemplate
@@ -12,7 +13,7 @@ class UploadFileToS3Publisher @Autowired constructor(
 
     @Qualifier("uploadFileToS3ChannelTopic")
     channelTopic: ChannelTopic
-) : RedisMessagePublisher(
+) : RedisMessagePublisher<UploadFileMessage>(
     redisTemplate,
     channelTopic
 )
