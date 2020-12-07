@@ -9,7 +9,7 @@ import com.coder_rangers.mobius_api.error.exceptions.TestNotFinishedException
 import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category
 import com.coder_rangers.mobius_api.requests.categories.GameAnswersRequest
-import com.coder_rangers.mobius_api.responses.PatientTestResult
+import com.coder_rangers.mobius_api.responses.TestResult
 import com.coder_rangers.mobius_api.services.interfaces.IPatientService
 import com.coder_rangers.mobius_api.view.models.HomeViewModel
 import io.swagger.v3.oas.annotations.Operation
@@ -210,7 +210,7 @@ class PatientController @Autowired constructor(
                         mediaType = APPLICATION_JSON_VALUE,
                         array = ArraySchema(
                             schema = Schema(
-                                implementation = PatientTestResult::class
+                                implementation = TestResult::class
                             )
                         )
                     )
@@ -250,7 +250,7 @@ class PatientController @Autowired constructor(
         @PathVariable("id")
         @Positive
         id: Long
-    ): PatientTestResult = patientService.getTestResult(id)
+    ): TestResult = patientService.getTestResult(id)
 
     @GetMapping("{id}/home")
     @ResponseStatus(OK)

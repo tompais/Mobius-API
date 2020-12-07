@@ -47,6 +47,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.retry:spring-retry")
     implementation("org.springframework:spring-aspects")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    implementation("org.xhtmlrenderer:flying-saucer-pdf:9.1.20")
     implementation("redis.clients:jedis:3.3.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
@@ -168,7 +170,9 @@ tasks.jacocoTestCoverageVerification {
                 "*.publishers.*",
                 "*.IGameAnswersResolver*",
                 "*.messages.*",
-                "*.subscribers.*"
+                "*.subscribers.*",
+                "*.utils.*",
+                "*.dto.*"
             )
             limit {
                 minimum = "0.8".toBigDecimal()

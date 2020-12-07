@@ -9,6 +9,7 @@ import com.coder_rangers.mobius_api.utils.TestConstant.NEW_PATIENT_EMAIL
 import com.coder_rangers.mobius_api.utils.TestConstant.PASSWORD
 import com.coder_rangers.mobius_api.utils.TestConstant.PATIENT_EMAIL
 import org.springframework.util.ResourceUtils
+import org.springframework.util.ResourceUtils.CLASSPATH_URL_PREFIX
 import java.time.LocalDate
 import java.util.Base64
 
@@ -40,7 +41,7 @@ object MockUtils {
     )
 
     fun getImageFromClasspathInBase64(imageName: String): String =
-        ResourceUtils.getURL("classpath:images/$imageName").readBytes().let {
+        ResourceUtils.getURL("${CLASSPATH_URL_PREFIX}images/$imageName").readBytes().let {
             Base64.getEncoder().encodeToString(it)
         }
 }

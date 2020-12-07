@@ -1,19 +1,18 @@
 package com.coder_rangers.mobius_api.notifications.redis.publishers
 
-import com.coder_rangers.mobius_api.notifications.redis.messages.UploadFileMessage
-import org.springframework.beans.factory.annotation.Autowired
+import com.coder_rangers.mobius_api.notifications.redis.messages.TestFinishedMessage
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.listener.ChannelTopic
 import org.springframework.stereotype.Service
 
 @Service
-class UploadFileToS3Publisher @Autowired constructor(
+class TestFinishedPublisher(
     redisTemplate: RedisTemplate<String, Any>,
 
-    @Qualifier("uploadFileToS3ChannelTopic")
+    @Qualifier("testFinishedChannelTopic")
     channelTopic: ChannelTopic
-) : RedisMessagePublisher<UploadFileMessage>(
+) : RedisMessagePublisher<TestFinishedMessage>(
     redisTemplate,
     channelTopic
 )

@@ -3,6 +3,7 @@ package com.coder_rangers.mobius_api.services.implementations
 import com.amazonaws.services.s3.AmazonS3
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.coder_rangers.mobius_api.services.interfaces.IAmazonS3Service
+import org.apache.commons.io.IOUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -25,4 +26,7 @@ class AmazonS3Service @Autowired constructor(
             }
         )
     }
+
+    override fun getFileFromS3(filePath: String): ByteArray =
+        IOUtils.toByteArray(amazonS3Client.getObject(bucketName, filePath).objectContent)
 }

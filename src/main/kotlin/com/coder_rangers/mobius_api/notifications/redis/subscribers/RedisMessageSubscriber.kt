@@ -1,5 +1,6 @@
-package com.coder_rangers.mobius_api.notifications.redis.suscribers
+package com.coder_rangers.mobius_api.notifications.redis.subscribers
 
+import com.coder_rangers.mobius_api.notifications.redis.messages.AbstractMessage
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.slf4j.Logger
@@ -16,5 +17,6 @@ open class RedisMessageSubscriber(
     @Retryable(value = [Exception::class], maxAttempts = 3)
     override fun onMessage(message: Message, pattern: ByteArray?) = logger.info("Message received: $message")
 
-    protected inline fun <reified T> parseMessage(message: Message): T = mapper.readValue(message.toString())
+    protected inline fun <reified T : AbstractMessage> parseMessage(message: Message): T =
+        mapper.readValue(message.toString())
 }

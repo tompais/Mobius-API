@@ -6,10 +6,8 @@ import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category
 import com.coder_rangers.mobius_api.models.Patient
 import com.coder_rangers.mobius_api.requests.categories.GameAnswersRequest
-import com.coder_rangers.mobius_api.responses.PatientTestResult
 import com.coder_rangers.mobius_api.services.interfaces.IGameService
 import com.coder_rangers.mobius_api.services.interfaces.IMentalTestService
-import com.coder_rangers.mobius_api.services.interfaces.ITaskResultService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -17,9 +15,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 class MentalTestService @Autowired constructor(
-    private val gameService: IGameService,
-
-    private val taskResultService: ITaskResultService
+    private val gameService: IGameService
 ) : IMentalTestService {
     override fun getMentalTestGame(patient: Patient, gameCategory: Category, test: Boolean): Game {
         assertThatTestIsNotFinished(patient)
@@ -32,9 +28,6 @@ class MentalTestService @Autowired constructor(
 
         gameService.processGameAnswers(patient, testGameAnswersRequest)
     }
-
-    override fun getPatientTestResult(patientId: Long): PatientTestResult =
-        taskResultService.getPatientTestResult(patientId)
 
     private fun getRandomGameByCategory(gameCategory: Category, test: Boolean): Game =
         gameService.getRandomGameByCategory(gameCategory, test)

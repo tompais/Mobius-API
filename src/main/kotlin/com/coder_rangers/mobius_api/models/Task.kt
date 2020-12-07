@@ -2,7 +2,7 @@ package com.coder_rangers.mobius_api.models
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.annotations.CreationTimestamp
-import java.time.LocalDateTime
+import java.time.LocalDate
 import javax.persistence.Basic
 import javax.persistence.CascadeType.ALL
 import javax.persistence.Column
@@ -74,6 +74,6 @@ class Task(
         @Basic
         @CreationTimestamp
         @field:PastOrPresent
-        val playedDatetime: LocalDateTime = LocalDateTime.now()
+        val playedDate: LocalDate = LocalDate.now()
     )
 }

@@ -1,6 +1,5 @@
 package com.coder_rangers.mobius_api.notifications.redis.config
 
-import com.coder_rangers.mobius_api.notifications.redis.suscribers.UploadFileToS3Subscriber
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
@@ -21,6 +20,13 @@ class MessageListenerConfig @Autowired constructor(
     @Autowired
     fun uploadFileToS3Listener(
         @Qualifier("uploadFileToS3Subscriber")
-        uploadFileToS3Subscriber: UploadFileToS3Subscriber
+        uploadFileToS3Subscriber: MessageListener
     ) = buildMessageListener(uploadFileToS3Subscriber)
+
+    @Bean
+    @Autowired
+    fun testFinishedListener(
+        @Qualifier("testFinishedSubscriber")
+        testFinishedSubscriber: MessageListener
+    ) = buildMessageListener(testFinishedSubscriber)
 }
