@@ -112,17 +112,16 @@ class ScheduleService @Autowired constructor(
         type: Type,
         categoriesWithPercentages: List<Pair<Category, Int>>,
         label: String? = null
-    ) =
-        ChartRequest(
-            type = type,
-            data = Data(
-                labels = categoriesWithPercentages.map { it.first.displayName }.toSet(),
-                datasets = mutableListOf(
-                    Dataset(
-                        label = label,
-                        data = categoriesWithPercentages.map { it.second }
-                    )
+    ) = ChartRequest(
+        type = type,
+        data = Data(
+            labels = categoriesWithPercentages.map { it.first.displayName }.toSet(),
+            datasets = mutableListOf(
+                Dataset(
+                    label = label,
+                    data = categoriesWithPercentages.map { it.second }
                 )
             )
         )
+    )
 }
