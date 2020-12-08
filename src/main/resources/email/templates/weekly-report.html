@@ -1,0 +1,28 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Reporte semanal</title>
+  </head>
+
+  <body style="font-family: sans-serif; text-align: center;">
+  <h1 style="text-align: center">Reporte semanal</h1>
+
+  <div style="margin-top: 50px;">
+
+    <h2 th:if="${weeklyReport.hasVersusBarChart}">Semana pasada vs Semana anterior</h2>
+    <h2 th:unless="${weeklyReport.hasVersusBarChart}">Semana pasada</h2>
+
+    <img th:src="|data:image/png;base64,${weeklyReport.barChart}|"/>
+
+  </div>
+
+  <div style="margin-top: 50px;">
+
+    <h2>Progreso general del paciente</h2>
+
+    <img th:src="|data:image/png;base64,${weeklyReport.pieChart}|"/>
+
+  </div>
+
+  </body>
+</html>
