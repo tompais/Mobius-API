@@ -65,6 +65,7 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-data-rest:1.4.8")
     implementation("org.springdoc:springdoc-openapi-kotlin:1.4.8")
     implementation("com.amazonaws:aws-java-sdk-s3:1.11.908")
+    implementation("io.quickchart:QuickChart:1.0.0")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.postgresql:postgresql")

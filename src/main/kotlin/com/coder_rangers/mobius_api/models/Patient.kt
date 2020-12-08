@@ -93,4 +93,8 @@ class Patient(
     fun getTestTaskResults(): List<Task.Result> = taskResults!!.filter { taskResult ->
         taskResult.task.game!!.isTestGame
     }
+
+    fun getNotTestTaskResults(): List<Task.Result> = taskResults!!.filterNot { taskResult ->
+        taskResult.task.game!!.isTestGame
+    }
 }

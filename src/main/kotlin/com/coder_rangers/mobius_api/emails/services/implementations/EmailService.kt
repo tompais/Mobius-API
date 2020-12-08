@@ -1,5 +1,6 @@
 package com.coder_rangers.mobius_api.emails.services.implementations
 
+import com.coder_rangers.mobius_api.dto.WeeklyReportDTO
 import com.coder_rangers.mobius_api.emails.clients.interfaces.IEmailClient
 import com.coder_rangers.mobius_api.emails.services.interfaces.IEmailService
 import com.coder_rangers.mobius_api.responses.CompleteTestResult
@@ -16,22 +17,60 @@ class EmailService @Autowired constructor(
     private val thymeleafTemplateEngine: SpringTemplateEngine
 ) : IEmailService {
     override fun sendTestResults(guardianEmails: Set<String>, testResult: CompleteTestResult) {
-        thymeleafTemplateEngine.process(
-            MailConstant.Template.PATIENT_TEST_RESULTS_HTML_NAME,
-            Context().apply {
-                setVariables(
-                    mapOf(
-                        "testResult" to testResult
-                    )
-                )
-            }
-        ).toPDF().also { pdfByteArray ->
-            emailClient.sendMessageWithAttachment(
-                guardianEmails,
-                MailConstant.Subject.PATIENT_TEST_RESULTS,
-                MailConstant.Attachment.PATIENT_TEST_RESULTS_PDF_NAME,
-                pdfByteArray
-            )
+        buildAndSendMessageWithAttachment(
+            MailConstant.Template.PATIENT_TEST_RESULTS_HTML,
+            mapOf("testResult" to testResult),
+            guardianEmails,
+            MailConstant.Subject.PATIENT_TEST_RESULTS,
+            MailConstant.Attachment.PATIENT_TEST_RESULTS_PDF
+        )
+    }
+
+    override fun sendWeeklyReports(guardianEmails: Set<String>, weeklyReport: WeeklyReportDTO) {
+        buildAndSendMessageWithAttachment(
+            MailConstant.Template.PATIENT_WEEKLY_REPORT_HTML,
+            mapOf("weeklyReport" to weeklyReport),
+            guardianEmails,
+            MailConstant.Subject.PATIENT_WEEKLY_REPORT,
+            MailConstant.Attachment.PATIENT_WEEKLY_REPORT_PDF
+        )
+    }
+
+    private fun buildAndSendMessageWithAttachment(
+        template: String,
+        contextVariables: Map<String, Any>,
+        emails: Set<String>,
+        subject: String,
+        attachment: String
+    ) {
+        buildAttachment(template, contextVariables).also { pdfByteArray ->
+            sendMessageWithAttachment(emails, subject, attachment, pdfByteArray)
         }
     }
+
+    private fun sendMessageWithAttachment(
+        emails: Set<String>,
+        subject: String,
+        attachment: String,
+        pdfByteArray: ByteArray
+    ) {
+        emailClient.sendMessageWithAttachment(
+            emails,
+            subject,
+            attachment,
+            pdfByteArray
+        )
+    }
+
+    private fun buildAttachment(
+        template: String,
+        contextVariables: Map<String, Any>
+    ) = thymeleafTemplateEngine.process(
+        template,
+        Context().apply {
+            setVariables(
+                contextVariables
+            )
+        }
+    ).toPDF()
 }
