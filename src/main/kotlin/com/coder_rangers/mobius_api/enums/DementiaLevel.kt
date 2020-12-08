@@ -6,10 +6,10 @@ enum class DementiaLevel(
     val displayName: String
 ) {
     NO_DEMENTIA("Sin demencia"),
-    POSSIBLE_DEMENTIA("Posible demencia"),
-    MILD_TO_MODERATE_DEMENTIA("Media a moderada demencia"),
-    MODERATE_TO_SEVERE_DEMENTIA("Moderada a severa demencia"),
-    SEVERE_DEMENTIA("Demencia severa");
+    POSSIBLE_DEMENTIA("Posible"),
+    MILD_TO_MODERATE_DEMENTIA("Media a moderada"),
+    MODERATE_TO_SEVERE_DEMENTIA("Moderada a severa"),
+    SEVERE_DEMENTIA("Severa");
 
     @JsonValue
     override fun toString() = name.toLowerCase()
