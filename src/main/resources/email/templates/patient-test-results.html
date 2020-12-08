@@ -25,6 +25,8 @@
 
             <h4 th:text="${gameResult.category.displayName}"></h4>
 
+            <p><strong>Puntuación máxima: </strong><span th:text="${gameResult.category.maxTestScore}"></span></p>
+
             <div th:each="task: ${gameResult.taskResults}">
 
                 <p><strong>Consigna: </strong><span th:text="${task.description}"></span></p>
@@ -53,7 +55,6 @@
                     <br/>
                 </div>
 
-                <p><strong>Puntuación máxima: </strong><span th:text="${gameResult.category.maxTestScore}"></span></p>
                 <p><strong>Puntuación obtenida: </strong><span th:text="${task.score}"></span></p>
             </div>
 

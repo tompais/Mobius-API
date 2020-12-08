@@ -210,6 +210,9 @@ class PatientService @Autowired constructor(
     override fun getActivePatientById(id: Long): Patient =
         patientDAO.findActivePatientById(id) ?: throw PatientNotFoundException(id)
 
+    override fun getActivePatientsWithFinishedTest(): Set<Patient> =
+        patientDAO.getActivePatientsWithFinishedTest()
+
     private fun isLastTestCategory(category: Category) = category == DRAWING
 
     private fun checkAndProcessIfTestFinished(patient: Patient, category: Category) {
