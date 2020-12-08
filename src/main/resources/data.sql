@@ -1,5 +1,5 @@
 INSERT INTO public.guardians (email)
-VALUES ('ezequiel.allio@gmail.com');
+VALUES ('jaimito@gmail.com');
 
 INSERT INTO public.patients (birthday, email, first_name, last_name, password, status, genre, test_status)
 VALUES ('2000-10-10', 'fulanito@gmail.com', 'Fulanito', 'De Tal',
