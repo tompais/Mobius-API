@@ -61,7 +61,7 @@ class Patient(
     val birthday: LocalDate,
 
     @ManyToMany(mappedBy = "patients", cascade = [ALL])
-    val guardians: Set<Guardian>,
+    val guardians: MutableSet<Guardian> = mutableSetOf(),
 
     @Enumerated(STRING)
     @Column(nullable = false, updatable = false)
