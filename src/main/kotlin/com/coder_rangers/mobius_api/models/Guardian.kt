@@ -39,9 +39,10 @@ class Guardian(
         inverseJoinColumns = [
             JoinColumn(
                 name = "patient_id",
-                referencedColumnName = "id"
+                referencedColumnName = "id",
+                nullable = false
             )
         ]
     )
-    val patients: Set<Patient>? = null
+    val patients: MutableSet<Patient> = mutableSetOf()
 )
