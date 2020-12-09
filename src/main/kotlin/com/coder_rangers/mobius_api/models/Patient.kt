@@ -61,7 +61,7 @@ class Patient(
     val birthday: LocalDate,
 
     @ManyToMany(mappedBy = "patients", cascade = [ALL])
-    val guardians: Set<Guardian>,
+    val guardians: MutableSet<Guardian> = mutableSetOf(),
 
     @Enumerated(STRING)
     @Column(nullable = false, updatable = false)
@@ -88,5 +88,13 @@ class Patient(
 
         @JsonValue
         override fun toString() = name.toLowerCase()
+    }
+
+    fun getTestTaskResults(): List<Task.Result> = taskResults!!.filter { taskResult ->
+        taskResult.task.game!!.isTestGame
+    }
+
+    fun getNotTestTaskResults(): List<Task.Result> = taskResults!!.filterNot { taskResult ->
+        taskResult.task.game!!.isTestGame
     }
 }

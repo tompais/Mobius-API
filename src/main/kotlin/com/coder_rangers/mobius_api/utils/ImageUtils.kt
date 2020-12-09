@@ -56,8 +56,16 @@ object ImageUtils {
         return "png".equals(extension, ignoreCase = true)
     }
 
+    private fun isPng(fileName: String): Boolean = fileName.endsWith(".png")
+
     fun assertThatIsAPNG(bytes: ByteArray) {
         if (!isPng(bytes)) {
+            throw IllegalImageExtensionException()
+        }
+    }
+
+    fun assertThatIsAPNG(fileName: String) {
+        if (!isPng(fileName)) {
             throw IllegalImageExtensionException()
         }
     }

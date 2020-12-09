@@ -7,4 +7,5 @@ interface IPatientDAO {
     fun findActivePatientById(id: Long): Patient?
     fun createOrUpdatePatient(patient: Patient): Patient
     fun getActivePatientByEmail(email: String): Patient?
+    fun getActivePatientsWithFinishedTest(): Set<Patient>
 }

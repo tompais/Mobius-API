@@ -25,19 +25,21 @@ class SecurityService @Autowired constructor(
         val guardianEmail = signUpRequest.guardianEmail
 
         assertGuardianIsNotAPatient(guardianEmail)
-        patientService.createOrUpdatePatient(
-            Patient(
-                firstName = signUpRequest.firstName,
-                lastName = signUpRequest.lastName,
-                email = signUpRequest.patientEmail,
-                birthday = signUpRequest.birthday,
-                password = signUpRequest.password.fromBase64ToSHA256(),
-                guardians = setOf(
-                    guardianService.getOrCreateGuardian(guardianEmail)
-                ),
-                genre = signUpRequest.genre
-            )
-        )
+
+        val guardian = guardianService.getOrCreateGuardian(guardianEmail)
+
+        Patient(
+            firstName = signUpRequest.firstName,
+            lastName = signUpRequest.lastName,
+            email = signUpRequest.patientEmail,
+            birthday = signUpRequest.birthday,
+            password = signUpRequest.password.fromBase64ToSHA256(),
+            genre = signUpRequest.genre
+        ).let { patient ->
+            patient.guardians.add(guardian)
+            guardian.patients.add(patient)
+            patientService.createOrUpdatePatient(patient)
+        }
     }
 
     private fun assertGuardianIsNotAPatient(guardianEmail: String) {
@@ -55,7 +57,8 @@ class SecurityService @Autowired constructor(
                 id = patient.id,
                 firstName = patient.firstName,
                 lastName = patient.lastName,
-                token = jwtGenerator.generateJWT(patient.email)
+                token = jwtGenerator.generateJWT(patient.email),
+                patient.testStatus
             )
         }
 }

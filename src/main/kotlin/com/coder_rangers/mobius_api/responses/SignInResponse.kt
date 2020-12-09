@@ -1,5 +1,6 @@
 package com.coder_rangers.mobius_api.responses
 
+import com.coder_rangers.mobius_api.enums.TestStatus
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Positive
 
@@ -14,5 +15,7 @@ data class SignInResponse(
     val lastName: String,
 
     @field:NotBlank
-    val token: String
+    val token: String,
+
+    val testStatus: TestStatus
 )

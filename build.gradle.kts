@@ -53,6 +53,8 @@ dependencies {
     implementation("org.springframework.retry:spring-retry")
     implementation("org.springframework:spring-aspects")
     implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
 
     // Redis
     implementation("redis.clients:jedis:3.3.0")
@@ -88,6 +90,12 @@ dependencies {
 
     // JWT
     implementation("io.jsonwebtoken:jjwt:0.9.1")
+
+    // PDF
+    implementation("org.xhtmlrenderer:flying-saucer-pdf:9.1.20")
+
+    // Quickchart
+    implementation("io.quickchart:QuickChart:1.0.0")
 
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
@@ -191,7 +199,9 @@ tasks.jacocoTestCoverageVerification {
                 "*.publishers.*",
                 "*.IGameAnswersResolver*",
                 "*.messages.*",
-                "*.subscribers.*"
+                "*.subscribers.*",
+                "*.utils.*",
+                "*.dto.*"
             )
             limit {
                 minimum = "0.8".toBigDecimal()

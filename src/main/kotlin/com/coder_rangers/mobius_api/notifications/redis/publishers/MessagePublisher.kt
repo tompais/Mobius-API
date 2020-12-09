@@ -1,5 +1,7 @@
 package com.coder_rangers.mobius_api.notifications.redis.publishers
 
-interface MessagePublisher {
-    fun publish(message: Any)
+import com.coder_rangers.mobius_api.notifications.redis.messages.AbstractMessage
+
+interface MessagePublisher<T : AbstractMessage> {
+    fun publish(message: T)
 }
