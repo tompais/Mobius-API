@@ -63,7 +63,10 @@ VALUES ('ORIENTATION', 'Orientación', 'Responda las siguientes preguntas', true
        ('WRITING', 'Escritura', null, true),
        ('DRAWING', 'Dibujo', null, true),
        ('ATTENTION', 'Atención', null, false),
-       ('FIXATION', 'Fijación', null, false);
+       ('FIXATION', 'Fijación', null, false),
+       ('WRITING', 'Escritura', null, false),
+       ('VISUALIZATION', 'Visualización', null, false),
+       ('READING', 'Lectura', 'Lea la consigna atentamente', false); --16
 
 INSERT INTO public.tasks (game_id, description)
 VALUES (1, '¿En qué año estamos?'),
@@ -85,7 +88,10 @@ VALUES (1, '¿En qué año estamos?'),
        (10, 'Ordene sintácticamente la siguiente oración. Solo existe un orden correcto'),
        (11, 'Dibuje la siguiente imagen, lo más exacta posible, incluyendo en tamaño'),
        (12, 'Deletree la palabra DISCO al revés'),
-       (13, 'Escuche atentamente el siguiente audio y repita las palabras por el micrófono. Solo podrá reproducirlo 3 veces. Utilice el botón izquierdo para reproducir y el derecho para hablar');
+       (13, 'Escuche atentamente el siguiente audio y repita las palabras por el micrófono. Solo podrá reproducirlo 3 veces. Utilice el botón izquierdo para reproducir y el derecho para hablar'),
+       (14, 'Ordene sintácticamente la siguiente oración. Solo existe un orden correcto'),
+       (15, 'Seleccione qué es lo que se ve en la siguiente imagen'),
+       (16, 'Natalia es una maestra que va vestida con un abrigo color verde, su pelo es negro al igual que sus ojos, lleva una falda de color marrón claro y tiene en su mano un anotador de color rosa en el cual escribe todas las tareas que debe realizar'); --23
 
 INSERT INTO public.inputs (type, task_id)
 VALUES ('NUMBER', 1),
@@ -117,7 +123,9 @@ VALUES ('NUMBER', 1),
        ('TEXT', 19),
        ('TEXT', 19),
        ('TEXT', 19),
-       ('VOICE', 20); -- 30
+       ('VOICE', 20),
+       ('SELECT', 22),
+       ('SELECT', 23); -- 32
 
 INSERT INTO public.resources (game_id, type, file_name)
 VALUES (2, 'AUDIO', 'Bicicleta-Cuchara-Manzana.mp3'),
@@ -127,7 +135,10 @@ VALUES (2, 'AUDIO', 'Bicicleta-Cuchara-Manzana.mp3'),
        (9, 'IMAGE', 'lectura-1.png'),
        (10, 'TEXT', 'LluviaTejado.txt'),
        (11, 'IMAGE', 'Casa.png'),
-       (13, 'AUDIO', 'Casa-Mesa-Pato.mp3');
+       (13, 'AUDIO', 'Casa-Mesa-Pato.mp3'),
+       (14, 'TEXT', 'InviernoCasas.txt'),
+       (15, 'IMAGE', 'Gorila.jpg'),
+       (16, 'IMAGE', 'lectura-2.png');
 
 INSERT INTO public.answers (task_id, input_id, type)
 VALUES (9, null, 'EXPECTED'),
@@ -220,7 +231,18 @@ VALUES (9, null, 'EXPECTED'),
        (19, null, 'EXPECTED'),
        (20, null, 'EXPECTED'),
        (20, null, 'EXPECTED'),
-       (20, null, 'EXPECTED'); -- 91
+       (20, null, 'EXPECTED'),
+       (21, null, 'EXPECTED'),
+       (null, 31, 'POSSIBLE'),
+       (null, 31, 'POSSIBLE'),
+       (null, 31, 'POSSIBLE'),
+       (null, 31, 'POSSIBLE'),
+       (22, null, 'EXPECTED'),
+       (null, 32, 'POSSIBLE'),
+       (null, 32, 'POSSIBLE'),
+       (null, 32, 'POSSIBLE'),
+       (null, 32, 'POSSIBLE'),
+       (23, null, 'EXPECTED'); -- 102
 
 INSERT INTO public.text_answers (id, text)
 VALUES (1, 'Bicicleta'),
@@ -261,7 +283,13 @@ VALUES (1, 'Bicicleta'),
        (79, 'Puma'),
        (89, 'Casa'),
        (90, 'Mesa'),
-       (91, 'Pato');
+       (91, 'Pato'),
+       (92, 'En invierno la nieve cubre el techo de las casas'),
+       (93, 'Loro'),
+       (94, 'Jirafa'),
+       (95, 'Gorila'),
+       (96, 'Oso'),
+       (97, 'Gorila');
 
 INSERT INTO public.numeric_answers (id, number)
 VALUES (4, 93),
@@ -304,7 +332,12 @@ VALUES (4, 93),
        (80, 1),
        (81, 2),
        (82, 3),
-       (83, 4);
+       (83, 4),
+       (98, 1),
+       (99, 2),
+       (100, 3),
+       (101, 4),
+       (102, 1);
 
 INSERT INTO public.char_answers (id, letter)
 VALUES (9, 'O'),

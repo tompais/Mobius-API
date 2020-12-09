@@ -57,7 +57,7 @@ object MockUtils {
         patientEmail: String = "pepeargento@gmail.com",
         password: String = DigestUtils.sha256Hex("moniiiiiii"),
         birthday: LocalDate = LocalDate.now().minusYears(40L),
-        guardians: Set<Guardian> = setOf(
+        guardians: MutableSet<Guardian> = mutableSetOf(
             mockk(relaxed = true) {
                 every { email } returns GUARDIAN_EMAIL
             }

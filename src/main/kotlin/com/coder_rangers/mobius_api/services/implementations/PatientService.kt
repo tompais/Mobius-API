@@ -164,10 +164,10 @@ class PatientService @Autowired constructor(
         GeneralTestResult(testTotalScore, dementiaLevel)
 
     private fun getDementiaLevel(testTotalScore: Int): DementiaLevel = when (testTotalScore) {
-        in 30..35 -> NO_DEMENTIA
-        in 25..29 -> POSSIBLE_DEMENTIA
-        in 20..24 -> MILD_TO_MODERATE_DEMENTIA
-        in 15..19 -> MODERATE_TO_SEVERE_DEMENTIA
+        in 27..32 -> NO_DEMENTIA
+        in 22..26 -> POSSIBLE_DEMENTIA
+        in 17..21 -> MILD_TO_MODERATE_DEMENTIA
+        in 12..16 -> MODERATE_TO_SEVERE_DEMENTIA
         else -> SEVERE_DEMENTIA
     }
 
