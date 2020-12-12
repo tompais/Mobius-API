@@ -34,7 +34,8 @@ class SecurityConfig @Autowired constructor(
                 "/internal/**",
                 "/images/**",
                 "/audios/**",
-                "/texts/**"
+                "/texts/**",
+                "/schedules/**"
             )
             .permitAll()
             .anyRequest()
