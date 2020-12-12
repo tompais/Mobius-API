@@ -31,7 +31,10 @@ class SecurityConfig @Autowired constructor(
                 "/swagger-ui/**",
                 "/swagger-ui.html",
                 "/security/**",
-                "/internal/**"
+                "/internal/**",
+                "/images/**",
+                "/audios/**",
+                "/texts/**"
             )
             .permitAll()
             .anyRequest()
