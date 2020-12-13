@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.junit5.MockKExtension
 import io.restassured.module.mockmvc.RestAssuredMockMvc
+import okhttp3.mockwebserver.MockWebServer
+import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
@@ -38,6 +40,16 @@ class BaseIntegrationTest(
     @Qualifier("camelCase")
     protected lateinit var mapper: ObjectMapper
 
+    @Autowired
+    protected lateinit var mockWebServer: MockWebServer
+
     @BeforeAll
-    fun setUpRestAssuredMockMvc() = RestAssuredMockMvc.webAppContextSetup(webApplicationContext)
+    fun setUp() {
+        RestAssuredMockMvc.webAppContextSetup(webApplicationContext)
+    }
+
+    @AfterAll
+    fun tearDown() {
+        mockWebServer.shutdown()
+    }
 }
