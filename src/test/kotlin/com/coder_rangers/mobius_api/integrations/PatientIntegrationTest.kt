@@ -26,6 +26,8 @@ import com.coder_rangers.mobius_api.requests.categories.GameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.NumericGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextGameAnswersRequest
 import com.coder_rangers.mobius_api.requests.categories.TextGameAnswersWithResultsRequest
+import com.coder_rangers.mobius_api.responses.imagga.CompareResponse
+import com.coder_rangers.mobius_api.responses.imagga.UploadResponse
 import com.coder_rangers.mobius_api.utils.MockUtils.getImageFromClasspathInBase64
 import com.coder_rangers.mobius_api.utils.TestConstant.GUARDIAN_EMAIL
 import com.coder_rangers.mobius_api.utils.TestConstant.NON_EXISTENT_PATIENT_ID
@@ -42,6 +44,7 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.restassured.http.ContentType.JSON
 import io.restassured.module.mockmvc.RestAssuredMockMvc.given
+import okhttp3.mockwebserver.MockResponse
 import org.apache.commons.io.IOUtils
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
@@ -52,11 +55,13 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.data.redis.connection.Message
 import org.springframework.data.redis.connection.MessageListener
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.HttpHeaders.CONTENT_TYPE
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.HttpStatus.OK
+import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import java.io.InputStream
 import java.util.Base64
 import javax.imageio.ImageIO
@@ -345,74 +350,6 @@ class PatientIntegrationTest @Autowired constructor(
                     )
                 ),
                 NO_CONTENT
-            ),
-            Arguments.of(
-                PATIENT_ID,
-                TextGameAnswersRequest(
-                    category = DRAWING,
-                    gameId = 11,
-                    areTestGameAnswers = true,
-                    patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(
-                            taskId = 18,
-                            listOf(
-                                getImageFromClasspathInBase64("dibujo-chico.png")
-                            )
-                        )
-                    )
-                ),
-                BAD_REQUEST
-            ),
-            Arguments.of(
-                PATIENT_ID,
-                TextGameAnswersRequest(
-                    category = DRAWING,
-                    gameId = 11,
-                    areTestGameAnswers = true,
-                    patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(
-                            taskId = 18,
-                            listOf(
-                                getImageFromClasspathInBase64("spiderman.jpg")
-                            )
-                        )
-                    )
-                ),
-                BAD_REQUEST
-            ),
-            Arguments.of(
-                PATIENT_ID,
-                TextGameAnswersRequest(
-                    category = DRAWING,
-                    gameId = 11,
-                    areTestGameAnswers = true,
-                    patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(
-                            taskId = 18,
-                            listOf(
-                                getImageFromClasspathInBase64("dibujo-menos70.png")
-                            )
-                        )
-                    )
-                ),
-                NO_CONTENT
-            ),
-            Arguments.of(
-                PATIENT_ID,
-                TextGameAnswersRequest(
-                    category = DRAWING,
-                    gameId = 11,
-                    areTestGameAnswers = true,
-                    patientTaskAnswersRequestList = listOf(
-                        PatientTaskAnswersRequest(
-                            taskId = 18,
-                            listOf(
-                                getImageFromClasspathInBase64("dibujo.png")
-                            )
-                        )
-                    )
-                ),
-                NO_CONTENT
             )
         )
 
@@ -445,12 +382,71 @@ class PatientIntegrationTest @Autowired constructor(
                 OK
             )
         )
+
+        @JvmStatic
+        @Suppress("UNUSED")
+        fun processDrawingGameAnswersCases() = listOf(
+            Arguments.of(
+                PATIENT_ID,
+                TextGameAnswersRequest(
+                    category = DRAWING,
+                    gameId = 11,
+                    areTestGameAnswers = true,
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(
+                            taskId = 18,
+                            listOf(
+                                getImageFromClasspathInBase64("spiderman.jpg")
+                            )
+                        )
+                    )
+                ),
+                null,
+                BAD_REQUEST
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                TextGameAnswersRequest(
+                    category = DRAWING,
+                    gameId = 11,
+                    areTestGameAnswers = true,
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(
+                            taskId = 18,
+                            listOf(
+                                getImageFromClasspathInBase64("dibujo.png")
+                            )
+                        )
+                    )
+                ),
+                98.0,
+                NO_CONTENT
+            ),
+            Arguments.of(
+                PATIENT_ID,
+                TextGameAnswersRequest(
+                    category = DRAWING,
+                    gameId = 11,
+                    areTestGameAnswers = true,
+                    patientTaskAnswersRequestList = listOf(
+                        PatientTaskAnswersRequest(
+                            taskId = 18,
+                            listOf(
+                                getImageFromClasspathInBase64("dibujo.png")
+                            )
+                        )
+                    )
+                ),
+                99.4,
+                NO_CONTENT
+            )
+        )
     }
 
     @BeforeEach
     fun beforeEach() {
         clearMocks(taskResultRepository)
-        clearStaticMockk(ImageIO::class, IOUtils::class)
+        clearStaticMockk(ImageIO::class)
     }
 
     @ParameterizedTest
@@ -473,12 +469,70 @@ class PatientIntegrationTest @Autowired constructor(
         testGameAnswersRequest: GameAnswersRequest<*>,
         expectedHttpStatus: HttpStatus
     ) {
+        resetPatient(id)
+
+        executeProcessGameAnswers(testGameAnswersRequest, id, expectedHttpStatus)
+    }
+
+    private fun resetPatient(id: Long) {
         patientRepository.findByIdOrNull(id)?.let {
             it.testStatus = IN_PROGRESS
             patientRepository.saveAndFlush(it)
         }
+    }
 
-        if (testGameAnswersRequest.category == DRAWING) {
+    @ParameterizedTest
+    @MethodSource("processDrawingGameAnswersCases")
+    fun processDrawingGameAnswersTest(
+        id: Long,
+        testGameAnswersRequest: GameAnswersRequest<*>,
+        imageComparisonValue: Double?,
+        expectedHttpStatus: HttpStatus
+    ) {
+        resetPatient(id)
+
+        if (imageComparisonValue != null) {
+            mockWebServer.apply {
+                enqueue(
+                    MockResponse()
+                        .setResponseCode(OK.value())
+                        .setHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                        .setBody(
+                            mapper.writeValueAsString(
+                                mockk<UploadResponse> {
+                                    every { result } returns mockk(relaxed = true)
+                                }
+                            )
+                        )
+                )
+                enqueue(
+                    MockResponse()
+                        .setResponseCode(OK.value())
+                        .setHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                        .setBody(
+                            mapper.writeValueAsString(
+                                mockk<UploadResponse> {
+                                    every { result } returns mockk(relaxed = true)
+                                }
+                            )
+                        )
+                )
+                enqueue(
+                    MockResponse()
+                        .setResponseCode(OK.value())
+                        .setHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                        .setBody(
+                            mapper.writeValueAsString(
+                                mockk<CompareResponse> {
+                                    every { result } returns mockk {
+                                        every { distance } returns imageComparisonValue
+                                    }
+                                }
+                            )
+                        )
+                )
+            }
+
             every { uploadFileToS3Publisher.publish(any()) } answers {
                 val message = mockk<Message>()
 
@@ -492,15 +546,15 @@ class PatientIntegrationTest @Autowired constructor(
                 )
             }
 
-            every { amazonS3Client.getObject(any<String>(), any()) } returns mockk {
-                every { objectContent } returns mockk(relaxed = true)
-            }
-
             mockkStatic(IOUtils::class).also {
                 every { IOUtils.toByteArray(any<InputStream>()) } returns (testGameAnswersRequest as TextGameAnswersRequest).patientTaskAnswersRequestList.first().patientAnswersRequest.first()
                     .let {
                         Base64.getDecoder().decode(it)
                     }
+            }
+
+            every { amazonS3Client.getObject(any<String>(), any()) } returns mockk {
+                every { objectContent } returns mockk(relaxed = true)
             }
 
             every { testFinishedPublisher.publish(any()) } answers {
@@ -522,6 +576,14 @@ class PatientIntegrationTest @Autowired constructor(
             }
         }
 
+        executeProcessGameAnswers(testGameAnswersRequest, id, expectedHttpStatus)
+    }
+
+    private fun executeProcessGameAnswers(
+        testGameAnswersRequest: GameAnswersRequest<*>,
+        id: Long,
+        expectedHttpStatus: HttpStatus
+    ) {
         given()
             .accept(JSON)
             .contentType(JSON)
