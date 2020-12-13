@@ -71,7 +71,7 @@ class ImageService @Autowired constructor(
             .block()!!
     }
 
-    @Retryable(value = [WebClientException::class], maxAttempts = 3, backoff = Backoff(delay = 500))
+    @Retryable(value = [WebClientException::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     private fun uploadImageToImagga(imageInBase64: String): UploadResponse {
         return imaggaWebClient.post()
             .uri("/uploads")
