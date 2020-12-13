@@ -18,7 +18,8 @@ class SecurityConfig @Autowired constructor(
     private val jwtAuthorizationFilter: OncePerRequestFilter,
 ) : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
-        http.csrf().disable()
+        http.cors().disable()
+            .csrf().disable()
             .addFilterAfter(
                 jwtAuthorizationFilter,
                 UsernamePasswordAuthenticationFilter::class.java
