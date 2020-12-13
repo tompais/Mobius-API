@@ -48,11 +48,13 @@ dependencies {
     implementation("org.springframework.retry:spring-retry")
     implementation("org.springframework:spring-aspects")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.xhtmlrenderer:flying-saucer-pdf:9.1.20")
     implementation("redis.clients:jedis:3.3.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
+    implementation("org.projectreactor:reactor-spring:1.0.1.RELEASE")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
@@ -84,6 +86,8 @@ dependencies {
     }
     testImplementation("io.rest-assured:rest-assured-common:4.3.1")
     testImplementation("org.hamcrest:hamcrest-all:1.3")
+    testImplementation("com.squareup.okhttp3:okhttp:4.9.0")
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.9.0")
 }
 
 val outputDir = "${project.buildDir}/reports/ktlint/"
