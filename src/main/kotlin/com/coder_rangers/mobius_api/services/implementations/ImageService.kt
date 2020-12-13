@@ -55,6 +55,8 @@ class ImageService @Autowired constructor(
         }
 
     private fun compareImagesWithImagga(originalImageUploadId: String, drawnImageUploadId: String): CompareResponse {
+        Thread.sleep(500)
+
         return imaggaWebClient.get()
             .uri { uriBuilder ->
                 uriBuilder.path("/images-similarity/categories/general_v3")
