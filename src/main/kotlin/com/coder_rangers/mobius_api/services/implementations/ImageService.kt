@@ -57,7 +57,7 @@ class ImageService @Autowired constructor(
             }
         }
 
-    @Retryable(value = [WebClientException::class], maxAttempts = 3, backoff = Backoff(delay = 500))
+    @Retryable(value = [WebClientException::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     private fun compareImagesWithImagga(originalImageUploadId: String, drawnImageUploadId: String): CompareResponse {
         return imaggaWebClient.get()
             .uri { uriBuilder ->
