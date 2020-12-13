@@ -53,6 +53,7 @@ class ImageService @Autowired constructor(
     override fun compareImages(originalImageInBase64: String, drawnImageInBase64: String): Double =
         uploadImageToImagga(originalImageInBase64).result!!.uploadId.let { originalImageUploadId ->
             uploadImageToImagga(drawnImageInBase64).result!!.uploadId.let { drawnImageUploadId ->
+                Thread.sleep(1000)
                 compareImagesWithImagga(originalImageUploadId, drawnImageUploadId).result!!.distance
             }
         }
