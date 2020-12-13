@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.HttpStatus.OK
@@ -42,7 +43,14 @@ class PatientController @Autowired constructor(
 ) {
     @GetMapping("/{id}/game")
     @ResponseStatus(OK)
-    @Operation(summary = "Endpoint to get the game that user has to do.")
+    @Operation(
+        summary = "Endpoint to get the game that user has to do.",
+        security = [
+            SecurityRequirement(
+                name = "token"
+            )
+        ]
+    )
     @ApiResponses(
         value = [
             ApiResponse(
@@ -127,7 +135,14 @@ class PatientController @Autowired constructor(
 
     @PostMapping("/{id}/game/answers", consumes = [APPLICATION_JSON_VALUE])
     @ResponseStatus(NO_CONTENT)
-    @Operation(summary = "Endpoint to process and save the answers of the game")
+    @Operation(
+        summary = "Endpoint to process and save the answers of the game",
+        security = [
+            SecurityRequirement(
+                name = "token"
+            )
+        ]
+    )
     @ApiResponses(
         value = [
             ApiResponse(
@@ -200,7 +215,14 @@ class PatientController @Autowired constructor(
 
     @GetMapping("/{id}/mental-test/result")
     @ResponseStatus(OK)
-    @Operation(summary = "Endpoint to get the test result")
+    @Operation(
+        summary = "Endpoint to get the test result",
+        security = [
+            SecurityRequirement(
+                name = "token"
+            )
+        ]
+    )
     @ApiResponses(
         value = [
             ApiResponse(
@@ -254,7 +276,14 @@ class PatientController @Autowired constructor(
 
     @GetMapping("{id}/home")
     @ResponseStatus(OK)
-    @Operation(summary = "Endpoint to get the list of categories and the recommended category")
+    @Operation(
+        summary = "Endpoint to get the list of categories and the recommended category",
+        security = [
+            SecurityRequirement(
+                name = "token"
+            )
+        ]
+    )
     @ApiResponses(
         value = [
             ApiResponse(

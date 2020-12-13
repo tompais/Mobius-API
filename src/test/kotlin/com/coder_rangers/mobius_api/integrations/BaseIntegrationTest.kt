@@ -13,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.test.context.ContextConfiguration
@@ -28,10 +27,6 @@ class BaseIntegrationTest(
 ) {
     @Autowired
     private lateinit var webApplicationContext: WebApplicationContext
-
-    @MockkBean(relaxed = true)
-    @Suppress("UNUSED")
-    private lateinit var jedisConnectionFactory: JedisConnectionFactory
 
     @MockkBean(relaxed = true)
     @Suppress("UNUSED")
