@@ -11,9 +11,12 @@ import com.coder_rangers.mobius_api.utils.ImageUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.MediaType.MULTIPART_FORM_DATA
+import org.springframework.retry.annotation.Backoff
+import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.WebClientException
 import java.util.UUID
 
 @Service
@@ -50,10 +53,12 @@ class ImageService @Autowired constructor(
     override fun compareImages(originalImageInBase64: String, drawnImageInBase64: String): Double =
         uploadImageToImagga(originalImageInBase64).result!!.uploadId.let { originalImageUploadId ->
             uploadImageToImagga(drawnImageInBase64).result!!.uploadId.let { drawnImageUploadId ->
+                Thread.sleep(1000)
                 compareImagesWithImagga(originalImageUploadId, drawnImageUploadId).result!!.distance
             }
         }
 
+    @Retryable(value = [WebClientException::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     private fun compareImagesWithImagga(originalImageUploadId: String, drawnImageUploadId: String): CompareResponse {
         return imaggaWebClient.get()
             .uri { uriBuilder ->
@@ -67,6 +72,7 @@ class ImageService @Autowired constructor(
             .block()!!
     }
 
+    @Retryable(value = [WebClientException::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     private fun uploadImageToImagga(imageInBase64: String): UploadResponse {
         return imaggaWebClient.post()
             .uri("/uploads")
