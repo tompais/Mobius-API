@@ -147,7 +147,7 @@ class PatientService @Autowired constructor(
                     is TextAnswer -> answer.text
                     else -> (answer as ImageAnswer).let { imageAnswer ->
                         when (imageAnswer.type) {
-                            PATIENT -> imageService.getImage(imageAnswer.imageName)
+                            PATIENT -> imageService.getImageFromS3(imageAnswer.imageName)
                             EXPECTED ->
                                 ResourceUtils.getURL("${CLASSPATH_URL_PREFIX}static/images/${imageAnswer.imageName}")
                                     .readBytes()
