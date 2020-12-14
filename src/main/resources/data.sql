@@ -95,7 +95,7 @@ VALUES (1, '¿En qué año estamos?'),
        (14, 'Ordene sintácticamente la siguiente oración. Solo existe un orden correcto'),
        (15, 'Seleccione qué es lo que se ve en la siguiente imagen'),
        (16, 'Natalia es una maestra que va vestida con un abrigo color verde, su pelo es negro al igual que sus ojos, lleva una falda de color marrón claro y tiene en su mano un anotador de color rosa en el cual escribe todas las tareas que debe realizar'),
-       (17, 'Roberto es una persona mayor que tiene su pelo cubierto de canas, le gusta vestir su chaqueta color marron con botones dorados, usa unos jeans azules que combinan con su corbata y por ultimo, lleva una camisa color celeste claro.'),
+       (17, 'Roberto es una persona mayor que tiene su pelo cubierto de canas, le gusta vestir su chaqueta color marrón con botones dorados, usa unos jeans azules que combinan con su corbata y por último, lleva una camisa color celeste claro'),
        (18, 'Ordene sintácticamente la siguiente oración. Solo existe un orden correcto'),
        (19, 'Seleccione qué es lo que se ve en la siguiente imagen'); --26
 
