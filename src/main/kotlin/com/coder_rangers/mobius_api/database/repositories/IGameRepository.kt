@@ -13,11 +13,8 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 @RepositoryRestResource(exported = false)
 interface IGameRepository : JpaRepository<Game, Long>, JpaSpecificationExecutor<Game> {
-    @Query("SELECT MAX(g.id) FROM Game g WHERE g.category = ?1 AND g.isTestGame = ?2")
-    fun getMaxIdByCategory(category: Category, test: Boolean): Long
-
-    @Query("SELECT MIN(g.id) FROM Game g WHERE g.category = ?1 AND g.isTestGame = ?2")
-    fun getMinIdByCategory(category: Category, test: Boolean): Long
+    @Query("SELECT g.id FROM Game g WHERE g.category = ?1 AND g.isTestGame = ?2")
+    fun getIdsByCategory(category: Category, test: Boolean): List<Long>
 
     @Query("SELECT DISTINCT g.category FROM Game g WHERE g.isTestGame = false")
     fun getNotTestCategories(): List<Category>

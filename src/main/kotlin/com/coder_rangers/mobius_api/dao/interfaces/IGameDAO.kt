@@ -4,8 +4,7 @@ import com.coder_rangers.mobius_api.models.Game
 import com.coder_rangers.mobius_api.models.Game.Category
 
 interface IGameDAO {
-    fun getMaxIdByCategory(category: Category, test: Boolean): Long
-    fun getMinIdByCategory(category: Category, test: Boolean): Long
+    fun getIdsByCategory(category: Category, test: Boolean): List<Long>
     fun getGameById(id: Long): Game?
     fun getNotTestCategories(): List<Category>
 }
