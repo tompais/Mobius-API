@@ -66,7 +66,10 @@ VALUES ('ORIENTATION', 'Orientación', 'Responda las siguientes preguntas', true
        ('FIXATION', 'Fijación', null, false),
        ('WRITING', 'Escritura', null, false),
        ('VISUALIZATION', 'Visualización', null, false),
-       ('READING', 'Lectura', 'Lea la consigna atentamente', false); --16
+       ('READING', 'Lectura', 'Lea la consigna atentamente', false),
+       ('READING', 'Lectura', 'Lea la consigna atentamente', false),
+       ('WRITING', 'Escritura', null, false),
+       ('VISUALIZATION', 'Visualización', null, false); --19
 
 INSERT INTO public.tasks (game_id, description)
 VALUES (1, '¿En qué año estamos?'),
@@ -91,7 +94,10 @@ VALUES (1, '¿En qué año estamos?'),
        (13, 'Escuche atentamente el siguiente audio y repita las palabras por el micrófono. Solo podrá reproducirlo 3 veces. Utilice el botón izquierdo para reproducir y el derecho para hablar'),
        (14, 'Ordene sintácticamente la siguiente oración. Solo existe un orden correcto'),
        (15, 'Seleccione qué es lo que se ve en la siguiente imagen'),
-       (16, 'Natalia es una maestra que va vestida con un abrigo color verde, su pelo es negro al igual que sus ojos, lleva una falda de color marrón claro y tiene en su mano un anotador de color rosa en el cual escribe todas las tareas que debe realizar'); --23
+       (16, 'Natalia es una maestra que va vestida con un abrigo color verde, su pelo es negro al igual que sus ojos, lleva una falda de color marrón claro y tiene en su mano un anotador de color rosa en el cual escribe todas las tareas que debe realizar'),
+       (17, 'Roberto es una persona mayor que tiene su pelo cubierto de canas, le gusta vestir su chaqueta color marrón con botones dorados, usa unos jeans azules que combinan con su corbata y por último, lleva una camisa color celeste claro'),
+       (18, 'Ordene sintácticamente la siguiente oración. Solo existe un orden correcto'),
+       (19, 'Seleccione qué es lo que se ve en la siguiente imagen'); --26
 
 INSERT INTO public.inputs (type, task_id)
 VALUES ('NUMBER', 1),
@@ -125,7 +131,9 @@ VALUES ('NUMBER', 1),
        ('TEXT', 19),
        ('VOICE', 20),
        ('SELECT', 22),
-       ('SELECT', 23); -- 32
+       ('SELECT', 23),
+       ('SELECT', 24),
+       ('SELECT', 26); -- 34
 
 INSERT INTO public.resources (game_id, type, file_name)
 VALUES (2, 'AUDIO', 'Bicicleta-Cuchara-Manzana.mp3'),
@@ -138,7 +146,10 @@ VALUES (2, 'AUDIO', 'Bicicleta-Cuchara-Manzana.mp3'),
        (13, 'AUDIO', 'Casa-Mesa-Pato.mp3'),
        (14, 'TEXT', 'InviernoCasas.txt'),
        (15, 'IMAGE', 'Gorila.jpg'),
-       (16, 'IMAGE', 'lectura-2.png');
+       (16, 'IMAGE', 'lectura-2.png'),
+       (17, 'IMAGE', 'lectura-3.png'),
+       (18, 'TEXT', 'VeranoPlaya.txt'),
+       (19, 'IMAGE', 'Lobo.jpg');
 
 INSERT INTO public.answers (task_id, input_id, type)
 VALUES (9, null, 'EXPECTED'),
@@ -242,7 +253,18 @@ VALUES (9, null, 'EXPECTED'),
        (null, 32, 'POSSIBLE'),
        (null, 32, 'POSSIBLE'),
        (null, 32, 'POSSIBLE'),
-       (23, null, 'EXPECTED'); -- 102
+       (23, null, 'EXPECTED'),
+       (null, 33, 'POSSIBLE'),
+       (null, 33, 'POSSIBLE'),
+       (null, 33, 'POSSIBLE'),
+       (null, 33, 'POSSIBLE'),
+       (24, null, 'EXPECTED'),
+       (25, null, 'EXPECTED'),
+       (null, 34, 'POSSIBLE'),
+       (null, 34, 'POSSIBLE'),
+       (null, 34, 'POSSIBLE'),
+       (null, 34, 'POSSIBLE'),
+       (26, null, 'EXPECTED'); -- 113
 
 INSERT INTO public.text_answers (id, text)
 VALUES (1, 'Bicicleta'),
@@ -289,7 +311,13 @@ VALUES (1, 'Bicicleta'),
        (94, 'Jirafa'),
        (95, 'Gorila'),
        (96, 'Oso'),
-       (97, 'Gorila');
+       (97, 'Gorila'),
+       (108, 'En verano la gente se reúne en la playa'),
+       (109, 'Loro'),
+       (110, 'Pulpo'),
+       (111, 'Lobo'),
+       (112, 'Koala'),
+       (113, 'Lobo');
 
 INSERT INTO public.numeric_answers (id, number)
 VALUES (4, 93),
@@ -337,7 +365,12 @@ VALUES (4, 93),
        (99, 2),
        (100, 3),
        (101, 4),
-       (102, 1);
+       (102, 1),
+       (103, 1),
+       (104, 2),
+       (105, 3),
+       (106, 4),
+       (107, 2);
 
 INSERT INTO public.char_answers (id, letter)
 VALUES (9, 'O'),

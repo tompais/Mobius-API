@@ -43,10 +43,9 @@ class GameService @Autowired constructor(
     private val drawingGameAnswersResolver: IGameAnswersResolver<String>
 ) : IGameService {
     override fun getRandomGameByCategory(category: Category, test: Boolean): Game {
-        val minId = gameDAO.getMinIdByCategory(category, test)
-        val maxId = gameDAO.getMaxIdByCategory(category, test)
+        val gameIds = gameDAO.getIdsByCategory(category, test)
 
-        val randomId = (minId..maxId).random()
+        val randomId = gameIds.random()
 
         return getGameById(randomId)
     }
