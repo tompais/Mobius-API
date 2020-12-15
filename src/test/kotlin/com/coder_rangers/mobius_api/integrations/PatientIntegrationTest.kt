@@ -1,6 +1,7 @@
 package com.coder_rangers.mobius_api.integrations
 
 import com.amazonaws.services.s3.AmazonS3
+import com.coder_rangers.mobius_api.database.repositories.IGameRepository
 import com.coder_rangers.mobius_api.database.repositories.IPatientRepository
 import com.coder_rangers.mobius_api.database.repositories.ITaskResultRepository
 import com.coder_rangers.mobius_api.enums.TestStatus.IN_PROGRESS
@@ -77,6 +78,9 @@ class PatientIntegrationTest @Autowired constructor(
 ) : BaseIntegrationTest("/patients") {
     @SpykBean
     private lateinit var taskResultRepository: ITaskResultRepository
+
+    @SpykBean
+    private lateinit var gameRepository: IGameRepository
 
     @MockkBean(name = "uploadFileToS3Publisher", relaxed = true)
     private lateinit var uploadFileToS3Publisher: MessagePublisher<UploadFileMessage>
@@ -584,6 +588,13 @@ class PatientIntegrationTest @Autowired constructor(
         id: Long,
         expectedHttpStatus: HttpStatus
     ) {
+        every {
+            gameRepository.getIdsByCategory(
+                any(),
+                any()
+            )
+        } returns listOf((testGameAnswersRequest.category.ordinal + 1).toLong())
+
         given()
             .accept(JSON)
             .contentType(JSON)
