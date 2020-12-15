@@ -7,7 +7,7 @@ import com.coder_rangers.mobius_api.components.interfaces.IGameAnswersResolver
 import com.coder_rangers.mobius_api.dao.interfaces.IGameDAO
 import com.coder_rangers.mobius_api.error.exceptions.GameNotFoundException
 import com.coder_rangers.mobius_api.models.AnswerWithResult
-import com.coder_rangers.mobius_api.models.Game.Category.ATTENTION
+import com.coder_rangers.mobius_api.models.Game.Category.READING
 import com.coder_rangers.mobius_api.services.implementations.GameService
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -51,13 +51,12 @@ class GameServiceTest {
     @Test
     fun getRandomGameByCategoryTypeThrowsNotFoundTest() {
         // GIVEN
-        every { gameDAO.getMaxIdByCategory(any(), any()) } returns 2L
-        every { gameDAO.getMinIdByCategory(any(), any()) } returns 1L
+        every { gameDAO.getIdsByCategory(any(), any()) } returns listOf(3, 5, 8)
         every { gameDAO.getGameById(any()) } returns null
 
         // THEN
         assertThat {
-            gameService.getRandomGameByCategory(ATTENTION, false)
+            gameService.getRandomGameByCategory(READING, false)
         }.isFailure().isInstanceOf(GameNotFoundException::class)
     }
 }
