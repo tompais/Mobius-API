@@ -78,7 +78,9 @@ VALUES ('ORIENTATION', 'Orientación', 'Responda las siguientes preguntas', true
        ('FIXATION', 'Fijación', null, false),
        ('REPETITION', 'Repetición', null, true),
        ('REPETITION', 'Repetición', null, false),
-       ('REPETITION', 'Repetición', null, false); -- 28
+       ('REPETITION', 'Repetición', null, false),
+       ('DRAWING', 'Dibujo', null, true),
+       ('DRAWING', 'Dibujo', null, false); -- 30
 
 INSERT INTO public.tasks (game_id, description)
 VALUES (1, '¿En qué año estamos?'),
@@ -115,7 +117,9 @@ VALUES (1, '¿En qué año estamos?'),
        (25, 'Escuche atentamente el siguiente audio y repita las palabras por el micrófono. Solo podrá reproducirlo 3 veces. Utilice el botón izquierdo para reproducir y el derecho para hablar'),
        (26, 'Escuche bien la frase y repítala'),
        (27, 'Escuche bien la frase y repítala'),
-       (28, 'Escuche bien la frase y repítala'); --35
+       (28, 'Escuche bien la frase y repítala'),
+       (29, 'Dibuje la siguiente imagen, lo más exacta posible, incluyendo en tamaño'),
+       (30, 'Dibuje la siguiente imagen, lo más exacta posible, incluyendo en tamaño'); --37
 
 INSERT INTO public.inputs (type, task_id)
 VALUES ('NUMBER', 1),
@@ -160,7 +164,9 @@ VALUES ('NUMBER', 1),
        ('VOICE', 32),
        ('VOICE', 33),
        ('VOICE', 34),
-       ('VOICE', 35); -- 42
+       ('VOICE', 35),
+       ('DRAWING_PAD', 36),
+       ('DRAWING_PAD', 37); -- 44
 
 INSERT INTO public.resources (game_id, type, file_name)
 VALUES (2, 'AUDIO', 'Bicicleta-Cuchara-Manzana.mp3'),
@@ -185,7 +191,9 @@ VALUES (2, 'AUDIO', 'Bicicleta-Cuchara-Manzana.mp3'),
        (25, 'AUDIO', 'Computadora-Monitor-Ratón.mp3'),
        (26, 'AUDIO', 'Burrito-Barrigón-Resbalón.mp3'),
        (27, 'AUDIO', 'Pepe-Pela-Patatas.mp3'),
-       (28, 'AUDIO', 'Cojines-Reina-Gemas-Sultán.mp3');
+       (28, 'AUDIO', 'Cojines-Reina-Gemas-Sultán.mp3'),
+       (29, 'IMAGE', 'Celular.png'),
+       (30, 'IMAGE', 'Pino.png');
 
 INSERT INTO public.answers (task_id, input_id, type)
 VALUES (9, null, 'EXPECTED'),
@@ -321,7 +329,9 @@ VALUES (9, null, 'EXPECTED'),
        (32, null, 'EXPECTED'),
        (33, null, 'EXPECTED'),
        (34, null, 'EXPECTED'),
-       (35, null, 'EXPECTED'); -- 134
+       (35, null, 'EXPECTED'),
+       (36, null, 'EXPECTED'),
+       (37, null, 'EXPECTED'); -- 136
 
 INSERT INTO public.text_answers (id, text)
 VALUES (1, 'Bicicleta'),
@@ -463,4 +473,6 @@ VALUES (9, 'O'),
        (88, 'D');
 
 INSERT INTO public.image_answers (id, image_name)
-VALUES (21, 'Casa.png')
+VALUES (21, 'Casa.png'),
+       (135, 'Celular.png'),
+       (136, 'Pino.png')
