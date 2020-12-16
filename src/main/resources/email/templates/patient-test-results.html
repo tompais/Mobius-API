@@ -28,7 +28,7 @@
 
             <div th:each="task: ${gameResult.taskResults}">
 
-                <p><strong>Consigna: </strong><span th:text="${task.description}"></span></p>
+                <p style="margin-top: 25px"><strong>Consigna: </strong><span th:text="${task.description}"></span></p>
 
                 <div th:if="${#lists.size(task.expectedAnswers) > 0}">
                     <b><p>Respuesta/s esperada/s:</p></b>

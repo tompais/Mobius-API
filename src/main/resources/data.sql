@@ -79,8 +79,7 @@ VALUES ('ORIENTATION', 'Orientación', 'Responda las siguientes preguntas', true
        ('REPETITION', 'Repetición', null, true),
        ('REPETITION', 'Repetición', null, false),
        ('REPETITION', 'Repetición', null, false),
-       ('DRAWING', 'Dibujo', null, true),
-       ('DRAWING', 'Dibujo', null, false); -- 30
+       ('DRAWING', 'Dibujo', null, true); -- 29
 
 INSERT INTO public.tasks (game_id, description)
 VALUES (1, '¿En qué año estamos?'),
@@ -91,35 +90,45 @@ VALUES (1, '¿En qué año estamos?'),
        (1, '¿En qué país estamos?'),
        (1, '¿En qué provincia estamos?'),
        (1, '¿En qué ciudad estamos?'),
-       (2, 'Escuche atentamente el siguiente audio y repita las palabras por el micrófono. Solo podrá reproducirlo 3 veces. Utilice el botón izquierdo para reproducir y el derecho para hablar'),
+       (2,
+        'Escuche atentamente el siguiente audio y repita las palabras por el micrófono. Solo podrá reproducirlo 3 veces. Utilice el botón izquierdo para reproducir y el derecho para hablar'),
        (3, 'Cuente de 7 en 7 hacia atrás, partiendo del número 100, 5 veces'),
        (4, 'Deletree la palabra MUNDO al revés'),
        (5, '¿Puede repetir las 3 palabras del segundo juego?'),
        (6, 'Seleccione qué es lo que se ve en la siguiente imagen'),
        (7, 'Escuche bien la frase y repítala'),
        (8, 'Escuche el audio atentamente y toque los botones en el orden correspondiente'),
-       (9, 'Busque una persona que tenga barba de color castaño oscuro, vista unos pantalones de tono rojizo, la parte superior de su traje es de color negro y tanto su corbata como sus zapatos son de color azul'),
+       (9,
+        'Busque una persona que tenga barba de color castaño oscuro, vista unos pantalones de tono rojizo, la parte superior de su traje es de color negro y tanto su corbata como sus zapatos son de color azul'),
        (10, 'Ordene sintácticamente la siguiente oración. Solo existe un orden correcto'),
        (11, 'Dibuje la siguiente imagen, lo más exacta posible, incluyendo en tamaño'),
        (12, 'Deletree la palabra DISCO al revés'),
-       (13, 'Escuche atentamente el siguiente audio y repita las palabras por el micrófono. Solo podrá reproducirlo 3 veces. Utilice el botón izquierdo para reproducir y el derecho para hablar'),
+       (13,
+        'Escuche atentamente el siguiente audio y repita las palabras por el micrófono. Solo podrá reproducirlo 3 veces. Utilice el botón izquierdo para reproducir y el derecho para hablar'),
        (14, 'Ordene sintácticamente la siguiente oración. Solo existe un orden correcto'),
        (15, 'Seleccione qué es lo que se ve en la siguiente imagen'),
-       (16, 'Natalia es una maestra que va vestida con un abrigo color verde, su pelo es negro al igual que sus ojos, lleva una falda de color marrón claro y tiene en su mano un anotador de color rosa en el cual escribe todas las tareas que debe realizar'),
-       (17, 'Roberto es una persona mayor que tiene su pelo cubierto de canas, le gusta vestir su chaqueta color marrón con botones dorados, usa unos jeans azules que combinan con su corbata y por último, lleva una camisa color celeste claro'),
+       (16,
+        'Natalia es una maestra que va vestida con un abrigo color verde, su pelo es negro al igual que sus ojos, lleva una falda de color marrón claro y tiene en su mano un anotador de color rosa en el cual escribe todas las tareas que debe realizar'),
+       (17,
+        'Roberto es una persona mayor que tiene su pelo cubierto de canas, le gusta vestir su chaqueta color marrón con botones dorados, usa unos jeans azules que combinan con su corbata y por último, lleva una camisa color celeste claro'),
        (18, 'Ordene sintácticamente la siguiente oración. Solo existe un orden correcto'),
        (19, 'Seleccione qué es lo que se ve en la siguiente imagen'),
-       (20, 'Escuche atentamente el siguiente audio y repita las palabras por el micrófono. Solo podrá reproducirlo 3 veces. Utilice el botón izquierdo para reproducir y el derecho para hablar'),
-       (21, 'Escuche atentamente el siguiente audio y repita las palabras por el micrófono. Solo podrá reproducirlo 3 veces. Utilice el botón izquierdo para reproducir y el derecho para hablar'),
-       (22, 'Escuche atentamente el siguiente audio y repita las palabras por el micrófono. Solo podrá reproducirlo 3 veces. Utilice el botón izquierdo para reproducir y el derecho para hablar'),
-       (23, 'Escuche atentamente el siguiente audio y repita las palabras por el micrófono. Solo podrá reproducirlo 3 veces. Utilice el botón izquierdo para reproducir y el derecho para hablar'),
-       (24, 'Escuche atentamente el siguiente audio y repita las palabras por el micrófono. Solo podrá reproducirlo 3 veces. Utilice el botón izquierdo para reproducir y el derecho para hablar'),
-       (25, 'Escuche atentamente el siguiente audio y repita las palabras por el micrófono. Solo podrá reproducirlo 3 veces. Utilice el botón izquierdo para reproducir y el derecho para hablar'),
+       (20,
+        'Escuche atentamente el siguiente audio y repita las palabras por el micrófono. Solo podrá reproducirlo 3 veces. Utilice el botón izquierdo para reproducir y el derecho para hablar'),
+       (21,
+        'Escuche atentamente el siguiente audio y repita las palabras por el micrófono. Solo podrá reproducirlo 3 veces. Utilice el botón izquierdo para reproducir y el derecho para hablar'),
+       (22,
+        'Escuche atentamente el siguiente audio y repita las palabras por el micrófono. Solo podrá reproducirlo 3 veces. Utilice el botón izquierdo para reproducir y el derecho para hablar'),
+       (23,
+        'Escuche atentamente el siguiente audio y repita las palabras por el micrófono. Solo podrá reproducirlo 3 veces. Utilice el botón izquierdo para reproducir y el derecho para hablar'),
+       (24,
+        'Escuche atentamente el siguiente audio y repita las palabras por el micrófono. Solo podrá reproducirlo 3 veces. Utilice el botón izquierdo para reproducir y el derecho para hablar'),
+       (25,
+        'Escuche atentamente el siguiente audio y repita las palabras por el micrófono. Solo podrá reproducirlo 3 veces. Utilice el botón izquierdo para reproducir y el derecho para hablar'),
        (26, 'Escuche bien la frase y repítala'),
        (27, 'Escuche bien la frase y repítala'),
        (28, 'Escuche bien la frase y repítala'),
-       (29, 'Dibuje la siguiente imagen, lo más exacta posible, incluyendo en tamaño'),
-       (30, 'Dibuje la siguiente imagen, lo más exacta posible, incluyendo en tamaño'); --37
+       (29, 'Dibuje la siguiente imagen, lo más exacta posible, incluyendo en tamaño'); -- 36
 
 INSERT INTO public.inputs (type, task_id)
 VALUES ('NUMBER', 1),
@@ -165,8 +174,7 @@ VALUES ('NUMBER', 1),
        ('VOICE', 33),
        ('VOICE', 34),
        ('VOICE', 35),
-       ('DRAWING_PAD', 36),
-       ('DRAWING_PAD', 37); -- 44
+       ('DRAWING_PAD', 36); -- 43
 
 INSERT INTO public.resources (game_id, type, file_name)
 VALUES (2, 'AUDIO', 'Bicicleta-Cuchara-Manzana.mp3'),
@@ -192,8 +200,7 @@ VALUES (2, 'AUDIO', 'Bicicleta-Cuchara-Manzana.mp3'),
        (26, 'AUDIO', 'Burrito-Barrigón-Resbalón.mp3'),
        (27, 'AUDIO', 'Pepe-Pela-Patatas.mp3'),
        (28, 'AUDIO', 'Cojines-Reina-Gemas-Sultán.mp3'),
-       (29, 'IMAGE', 'Celular.png'),
-       (30, 'IMAGE', 'Pino.png');
+       (29, 'IMAGE', 'Celular.png');
 
 INSERT INTO public.answers (task_id, input_id, type)
 VALUES (9, null, 'EXPECTED'),
@@ -330,8 +337,7 @@ VALUES (9, null, 'EXPECTED'),
        (33, null, 'EXPECTED'),
        (34, null, 'EXPECTED'),
        (35, null, 'EXPECTED'),
-       (36, null, 'EXPECTED'),
-       (37, null, 'EXPECTED'); -- 136
+       (36, null, 'EXPECTED'); -- 135
 
 INSERT INTO public.text_answers (id, text)
 VALUES (1, 'Bicicleta'),
@@ -474,5 +480,4 @@ VALUES (9, 'O'),
 
 INSERT INTO public.image_answers (id, image_name)
 VALUES (21, 'Casa.png'),
-       (135, 'Celular.png'),
-       (136, 'Pino.png')
+       (135, 'Celular.png');
