@@ -11,12 +11,11 @@ import com.coder_rangers.mobius_api.utils.ImageUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.MediaType.MULTIPART_FORM_DATA
-import org.springframework.retry.annotation.Backoff
-import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.client.WebClientException
+import reactor.util.retry.Retry
+import java.time.Duration
 import java.util.UUID
 
 @Service
@@ -58,7 +57,6 @@ class ImageService @Autowired constructor(
             }
         }
 
-    @Retryable(value = [WebClientException::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     private fun compareImagesWithImagga(originalImageUploadId: String, drawnImageUploadId: String): CompareResponse {
         return imaggaWebClient.get()
             .uri { uriBuilder ->
@@ -69,10 +67,10 @@ class ImageService @Autowired constructor(
             }
             .retrieve()
             .bodyToMono(CompareResponse::class.java)
+            .retryWhen(Retry.backoff(3, Duration.ofSeconds(1)))
             .block()!!
     }
 
-    @Retryable(value = [WebClientException::class], maxAttempts = 3, backoff = Backoff(delay = 1000))
     private fun uploadImageToImagga(imageInBase64: String): UploadResponse {
         return imaggaWebClient.post()
             .uri("/uploads")
@@ -83,6 +81,7 @@ class ImageService @Autowired constructor(
             )
             .retrieve()
             .bodyToMono(UploadResponse::class.java)
+            .retryWhen(Retry.backoff(3, Duration.ofSeconds(1)))
             .block()!!
     }
 
